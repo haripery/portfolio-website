@@ -9,21 +9,24 @@ export default async function ArchivePage() {
   const projects = await getProjects();
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-[#e2e8f0]">
+    <div className="min-h-screen mosaic-bg text-[#1A3C2B]">
       <div className="mx-auto max-w-4xl px-6 py-16 md:px-12">
         {/* Back link */}
         <Link
           href="/"
-          className="mb-10 inline-flex items-center gap-2 text-sm text-[#94a3b8] hover:text-[#5eead4] transition-colors"
+          className="mb-10 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[rgba(58,58,56,0.5)] transition-colors hover:text-[#1A3C2B]"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="h-3 w-3" />
           Back
         </Link>
 
-        <h1 className="text-3xl font-bold tracking-tight text-[#e2e8f0] mb-2">
+        <h1
+          className="text-3xl font-bold tracking-tight text-[#1A3C2B] mb-2"
+          style={{ fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" }}
+        >
           All Projects
         </h1>
-        <p className="text-[#94a3b8] mb-10">
+        <p className="text-sm text-[rgba(58,58,56,0.6)] mb-10">
           A full archive of things I&apos;ve built over the years.
         </p>
 
@@ -31,34 +34,43 @@ export default async function ArchivePage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-white/10 text-xs font-semibold uppercase tracking-widest text-[#94a3b8]">
-                  <th className="pb-4 pr-6">Year</th>
-                  <th className="pb-4 pr-6">Project</th>
-                  <th className="hidden pb-4 pr-6 md:table-cell">Description</th>
-                  <th className="hidden pb-4 pr-6 sm:table-cell">Tags</th>
-                  <th className="pb-4">Links</th>
+                <tr
+                  className="border-b border-[rgba(58,58,56,0.15)] text-[10px] uppercase tracking-widest text-[rgba(58,58,56,0.45)]"
+                  style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
+                >
+                  <th className="pb-4 pr-6 font-medium">Year</th>
+                  <th className="pb-4 pr-6 font-medium">Project</th>
+                  <th className="hidden pb-4 pr-6 font-medium md:table-cell">Description</th>
+                  <th className="hidden pb-4 pr-6 font-medium sm:table-cell">Tags</th>
+                  <th className="pb-4 font-medium">Links</th>
                 </tr>
               </thead>
               <tbody>
                 {projects.map((project) => (
                   <tr
                     key={project.id}
-                    className="border-b border-white/5 transition-colors hover:bg-[rgba(30,41,59,0.3)]"
+                    className="border-b border-[rgba(58,58,56,0.08)] transition-colors hover:bg-[rgba(26,60,43,0.04)]"
                   >
-                    <td className="py-4 pr-6 text-sm text-[#94a3b8] align-top whitespace-nowrap">
+                    <td
+                      className="py-4 pr-6 text-[10px] text-[rgba(58,58,56,0.45)] align-top whitespace-nowrap"
+                      style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
+                    >
                       {project.createdAt.getFullYear()}
                     </td>
                     <td className="py-4 pr-6 align-top">
-                      <span className="font-medium text-[#e2e8f0]">
+                      <span className="font-semibold text-[#1A3C2B]">
                         {project.title}
                       </span>
                       {project.featured && (
-                        <span className="ml-2 rounded-full bg-teal-400/10 px-2 py-0.5 text-xs text-[#5eead4] ring-1 ring-inset ring-teal-400/20">
+                        <span
+                          className="ml-2 border border-[#9EFFBF] bg-[rgba(158,255,191,0.15)] px-1.5 py-0.5 text-[9px] uppercase tracking-wider text-[#1A3C2B]"
+                          style={{ fontFamily: "var(--font-jetbrains-mono), monospace", borderRadius: "2px" }}
+                        >
                           Featured
                         </span>
                       )}
                     </td>
-                    <td className="hidden py-4 pr-6 text-sm text-[#94a3b8] align-top md:table-cell max-w-xs">
+                    <td className="hidden py-4 pr-6 text-sm text-[rgba(58,58,56,0.6)] align-top md:table-cell max-w-xs">
                       <p className="line-clamp-2">{project.description}</p>
                     </td>
                     <td className="hidden py-4 pr-6 align-top sm:table-cell">
@@ -77,7 +89,7 @@ export default async function ArchivePage() {
                             href={project.url}
                             target="_blank"
                             rel="noreferrer"
-                            className="text-[#94a3b8] hover:text-[#5eead4] transition-colors"
+                            className="text-[rgba(58,58,56,0.45)] transition-colors hover:text-[#1A3C2B]"
                             aria-label={`Visit ${project.title}`}
                           >
                             <ArrowUpRight className="h-4 w-4" />
@@ -88,7 +100,7 @@ export default async function ArchivePage() {
                             href={project.githubUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="text-[#94a3b8] hover:text-[#5eead4] transition-colors"
+                            className="text-[rgba(58,58,56,0.45)] transition-colors hover:text-[#1A3C2B]"
                             aria-label={`${project.title} on GitHub`}
                           >
                             <Github className="h-4 w-4" />
@@ -102,7 +114,7 @@ export default async function ArchivePage() {
             </table>
           </div>
         ) : (
-          <p className="text-[#64748b]">No projects yet.</p>
+          <p className="text-sm text-[rgba(58,58,56,0.4)]">No projects yet.</p>
         )}
       </div>
     </div>

@@ -38,7 +38,7 @@ export function SocialIcons({ socials }: { socials: Social[] }) {
             href={social.platform === "email" ? `mailto:${social.url}` : social.url}
             target={social.platform !== "email" ? "_blank" : undefined}
             rel={social.platform !== "email" ? "noreferrer" : undefined}
-            className="text-[#94a3b8] transition-colors duration-200 hover:text-[#5eead4]"
+            className="text-[rgba(58,58,56,0.45)] transition-colors duration-200 hover:text-[#1A3C2B]"
             aria-label={social.label || social.platform}
           >
             {ICONS[social.platform] ?? (

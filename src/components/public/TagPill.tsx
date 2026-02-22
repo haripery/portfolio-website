@@ -1,6 +1,9 @@
 export function TagPill({ label }: { label: string }) {
   return (
-    <span className="inline-flex items-center rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium leading-5 text-[#5eead4] ring-1 ring-inset ring-teal-400/20">
+    <span
+      className="inline-flex items-center border border-[rgba(26,60,43,0.25)] bg-[rgba(26,60,43,0.07)] px-2 py-0.5 text-[10px] font-medium uppercase leading-4 tracking-wider text-[#1A3C2B]"
+      style={{ fontFamily: "var(--font-jetbrains-mono), monospace", borderRadius: "2px" }}
+    >
       {label}
     </span>
   );

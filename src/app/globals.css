@@ -5,12 +5,14 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ─── Tailwind theme tokens (custom site design system) ─── */
+/* ─── Tailwind theme tokens ─── */
 @theme inline {
   /* shadcn/ui tokens */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
+  --font-display: var(--font-space-grotesk);
+  --font-mono: var(--font-jetbrains-mono);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -32,21 +34,23 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* ── Public site palette ── */
-  --color-site-bg: #0f172a;
-  --color-site-fg: #e2e8f0;
-  --color-site-secondary: #94a3b8;
-  --color-site-muted: #64748b;
-  --color-site-accent: #5eead4;
-  --color-site-accent-bg: rgba(94, 234, 212, 0.1);
-  --color-site-card-hover: rgba(30, 41, 59, 0.5);
+  /* ── Technical Minimalist public site palette ── */
+  --color-paper: #F7F7F5;
+  --color-forest: #1A3C2B;
+  --color-coral: #FF8C69;
+  --color-mint: #9EFFBF;
+  --color-gold: #F4D35E;
+  --color-ink: #3A3A38;
+  --color-ink-faint: rgba(58, 58, 56, 0.08);
+  --color-ink-subtle: rgba(58, 58, 56, 0.2);
+  --color-ink-muted: rgba(58, 58, 56, 0.5);
 }
 
-/* ─── CSS Custom Properties (dark by default — site is always dark) ─── */
+/* ─── CSS Custom Properties ─── */
 :root {
-  --radius: 0.5rem;
+  --radius: 0.125rem; /* 2px — flat aesthetic */
 
-  /* shadcn/ui dark mode values used as defaults (site is dark-first) */
+  /* shadcn/ui dark tokens — used by admin UI components */
   --background: #0f172a;
   --foreground: #e2e8f0;
   --card: #1e293b;
@@ -64,24 +68,34 @@
   --destructive: #ef4444;
   --border: rgba(148, 163, 184, 0.12);
   --input: rgba(148, 163, 184, 0.12);
-  --ring: #5eead4;
+  --ring: #1A3C2B;
 
-  /* Site-specific tokens */
-  --site-bg: #0f172a;
-  --site-fg: #e2e8f0;
-  --site-secondary: #94a3b8;
-  --site-muted: #64748b;
-  --site-accent: #5eead4;
-  --spotlight: rgba(94, 234, 212, 0.07);
+  /* Public site tokens */
+  --site-bg: #F7F7F5;
+  --site-fg: #1A3C2B;
+  --site-secondary: rgba(58, 58, 56, 0.6);
+  --site-muted: rgba(58, 58, 56, 0.4);
+  --site-accent: #FF8C69;
+  --site-accent-2: #9EFFBF;
+  --site-accent-3: #F4D35E;
+  --site-border: rgba(58, 58, 56, 0.2);
 }
 
-/* ─── Admin pages use a slightly different dark — override locally ─── */
+/* ─── Admin pages stay dark ─── */
 .admin-theme {
   --background: #020617;
   --card: #0f172a;
   --secondary: #0f172a;
   --muted: #0f172a;
   --border: rgba(148, 163, 184, 0.1);
+}
+
+/* ─── Mosaic SVG tile background (used by public pages) ─── */
+.mosaic-bg {
+  background-color: #F7F7F5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect x='0.5' y='0.5' width='79' height='49' fill='none' stroke='%233A3A38' stroke-width='0.75' stroke-opacity='0.1'/%3E%3Crect x='79.5' y='0.5' width='40' height='49' fill='none' stroke='%233A3A38' stroke-width='0.75' stroke-opacity='0.1'/%3E%3Crect x='0.5' y='49.5' width='39' height='70' fill='none' stroke='%233A3A38' stroke-width='0.75' stroke-opacity='0.1'/%3E%3Crect x='39.5' y='49.5' width='80' height='70' fill='none' stroke='%233A3A38' stroke-width='0.75' stroke-opacity='0.1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 120px 120px;
 }
 
 @layer base {
@@ -102,40 +116,40 @@
   }
 
   ::selection {
-    background-color: rgba(94, 234, 212, 0.2);
-    color: #5eead4;
+    background-color: rgba(154, 255, 191, 0.35);
+    color: #1A3C2B;
   }
 
   /* Custom scrollbar */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 4px;
+    height: 4px;
   }
   ::-webkit-scrollbar-track {
-    background: #0f172a;
+    background: #F7F7F5;
   }
   ::-webkit-scrollbar-thumb {
-    background: #334155;
-    border-radius: 3px;
+    background: rgba(58, 58, 56, 0.25);
+    border-radius: 0px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #5eead4;
+    background: #1A3C2B;
   }
 }
 
 /* ─── Prose overrides for blog content ─── */
 @layer components {
   .prose-site {
-    --tw-prose-body: #94a3b8;
-    --tw-prose-headings: #e2e8f0;
-    --tw-prose-links: #5eead4;
-    --tw-prose-bold: #e2e8f0;
-    --tw-prose-code: #5eead4;
-    --tw-prose-pre-bg: #1e293b;
-    --tw-prose-pre-code: #e2e8f0;
-    --tw-prose-quotes: #94a3b8;
-    --tw-prose-quote-borders: #334155;
-    --tw-prose-bullets: #94a3b8;
-    --tw-prose-hr: #1e293b;
+    --tw-prose-body: rgba(58, 58, 56, 0.75);
+    --tw-prose-headings: #1A3C2B;
+    --tw-prose-links: #FF8C69;
+    --tw-prose-bold: #1A3C2B;
+    --tw-prose-code: #1A3C2B;
+    --tw-prose-pre-bg: rgba(26, 60, 43, 0.05);
+    --tw-prose-pre-code: #1A3C2B;
+    --tw-prose-quotes: rgba(58, 58, 56, 0.65);
+    --tw-prose-quote-borders: rgba(58, 58, 56, 0.25);
+    --tw-prose-bullets: rgba(58, 58, 56, 0.4);
+    --tw-prose-hr: rgba(58, 58, 56, 0.15);
   }
 }

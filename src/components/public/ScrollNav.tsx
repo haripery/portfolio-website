@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 
 const SECTIONS = [
-  { id: "about", label: "About" },
-  { id: "experience", label: "Experience" },
-  { id: "projects", label: "Projects" },
-  { id: "blog", label: "Writing" },
+  { id: "about", label: "About", n: "01" },
+  { id: "experience", label: "Experience", n: "02" },
+  { id: "projects", label: "Projects", n: "03" },
+  { id: "blog", label: "Writing", n: "04" },
 ];
 
 export function ScrollNav() {
@@ -35,27 +35,31 @@ export function ScrollNav() {
 
   return (
     <nav aria-label="On this page" className="hidden lg:block">
-      <ul className="mt-2 space-y-1">
-        {SECTIONS.map(({ id, label }) => (
+      <ul className="mt-2 space-y-0.5">
+        {SECTIONS.map(({ id, label, n }) => (
           <li key={id}>
             <a
               href={`#${id}`}
-              className={`group flex items-center gap-4 py-1 transition-all duration-200 ${
+              className={`group flex items-center gap-3 py-1.5 transition-all duration-200 ${
                 active === id
-                  ? "text-[#e2e8f0]"
-                  : "text-[#94a3b8] hover:text-[#e2e8f0]"
+                  ? "text-[#1A3C2B]"
+                  : "text-[rgba(58,58,56,0.45)] hover:text-[#1A3C2B]"
               }`}
+              style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
             >
               <span
-                className={`block h-px bg-current transition-all duration-200 ${
-                  active === id
-                    ? "w-16"
-                    : "w-8 group-hover:w-16"
+                className={`flex-shrink-0 text-[#FF8C69] text-[10px] transition-opacity duration-200 ${
+                  active === id ? "opacity-100" : "opacity-50 group-hover:opacity-100"
                 }`}
-              />
-              <span className="text-xs font-semibold uppercase tracking-widest">
+              >
+                {n}.
+              </span>
+              <span className="text-[10px] uppercase tracking-widest">
                 {label}
               </span>
+              {active === id && (
+                <span className="ml-1 h-px flex-1 bg-[#1A3C2B] opacity-30" />
+              )}
             </a>
           </li>
         ))}
