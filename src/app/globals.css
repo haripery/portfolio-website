@@ -1,26 +1,141 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
+/* ─── Tailwind theme tokens (custom site design system) ─── */
 @theme inline {
+  /* shadcn/ui tokens */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* ── Public site palette ── */
+  --color-site-bg: #0f172a;
+  --color-site-fg: #e2e8f0;
+  --color-site-secondary: #94a3b8;
+  --color-site-muted: #64748b;
+  --color-site-accent: #5eead4;
+  --color-site-accent-bg: rgba(94, 234, 212, 0.1);
+  --color-site-card-hover: rgba(30, 41, 59, 0.5);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ─── CSS Custom Properties (dark by default — site is always dark) ─── */
+:root {
+  --radius: 0.5rem;
+
+  /* shadcn/ui dark mode values used as defaults (site is dark-first) */
+  --background: #0f172a;
+  --foreground: #e2e8f0;
+  --card: #1e293b;
+  --card-foreground: #e2e8f0;
+  --popover: #1e293b;
+  --popover-foreground: #e2e8f0;
+  --primary: #e2e8f0;
+  --primary-foreground: #0f172a;
+  --secondary: #1e293b;
+  --secondary-foreground: #e2e8f0;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #1e293b;
+  --accent-foreground: #e2e8f0;
+  --destructive: #ef4444;
+  --border: rgba(148, 163, 184, 0.12);
+  --input: rgba(148, 163, 184, 0.12);
+  --ring: #5eead4;
+
+  /* Site-specific tokens */
+  --site-bg: #0f172a;
+  --site-fg: #e2e8f0;
+  --site-secondary: #94a3b8;
+  --site-muted: #64748b;
+  --site-accent: #5eead4;
+  --spotlight: rgba(94, 234, 212, 0.07);
+}
+
+/* ─── Admin pages use a slightly different dark — override locally ─── */
+.admin-theme {
+  --background: #020617;
+  --card: #0f172a;
+  --secondary: #0f172a;
+  --muted: #0f172a;
+  --border: rgba(148, 163, 184, 0.1);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--site-bg);
+    color: var(--site-fg);
+    font-family: var(--font-inter), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: rgba(94, 234, 212, 0.2);
+    color: #5eead4;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0f172a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #5eead4;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ─── Prose overrides for blog content ─── */
+@layer components {
+  .prose-site {
+    --tw-prose-body: #94a3b8;
+    --tw-prose-headings: #e2e8f0;
+    --tw-prose-links: #5eead4;
+    --tw-prose-bold: #e2e8f0;
+    --tw-prose-code: #5eead4;
+    --tw-prose-pre-bg: #1e293b;
+    --tw-prose-pre-code: #e2e8f0;
+    --tw-prose-quotes: #94a3b8;
+    --tw-prose-quote-borders: #334155;
+    --tw-prose-bullets: #94a3b8;
+    --tw-prose-hr: #1e293b;
+  }
 }

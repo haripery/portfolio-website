@@ -1,0 +1,150 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// User — single admin user, credentials auth only
+// ---------------------------------------------------------------------------
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// ---------------------------------------------------------------------------
+// Profile — singleton row (id = "main")
+// ---------------------------------------------------------------------------
+model Profile {
+  id        String   @id @default("main")
+  name      String   @default("")
+  role      String   @default("")
+  tagline   String   @default("")
+  bio       String   @default("") @db.Text
+  email     String   @default("")
+  photoUrl  String   @default("")
+  resumeUrl String   @default("")
+  socials   Social[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Social {
+  id        String  @id @default(cuid())
+  platform  String
+  url       String
+  label     String  @default("")
+  sortOrder Int     @default(0)
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+// ---------------------------------------------------------------------------
+// Experience
+// ---------------------------------------------------------------------------
+model Experience {
+  id          String           @id @default(cuid())
+  period      String
+  title       String
+  company     String
+  companyUrl  String           @default("")
+  description String           @db.Text
+  sortOrder   Int              @default(0)
+  tags        ExperienceTag[]
+  links       ExperienceLink[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model ExperienceTag {
+  id           String     @id @default(cuid())
+  label        String
+  experienceId String
+  experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+}
+
+model ExperienceLink {
+  id           String     @id @default(cuid())
+  label        String
+  url          String
+  experienceId String
+  experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+}
+
+// ---------------------------------------------------------------------------
+// Project
+// ---------------------------------------------------------------------------
+model Project {
+  id          String       @id @default(cuid())
+  title       String
+  description String       @db.Text
+  url         String       @default("")
+  githubUrl   String       @default("")
+  imageUrl    String       @default("")
+  stats       String       @default("")
+  featured    Boolean      @default(false)
+  archived    Boolean      @default(false)
+  sortOrder   Int          @default(0)
+  tags        ProjectTag[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model ProjectTag {
+  id        String  @id @default(cuid())
+  label     String
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+// ---------------------------------------------------------------------------
+// Blog Post
+// ---------------------------------------------------------------------------
+enum BlogCategory {
+  LEARNINGS
+  MENTORSHIP
+  AI
+}
+
+model BlogPost {
+  id          String       @id @default(cuid())
+  title       String
+  slug        String       @unique
+  excerpt     String       @default("") @db.Text
+  content     String       @db.Text
+  contentJson String       @db.Text @default("{}")
+  category    BlogCategory @default(LEARNINGS)
+  coverImage  String       @default("")
+  published   Boolean      @default(false)
+  featured    Boolean      @default(false)
+  readTime    String       @default("")
+  publishedAt DateTime?
+  tags        BlogTag[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model BlogTag {
+  id         String   @id @default(cuid())
+  label      String
+  blogPostId String
+  blogPost   BlogPost @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
+}
+
+// ---------------------------------------------------------------------------
+// Site Settings — singleton row (id = "main")
+// ---------------------------------------------------------------------------
+model SiteSettings {
+  id              String @id @default("main")
+  siteTitle       String @default("Near the Singularity")
+  siteDescription String @default("Frontend developer portfolio and blog")
+  ogImage         String @default("")
+  gaTrackingId    String @default("")
+  footerText      String @default("") @db.Text
+}
