@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { PostHogProvider } from "@/components/PostHogProvider";
 import "./globals.css";
 
 const inter = Inter({
@@ -89,7 +91,11 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen antialiased">
         <ThemeProvider>
-          {children}
+          <Suspense fallback={null}>
+            <PostHogProvider>
+              {children}
+            </PostHogProvider>
+          </Suspense>
           <Toaster
             position="bottom-right"
             toastOptions={{

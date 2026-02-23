@@ -6,6 +6,7 @@ import { TagPill } from "@/components/public/TagPill";
 import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import { TwitterEmbed } from "@/components/public/TwitterEmbed";
+import { BlogPostTracker } from "@/components/public/BlogPostTracker";
 import { CommentSection } from "@/components/public/CommentSection";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
@@ -129,6 +130,12 @@ export default async function BlogPostPage({
 
         {/* Load Twitter widgets.js to render embedded tweets */}
         <TwitterEmbed />
+        <BlogPostTracker
+          slug={post.slug}
+          title={post.title}
+          category={post.category}
+          tags={post.tags.map((t) => t.label)}
+        />
 
         {/* Comments */}
         <CommentSection blogPostId={post.id} />

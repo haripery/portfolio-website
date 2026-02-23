@@ -74,7 +74,7 @@ export function CommentForm({ blogPostId }: { blogPostId: string }) {
         <button
           type="submit"
           disabled={isPending || body.trim().length === 0}
-          className="bg-forest px-4 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-forest/80 disabled:opacity-50"
+          className="bg-forest px-4 py-1.5 text-sm font-semibold text-paper transition-colors hover:bg-forest/80 disabled:opacity-50"
           style={{ borderRadius: "2px" }}
         >
           {isPending ? "Posting..." : "Post Comment"}

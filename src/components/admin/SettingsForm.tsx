@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { updateSettings, changePassword } from "@/actions/settings";
 import { ImageUploader } from "./ImageUploader";
 import toast from "react-hot-toast";
+import { ExternalLink } from "lucide-react";
 import type { SiteSettings } from "@/generated/prisma/client";
 
 interface SettingsFormProps {
@@ -111,6 +112,24 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
             className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest"
             placeholder="G-XXXXXXXXXX"
           />
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="block text-sm font-medium text-ink/75">
+            Analytics Dashboard
+          </label>
+          <a
+            href="https://us.posthog.com"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 border border-ink/20 bg-card px-3 py-2 text-sm text-forest transition-colors hover:border-forest"
+          >
+            <ExternalLink className="h-3.5 w-3.5" />
+            Open PostHog Dashboard
+          </a>
+          <p className="text-xs text-ink/45">
+            View detailed visitor analytics, session replays, and blog post metrics.
+          </p>
         </div>
 
         <div className="space-y-1.5">
