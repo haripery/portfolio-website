@@ -32,6 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
     });
     if (settings) {
       return {
+        metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
         title: {
           default: settings.siteTitle,
           template: `%s | ${settings.siteTitle}`,
@@ -56,6 +57,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 
   return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
     title: {
       default: "Near the Singularity",
       template: "%s | Near the Singularity",
@@ -87,6 +89,12 @@ export default function RootLayout({
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="RSS Feed"
+          href="/feed.xml"
+        />
       </head>
       <body className="min-h-screen antialiased">
         <ThemeProvider>

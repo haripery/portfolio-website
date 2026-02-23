@@ -6,12 +6,25 @@ import {
   UPLOAD_LIMITS,
   ALLOWED_IMAGE_TYPES,
 } from "@/lib/upload";
+import { checkRateLimit, uploadRateLimit } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
   // Auth guard — only admin can upload
   const session = await auth();
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // Rate limit: 20 uploads per 15 minutes
+  const rl = await checkRateLimit(uploadRateLimit);
+  if (!rl.success) {
+    return NextResponse.json(
+      { error: "Too many uploads. Please try again later." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(Math.ceil(rl.retryAfterMs / 1000)) },
+      }
+    );
   }
 
   const formData = await req.formData();

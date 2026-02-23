@@ -1,8 +1,16 @@
 import NextAuth from "next-auth";
 import { authConfig } from "@/lib/auth.config";
 import { NextResponse } from "next/server";
+import { securityHeaders } from "@/lib/security-headers";
 
 const { auth } = NextAuth(authConfig);
+
+function applySecurityHeaders(response: NextResponse) {
+  for (const [key, value] of Object.entries(securityHeaders)) {
+    response.headers.set(key, value);
+  }
+  return response;
+}
 
 export default auth((req) => {
   const { nextUrl } = req;
@@ -11,12 +19,18 @@ export default auth((req) => {
   const isLoginPage = nextUrl.pathname === "/admin/login";
 
   if (isAdminRoute && !isLoginPage && !isLoggedIn) {
-    return NextResponse.redirect(new URL("/admin/login", nextUrl));
+    return applySecurityHeaders(
+      NextResponse.redirect(new URL("/admin/login", nextUrl))
+    );
   }
 
   if (isLoginPage && isLoggedIn) {
-    return NextResponse.redirect(new URL("/admin/dashboard", nextUrl));
+    return applySecurityHeaders(
+      NextResponse.redirect(new URL("/admin/dashboard", nextUrl))
+    );
   }
+
+  return applySecurityHeaders(NextResponse.next());
 });
 
 export const config = {

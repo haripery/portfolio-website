@@ -14,6 +14,7 @@ import { TrackedLink, TrackedAnchor } from "@/components/public/TrackedLink";
 import Link from "next/link";
 import Image from "next/image";
 import { formatDate } from "@/lib/utils";
+import { sanitizeHtml } from "@/lib/sanitize";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 // ISR: revalidate every 60 seconds
@@ -30,8 +31,28 @@ export default async function Home() {
 
   const recentPosts = posts.slice(0, 3);
 
+  const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const personJsonLd = profile
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: profile.name,
+        url: BASE_URL,
+        jobTitle: profile.role,
+        description: profile.tagline,
+        image: profile.photoUrl || undefined,
+        sameAs: profile.socials?.filter((s) => s.url).map((s) => s.url) || [],
+      }
+    : null;
+
   return (
     <div className="relative min-h-screen mosaic-bg">
+      {personJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+      )}
 
       {/* ── TOP NAV ── */}
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-ink/15 bg-paper/90 backdrop-blur-sm">
@@ -152,7 +173,7 @@ export default async function Home() {
               {profile?.bio ? (
                 <div
                   className="mt-6 space-y-4 text-sm leading-relaxed text-ink/75 [&_a]:font-medium [&_a]:text-forest [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:text-coral [&_strong]:font-semibold [&_strong]:text-forest"
-                  dangerouslySetInnerHTML={{ __html: profile.bio }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(profile.bio) }}
                 />
               ) : (
                 <p className="mt-6 text-sm text-ink/50">

@@ -8,6 +8,11 @@ import { headers } from "next/headers";
 import { createHash } from "crypto";
 
 // ── Public: Create a comment (no auth required) ──
+//
+// CSRF Protection: Next.js Server Actions validate the Origin header
+// automatically, rejecting cross-origin POST requests. No explicit CSRF
+// tokens are needed. Additional defenses: honeypot field, IP-based rate
+// limiting (5 per 10 min), and Zod schema validation.
 
 export async function createComment(data: unknown) {
   const parsed = commentSchema.safeParse(data);

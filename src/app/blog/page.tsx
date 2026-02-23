@@ -4,8 +4,18 @@ import Link from "next/link";
 import { formatDate } from "@/lib/utils";
 import { TagPill } from "@/components/public/TagPill";
 import type { BlogCategory } from "@/generated/prisma/client";
+import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description:
+    "Thoughts on code, learning, and what it means to build near the singularity.",
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/blog`,
+  },
+};
 
 export const revalidate = 300;
 

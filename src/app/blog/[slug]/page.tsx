@@ -1,7 +1,9 @@
 import { getBlogPost, getBlogPosts } from "@/actions/blog";
+import { getProfile } from "@/actions/profile";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
+import { sanitizeHtml } from "@/lib/sanitize";
 import { TagPill } from "@/components/public/TagPill";
 import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
@@ -9,6 +11,9 @@ import { TwitterEmbed } from "@/components/public/TwitterEmbed";
 import { BlogPostTracker } from "@/components/public/BlogPostTracker";
 import { CommentSection } from "@/components/public/CommentSection";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { ShareButtons } from "@/components/public/ShareButtons";
+
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 export const revalidate = 300;
 
@@ -30,9 +35,31 @@ export async function generateMetadata({
   try {
     const post = await getBlogPost(slug);
     if (!post) return {};
+
+    const canonicalUrl = `${BASE_URL}/blog/${post.slug}`;
+
     return {
       title: post.title,
       description: post.excerpt || undefined,
+      alternates: {
+        canonical: canonicalUrl,
+      },
+      openGraph: {
+        type: "article",
+        title: post.title,
+        description: post.excerpt || undefined,
+        url: canonicalUrl,
+        images: post.coverImage ? [post.coverImage] : [],
+        publishedTime: post.publishedAt?.toISOString(),
+        modifiedTime: post.updatedAt.toISOString(),
+        tags: post.tags.map((t) => t.label),
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: post.title,
+        description: post.excerpt || undefined,
+        images: post.coverImage ? [post.coverImage] : [],
+      },
     };
   } catch {
     return {};
@@ -51,12 +78,38 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = await getBlogPost(slug);
+  const [post, profile] = await Promise.all([
+    getBlogPost(slug),
+    getProfile(),
+  ]);
 
   if (!post || !post.published) notFound();
 
+  const blogPostingJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt || undefined,
+    image: post.coverImage || undefined,
+    datePublished: post.publishedAt?.toISOString(),
+    dateModified: post.updatedAt.toISOString(),
+    author: profile
+      ? { "@type": "Person", name: profile.name, url: BASE_URL }
+      : undefined,
+    keywords: post.tags.map((t) => t.label),
+    articleSection: CATEGORY_LABELS[post.category] ?? post.category,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${BASE_URL}/blog/${post.slug}`,
+    },
+  };
+
   return (
     <div className="min-h-screen mosaic-bg text-forest">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingJsonLd) }}
+      />
       <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 md:px-8 lg:px-12 lg:py-16">
         {/* Top bar */}
         <div className="mb-10 flex items-center justify-between">
@@ -112,6 +165,12 @@ export default async function BlogPostPage({
           )}
         </header>
 
+        <ShareButtons
+          url={`${BASE_URL}/blog/${post.slug}`}
+          title={post.title}
+          slug={post.slug}
+        />
+
         {/* Cover image */}
         {post.coverImage && (
           // eslint-disable-next-line @next/next/no-img-element
@@ -125,7 +184,7 @@ export default async function BlogPostPage({
         {/* Post content — rendered Tiptap HTML */}
         <div
           className="prose prose-site max-w-none overflow-x-hidden"
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
         />
 
         {/* Load Twitter widgets.js to render embedded tweets — key forces remount on navigation */}

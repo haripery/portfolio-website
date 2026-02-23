@@ -4,6 +4,7 @@ import { TagPill } from "./TagPill";
 import type { ExperienceWithRelations } from "@/types";
 import { ArrowUpRight } from "lucide-react";
 import posthog from "posthog-js";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 export function ExperienceCard({ exp }: { exp: ExperienceWithRelations }) {
   return (
@@ -53,7 +54,7 @@ export function ExperienceCard({ exp }: { exp: ExperienceWithRelations }) {
           {exp.description && (
             <div
               className="mt-2 text-sm leading-relaxed text-ink/65 [&_strong]:font-semibold [&_strong]:text-forest [&_ul]:list-disc [&_ul]:pl-4"
-              dangerouslySetInnerHTML={{ __html: exp.description }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(exp.description) }}
             />
           )}
           {exp.links.length > 0 && (

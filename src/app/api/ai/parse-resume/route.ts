@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { anthropic } from "@ai-sdk/anthropic";
 import { generateObject } from "ai";
 import { z } from "zod";
+import { checkRateLimit, aiRateLimit } from "@/lib/rate-limit";
 
 export const maxDuration = 60;
 
@@ -49,6 +50,21 @@ export async function POST(req: Request) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
       status: 401,
     });
+  }
+
+  // Rate limit: 10 AI requests per 15 minutes
+  const rl = await checkRateLimit(aiRateLimit);
+  if (!rl.success) {
+    return new Response(
+      JSON.stringify({ error: "Too many requests. Please try again later." }),
+      {
+        status: 429,
+        headers: {
+          "Content-Type": "application/json",
+          "Retry-After": String(Math.ceil(rl.retryAfterMs / 1000)),
+        },
+      }
+    );
   }
 
   const formData = await req.formData();

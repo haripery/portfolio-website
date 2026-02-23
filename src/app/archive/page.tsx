@@ -4,6 +4,15 @@ import { TrackedAnchor } from "@/components/public/TrackedLink";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Github } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "All Projects",
+  description: "A full archive of things I've built over the years.",
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/archive`,
+  },
+};
 
 export const revalidate = 300;
 
