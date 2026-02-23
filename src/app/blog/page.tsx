@@ -1,4 +1,5 @@
 import { getBlogPosts } from "@/actions/blog";
+import { TrackedLink } from "@/components/public/TrackedLink";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
 import { TagPill } from "@/components/public/TagPill";
@@ -58,7 +59,9 @@ export default async function BlogPage({
             const isActive =
               filter === "All" ? !category : category === filter;
             return (
-              <Link
+              <TrackedLink
+                event="blog_category_filtered"
+                properties={{ category: filter }}
                 key={filter}
                 href={filter === "All" ? "/blog" : `/blog?category=${filter}`}
                 className={`px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest transition-colors ${
@@ -69,7 +72,7 @@ export default async function BlogPage({
                 style={{ borderRadius: "2px" }}
               >
                 {filter === "All" ? "All" : CATEGORY_LABELS[filter]}
-              </Link>
+              </TrackedLink>
             );
           })}
         </div>
@@ -79,7 +82,14 @@ export default async function BlogPage({
           <ol className="divide-y divide-ink/10">
             {posts.map((post) => (
               <li key={post.id}>
-                <Link
+                <TrackedLink
+                  event="blog_post_clicked"
+                  properties={{
+                    post_slug: post.slug,
+                    post_title: post.title,
+                    post_category: post.category,
+                    source: "blog_listing",
+                  }}
                   href={`/blog/${post.slug}`}
                   className="group block py-6 transition-colors hover:bg-forest/3"
                 >
@@ -109,7 +119,7 @@ export default async function BlogPage({
                       ))}
                     </ul>
                   )}
-                </Link>
+                </TrackedLink>
               </li>
             ))}
           </ol>

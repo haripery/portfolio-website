@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { createComment } from "@/actions/comments";
 import toast from "react-hot-toast";
+import posthog from "posthog-js";
 
 const CHAR_LIMIT = 2000;
 
@@ -28,6 +29,7 @@ export function CommentForm({ blogPostId }: { blogPostId: string }) {
       if (result.success) {
         setBody("");
         toast.success("Comment posted");
+        posthog.capture("comment_submitted", { blog_post_id: blogPostId });
       } else {
         const errorMsg =
           typeof result.error === "string"

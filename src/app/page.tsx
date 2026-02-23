@@ -10,6 +10,7 @@ import { getExperiences } from "@/actions/experience";
 import { getProjects } from "@/actions/projects";
 import { getBlogPosts } from "@/actions/blog";
 import { getSettings } from "@/actions/settings";
+import { TrackedLink, TrackedAnchor } from "@/components/public/TrackedLink";
 import Link from "next/link";
 import Image from "next/image";
 import { formatDate } from "@/lib/utils";
@@ -66,14 +67,16 @@ export default async function Home() {
           {/* Resume link + Theme toggle */}
           <div className="flex items-center gap-3">
             {profile?.resumeUrl && (
-              <a
+              <TrackedAnchor
+                event="resume_downloaded"
+                properties={{ source: "header" }}
                 href={profile.resumeUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="hidden border border-forest px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:bg-forest hover:text-paper sm:inline-flex"
               >
                 Résumé
-              </a>
+              </TrackedAnchor>
             )}
             <ThemeToggle />
           </div>
@@ -159,7 +162,9 @@ export default async function Home() {
 
               {profile?.resumeUrl && (
                 <div className="mt-6">
-                  <a
+                  <TrackedAnchor
+                    event="resume_downloaded"
+                    properties={{ source: "about_section" }}
                     href={profile.resumeUrl}
                     target="_blank"
                     rel="noreferrer"
@@ -167,7 +172,7 @@ export default async function Home() {
                   >
                     View Full Résumé
                     <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                  </a>
+                  </TrackedAnchor>
                 </div>
               )}
             </section>
@@ -189,13 +194,15 @@ export default async function Home() {
               )}
 
               <div className="mt-8">
-                <Link
+                <TrackedLink
+                  event="view_all_clicked"
+                  properties={{ section: "experience" }}
                   href="/archive"
                   className="group inline-flex items-center gap-2 border-b border-forest pb-0.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:border-coral hover:text-coral"
                 >
                   View Full Archive
                   <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                </Link>
+                </TrackedLink>
               </div>
             </section>
 
@@ -216,13 +223,15 @@ export default async function Home() {
               )}
 
               <div className="mt-8">
-                <Link
+                <TrackedLink
+                  event="view_all_clicked"
+                  properties={{ section: "projects" }}
                   href="/archive"
                   className="group inline-flex items-center gap-2 border-b border-forest pb-0.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:border-coral hover:text-coral"
                 >
                   View Full Project Archive
                   <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                </Link>
+                </TrackedLink>
               </div>
             </section>
 
@@ -234,7 +243,14 @@ export default async function Home() {
                 <ol className="mt-4 space-y-0 divide-y divide-ink/10">
                   {recentPosts.map((post) => (
                     <li key={post.id}>
-                      <Link
+                      <TrackedLink
+                        event="blog_post_clicked"
+                        properties={{
+                          post_slug: post.slug,
+                          post_title: post.title,
+                          post_category: post.category,
+                          source: "home",
+                        }}
                         href={`/blog/${post.slug}`}
                         className="group block py-5 transition-colors hover:bg-forest/3"
                       >
@@ -260,7 +276,7 @@ export default async function Home() {
                             ))}
                           </ul>
                         )}
-                      </Link>
+                      </TrackedLink>
                     </li>
                   ))}
                 </ol>
@@ -269,13 +285,15 @@ export default async function Home() {
               )}
 
               <div className="mt-8">
-                <Link
+                <TrackedLink
+                  event="view_all_clicked"
+                  properties={{ section: "blog" }}
                   href="/blog"
                   className="group inline-flex items-center gap-2 border-b border-forest pb-0.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:border-coral hover:text-coral"
                 >
                   View All Posts
                   <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                </Link>
+                </TrackedLink>
               </div>
             </section>
 

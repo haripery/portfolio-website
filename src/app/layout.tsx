@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
-import { Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { PostHogProvider } from "@/components/PostHogProvider";
@@ -91,11 +90,9 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen antialiased">
         <ThemeProvider>
-          <Suspense fallback={null}>
-            <PostHogProvider>
-              {children}
-            </PostHogProvider>
-          </Suspense>
+          <PostHogProvider>
+            {children}
+          </PostHogProvider>
           <Toaster
             position="bottom-right"
             toastOptions={{

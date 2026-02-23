@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import posthog from "posthog-js";
 
 const SECTIONS = [
   { id: "about", label: "About", n: "01" },
@@ -40,6 +41,9 @@ export function ScrollNav() {
           <li key={id}>
             <a
               href={`#${id}`}
+              onClick={() =>
+                posthog.capture("section_navigated", { section: label })
+              }
               className={`group flex items-center gap-3 py-1.5 transition-all duration-200 ${
                 active === id
                   ? "text-forest"

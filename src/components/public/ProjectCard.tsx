@@ -1,7 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import { TagPill } from "./TagPill";
 import type { ProjectWithTags } from "@/types";
 import { ArrowUpRight, Github } from "lucide-react";
+import posthog from "posthog-js";
 
 export function ProjectCard({ project }: { project: ProjectWithTags }) {
   return (
@@ -25,6 +28,12 @@ export function ProjectCard({ project }: { project: ProjectWithTags }) {
                 href={project.url}
                 target="_blank"
                 rel="noreferrer"
+                onClick={() =>
+                  posthog.capture("project_clicked", {
+                    project_title: project.title,
+                    url: project.url,
+                  })
+                }
                 className="inline-flex items-center gap-1 transition-colors hover:text-coral group/link"
               >
                 {project.title}
@@ -60,6 +69,12 @@ export function ProjectCard({ project }: { project: ProjectWithTags }) {
                 href={project.githubUrl}
                 target="_blank"
                 rel="noreferrer"
+                onClick={() =>
+                  posthog.capture("project_github_clicked", {
+                    project_title: project.title,
+                    github_url: project.githubUrl,
+                  })
+                }
                 className="ml-auto flex-shrink-0 text-ink/45 transition-colors hover:text-forest"
                 aria-label="View on GitHub"
               >

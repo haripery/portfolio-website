@@ -1,4 +1,7 @@
+"use client";
+
 import type { Social } from "@/generated/prisma/client";
+import posthog from "posthog-js";
 
 const ICONS: Record<string, React.ReactNode> = {
   github: (
@@ -38,6 +41,12 @@ export function SocialIcons({ socials }: { socials: Social[] }) {
             href={social.platform === "email" ? `mailto:${social.url}` : social.url}
             target={social.platform !== "email" ? "_blank" : undefined}
             rel={social.platform !== "email" ? "noreferrer" : undefined}
+            onClick={() =>
+              posthog.capture("social_link_clicked", {
+                platform: social.platform,
+                url: social.url,
+              })
+            }
             className="text-ink/45 transition-colors duration-200 hover:text-forest"
             aria-label={social.label || social.platform}
           >

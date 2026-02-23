@@ -1,5 +1,6 @@
 import { getProjects } from "@/actions/projects";
 import { TagPill } from "@/components/public/TagPill";
+import { TrackedAnchor } from "@/components/public/TrackedLink";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Github } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -89,7 +90,13 @@ export default async function ArchivePage() {
                     <td className="py-4 align-top">
                       <div className="flex items-center gap-2">
                         {project.url && (
-                          <a
+                          <TrackedAnchor
+                            event="archive_link_clicked"
+                            properties={{
+                              project_title: project.title,
+                              link_type: "url",
+                              year: project.createdAt.getFullYear(),
+                            }}
                             href={project.url}
                             target="_blank"
                             rel="noreferrer"
@@ -97,10 +104,16 @@ export default async function ArchivePage() {
                             aria-label={`Visit ${project.title}`}
                           >
                             <ArrowUpRight className="h-4 w-4" />
-                          </a>
+                          </TrackedAnchor>
                         )}
                         {project.githubUrl && (
-                          <a
+                          <TrackedAnchor
+                            event="archive_link_clicked"
+                            properties={{
+                              project_title: project.title,
+                              link_type: "github",
+                              year: project.createdAt.getFullYear(),
+                            }}
                             href={project.githubUrl}
                             target="_blank"
                             rel="noreferrer"
@@ -108,7 +121,7 @@ export default async function ArchivePage() {
                             aria-label={`${project.title} on GitHub`}
                           >
                             <Github className="h-4 w-4" />
-                          </a>
+                          </TrackedAnchor>
                         )}
                       </div>
                     </td>

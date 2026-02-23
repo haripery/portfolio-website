@@ -1,6 +1,9 @@
+"use client";
+
 import { TagPill } from "./TagPill";
 import type { ExperienceWithRelations } from "@/types";
 import { ArrowUpRight } from "lucide-react";
+import posthog from "posthog-js";
 
 export function ExperienceCard({ exp }: { exp: ExperienceWithRelations }) {
   return (
@@ -22,6 +25,13 @@ export function ExperienceCard({ exp }: { exp: ExperienceWithRelations }) {
                   href={exp.companyUrl}
                   target="_blank"
                   rel="noreferrer"
+                  onClick={() =>
+                    posthog.capture("experience_company_clicked", {
+                      company: exp.company,
+                      title: exp.title,
+                      period: exp.period,
+                    })
+                  }
                   className="inline-flex items-center gap-1 transition-colors hover:text-coral group/link"
                 >
                   {exp.title} ·{" "}
@@ -54,6 +64,14 @@ export function ExperienceCard({ exp }: { exp: ExperienceWithRelations }) {
                     href={link.url}
                     target="_blank"
                     rel="noreferrer"
+                    onClick={() =>
+                      posthog.capture("experience_link_clicked", {
+                        label: link.label,
+                        url: link.url,
+                        company: exp.company,
+                        title: exp.title,
+                      })
+                    }
                     className="inline-flex items-center gap-1 text-xs font-medium text-forest transition-colors hover:text-coral"
                     style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
                   >

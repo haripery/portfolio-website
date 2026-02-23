@@ -24,10 +24,18 @@ export function TwitterEmbed() {
     const existing = document.querySelector(
       'script[src="https://platform.twitter.com/widgets.js"]'
     );
-    if (!existing) {
+    if (existing) {
+      // Script tag exists but twttr not ready yet — wait for it
+      existing.addEventListener("load", () => {
+        window.twttr?.widgets.load();
+      });
+    } else {
       const script = document.createElement("script");
       script.src = "https://platform.twitter.com/widgets.js";
       script.async = true;
+      script.onload = () => {
+        window.twttr?.widgets.load();
+      };
       document.body.appendChild(script);
     }
   });
