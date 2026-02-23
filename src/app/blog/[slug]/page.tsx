@@ -54,7 +54,7 @@ export default async function BlogPostPage({
 
   return (
     <div className="min-h-screen mosaic-bg text-[#1A3C2B]">
-      <div className="mx-auto max-w-2xl px-6 py-16 md:px-12">
+      <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 md:px-8 lg:px-12 lg:py-16">
         {/* Back link */}
         <Link
           href="/blog"
@@ -118,7 +118,7 @@ export default async function BlogPostPage({
 
         {/* Post content — rendered Tiptap HTML */}
         <div
-          className="prose max-w-none
+          className="prose max-w-none overflow-x-hidden
             prose-headings:text-[#1A3C2B] prose-headings:font-bold
             prose-p:text-[rgba(58,58,56,0.75)] prose-p:leading-relaxed
             prose-a:text-[#FF8C69] prose-a:no-underline hover:prose-a:underline
@@ -128,9 +128,9 @@ export default async function BlogPostPage({
             prose-pre:bg-[rgba(26,60,43,0.05)] prose-pre:border prose-pre:border-[rgba(58,58,56,0.15)] prose-pre:rounded-none
             prose-blockquote:border-l-[#FF8C69] prose-blockquote:text-[rgba(58,58,56,0.65)]
             prose-hr:border-[rgba(58,58,56,0.15)]
-            prose-li:text-[rgba(58,58,56,0.75)]
-            prose-ul:text-[rgba(58,58,56,0.75)]
-            prose-ol:text-[rgba(58,58,56,0.75)]"
+            prose-li:text-[rgba(58,58,56,0.75)] prose-li:my-0.5
+            prose-ul:my-3 prose-ul:text-[rgba(58,58,56,0.75)]
+            prose-ol:my-3 prose-ol:text-[rgba(58,58,56,0.75)]"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
 
