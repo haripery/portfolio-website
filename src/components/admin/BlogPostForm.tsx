@@ -36,6 +36,7 @@ export function BlogPostForm({
   );
   const [published, setPublished] = useState(initialData?.published ?? false);
   const [readTime, setReadTime] = useState(initialData?.readTime ?? "");
+  const [sourceMode, setSourceMode] = useState(false);
 
   function handleEditorChange(html: string, json: string) {
     setContent(html);
@@ -117,13 +118,32 @@ export function BlogPostForm({
 
             {/* Rich text editor */}
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
-                Content
-              </label>
-              <RichTextEditor
-                content={initialData?.content}
-                onChange={handleEditorChange}
-              />
+              <div className="flex items-center justify-between">
+                <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+                  Content
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setSourceMode(!sourceMode)}
+                  className="text-xs font-mono px-2 py-1 border border-[rgba(58,58,56,0.2)] text-[rgba(58,58,56,0.5)] hover:text-[#1A3C2B] hover:border-[#1A3C2B] transition-colors"
+                >
+                  {sourceMode ? "Visual Editor" : "HTML Source"}
+                </button>
+              </div>
+              {sourceMode ? (
+                <textarea
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  rows={20}
+                  className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm font-mono text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B] resize-y"
+                  placeholder="Paste raw HTML here…"
+                />
+              ) : (
+                <RichTextEditor
+                  content={content || initialData?.content}
+                  onChange={handleEditorChange}
+                />
+              )}
             </div>
           </div>
 
