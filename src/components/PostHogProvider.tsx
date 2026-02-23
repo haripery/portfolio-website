@@ -5,7 +5,7 @@ import { PostHogProvider as PHProvider } from "posthog-js/react";
 import { useEffect, useState } from "react";
 
 const KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY ?? "";
-const HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://us.i.posthog.com";
+const HOST = "/ingest";
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
@@ -17,6 +17,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
     }
     posthog.init(KEY, {
       api_host: HOST,
+      ui_host: "https://us.posthog.com",
       person_profiles: "always",
       capture_pageview: true,
       capture_pageleave: true,
