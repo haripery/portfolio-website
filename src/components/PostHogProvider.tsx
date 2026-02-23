@@ -17,6 +17,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
     }
     posthog.init(KEY, {
       api_host: HOST,
+      person_profiles: "always",
       capture_pageview: true,
       capture_pageleave: true,
       persistence: "localStorage+cookie",
