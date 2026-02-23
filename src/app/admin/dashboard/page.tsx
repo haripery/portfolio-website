@@ -3,15 +3,17 @@ import { getProfile } from "@/actions/profile";
 import { getExperiences } from "@/actions/experience";
 import { getProjects } from "@/actions/projects";
 import { getBlogPosts } from "@/actions/blog";
+import { getCommentCount } from "@/actions/comments";
 import Link from "next/link";
 import { FilePlus, FolderPlus, UserCog } from "lucide-react";
 
 export default async function DashboardPage() {
-  const [profile, experiences, projects, posts] = await Promise.all([
+  const [profile, experiences, projects, posts, commentCount] = await Promise.all([
     getProfile(),
     getExperiences(),
     getProjects(),
     getBlogPosts(),
+    getCommentCount(),
   ]);
 
   const publishedPosts = posts.filter((p) => p.published);
@@ -23,6 +25,7 @@ export default async function DashboardPage() {
     { label: "Total Projects", value: projects.length, sub: `${featuredProjects.length} featured`, href: "/admin/projects" },
     { label: "Blog Posts", value: posts.length, sub: `${publishedPosts.length} published`, href: "/admin/blog" },
     { label: "Drafts", value: draftPosts.length, href: "/admin/blog" },
+    { label: "Comments", value: commentCount, href: "/admin/comments" },
   ];
 
   const quickActions = [

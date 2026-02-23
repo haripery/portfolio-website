@@ -8,6 +8,7 @@ import type {
   ProjectTag,
   BlogPost,
   BlogTag,
+  Comment,
   SiteSettings,
   BlogCategory,
 } from "@/generated/prisma/client";
@@ -23,7 +24,11 @@ export type ProjectWithTags = Project & { tags: ProjectTag[] };
 
 export type BlogPostWithTags = BlogPost & { tags: BlogTag[] };
 
-export type { BlogCategory, SiteSettings };
+export type CommentWithPost = Comment & {
+  blogPost: Pick<BlogPost, "id" | "title" | "slug">;
+};
+
+export type { BlogCategory, Comment, SiteSettings };
 
 export type ActionResult<T = void> =
   | { success: true; data?: T }

@@ -88,4 +88,15 @@ export type ExperienceInput = z.infer<typeof experienceSchema>;
 export type ProjectInput = z.infer<typeof projectSchema>;
 export type BlogPostInput = z.infer<typeof blogPostSchema>;
 export type SiteSettingsInput = z.infer<typeof siteSettingsSchema>;
+export const commentSchema = z.object({
+  body: z
+    .string()
+    .trim()
+    .min(1, "Comment cannot be empty")
+    .max(2000, "Comment must be under 2000 characters"),
+  blogPostId: z.string().min(1),
+  website: z.string().max(0).optional(),
+});
+
+export type CommentInput = z.infer<typeof commentSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;

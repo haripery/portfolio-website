@@ -6,6 +6,7 @@ import { TagPill } from "@/components/public/TagPill";
 import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import { TwitterEmbed } from "@/components/public/TwitterEmbed";
+import { CommentSection } from "@/components/public/CommentSection";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const revalidate = 300;
@@ -128,6 +129,9 @@ export default async function BlogPostPage({
 
         {/* Load Twitter widgets.js to render embedded tweets */}
         <TwitterEmbed />
+
+        {/* Comments */}
+        <CommentSection blogPostId={post.id} />
 
         {/* Back link */}
         <div className="mt-16 pt-8 border-t border-ink/15">

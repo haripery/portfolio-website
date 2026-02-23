@@ -9,6 +9,7 @@ import {
   Briefcase,
   Code2,
   BookOpen,
+  MessageSquare,
   FileText,
   Settings,
   LogOut,
@@ -22,6 +23,7 @@ const NAV = [
   { href: "/admin/experience", label: "Experience", Icon: Briefcase },
   { href: "/admin/projects", label: "Projects", Icon: Code2 },
   { href: "/admin/blog", label: "Blog", Icon: BookOpen },
+  { href: "/admin/comments", label: "Comments", Icon: MessageSquare },
   { href: "/admin/resume", label: "Resume", Icon: FileText },
   { href: "/admin/settings", label: "Settings", Icon: Settings },
 ];
