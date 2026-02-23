@@ -90,12 +90,9 @@
   --border: rgba(148, 163, 184, 0.1);
 }
 
-/* ─── Mosaic SVG tile background (used by public pages) ─── */
+/* ─── Solid paper background (used by public pages) ─── */
 .mosaic-bg {
   background-color: #F7F7F5;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect x='0.5' y='0.5' width='79' height='49' fill='none' stroke='%233A3A38' stroke-width='0.75' stroke-opacity='0.1'/%3E%3Crect x='79.5' y='0.5' width='40' height='49' fill='none' stroke='%233A3A38' stroke-width='0.75' stroke-opacity='0.1'/%3E%3Crect x='0.5' y='49.5' width='39' height='70' fill='none' stroke='%233A3A38' stroke-width='0.75' stroke-opacity='0.1'/%3E%3Crect x='39.5' y='49.5' width='80' height='70' fill='none' stroke='%233A3A38' stroke-width='0.75' stroke-opacity='0.1'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 120px 120px;
 }
 
 @layer base {
