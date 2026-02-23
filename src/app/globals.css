@@ -90,12 +90,12 @@
 }
 
 .dark {
-  --paper: #111113;
-  --forest: #C8DECE;
-  --coral: #FF8C69;
+  --paper: #0F1012;
+  --forest: #E8F0EB;
+  --coral: #FFA07A;
   --mint: #9EFFBF;
   --gold: #F4D35E;
-  --ink: #C8C8C6;
+  --ink: #E2E2E0;
   --card: #1A1A1E;
 
   /* shadcn/ui tokens — dark theme */
@@ -105,22 +105,22 @@
   --popover: var(--card);
   --popover-foreground: var(--forest);
   --primary: var(--forest);
-  --primary-foreground: #111113;
-  --secondary: rgba(200, 200, 198, 0.08);
+  --primary-foreground: #0F1012;
+  --secondary: rgba(226, 226, 224, 0.1);
   --secondary-foreground: var(--forest);
-  --muted: rgba(200, 200, 198, 0.08);
-  --muted-foreground: rgba(200, 200, 198, 0.55);
-  --accent: rgba(200, 200, 198, 0.08);
+  --muted: rgba(226, 226, 224, 0.1);
+  --muted-foreground: rgba(226, 226, 224, 0.6);
+  --accent: rgba(226, 226, 224, 0.1);
   --accent-foreground: var(--forest);
   --destructive: #ef4444;
-  --border: rgba(200, 200, 198, 0.15);
-  --input: rgba(200, 200, 198, 0.15);
+  --border: rgba(226, 226, 224, 0.18);
+  --input: rgba(226, 226, 224, 0.18);
   --ring: var(--forest);
 
   /* Public site tokens */
-  --site-secondary: rgba(200, 200, 198, 0.6);
-  --site-muted: rgba(200, 200, 198, 0.4);
-  --site-border: rgba(200, 200, 198, 0.2);
+  --site-secondary: rgba(226, 226, 224, 0.65);
+  --site-muted: rgba(226, 226, 224, 0.45);
+  --site-border: rgba(226, 226, 224, 0.22);
 }
 
 /* ─── Solid paper background (used by public pages) ─── */
