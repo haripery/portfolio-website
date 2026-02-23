@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { updateProfile } from "@/actions/profile";
+import { updateResumeUrl } from "@/actions/profile";
 import { ImageUploader } from "./ImageUploader";
 import toast from "react-hot-toast";
 import { FileText, ExternalLink } from "lucide-react";
@@ -12,16 +12,7 @@ export function ResumeUploadForm({ currentUrl }: { currentUrl: string }) {
 
   async function handleSave() {
     startTransition(async () => {
-      const result = await updateProfile({
-        resumeUrl: url,
-        // These will be ignored if not provided — pass empty to avoid validation errors
-        name: "",
-        role: "",
-        tagline: "",
-        bio: "",
-        email: "",
-        photoUrl: "",
-      });
+      const result = await updateResumeUrl(url);
       if (result.success) {
         toast.success("Resume URL saved!");
       } else {

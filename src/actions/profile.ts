@@ -35,6 +35,21 @@ export async function updateProfile(data: unknown) {
   return { success: true };
 }
 
+export async function updateResumeUrl(resumeUrl: string) {
+  const session = await auth();
+  if (!session?.user) return { success: false, error: "Unauthorized" };
+
+  // Ensure profile exists then update only resumeUrl
+  await prisma.profile.upsert({
+    where: { id: "main" },
+    update: { resumeUrl },
+    create: { id: "main", resumeUrl },
+  });
+
+  revalidatePath("/");
+  return { success: true };
+}
+
 export async function updateSocials(
   socials: { platform: string; url: string; label: string; sortOrder: number }[]
 ) {

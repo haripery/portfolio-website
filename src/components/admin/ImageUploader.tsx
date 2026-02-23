@@ -53,8 +53,9 @@ export function ImageUploader({
     }
   }
 
-  const isPdf = value.endsWith(".pdf");
-  const isImage = value && !isPdf;
+  const IMAGE_EXTS = /\.(jpg|jpeg|png|gif|webp|svg)(\?.*)?$/i;
+  const isImage = Boolean(value && IMAGE_EXTS.test(value));
+  const isPdf = Boolean(value && !isImage);
 
   return (
     <div className="space-y-2">
