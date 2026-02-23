@@ -182,4 +182,13 @@
     --tw-prose-bullets: color-mix(in srgb, var(--ink) 40%, transparent);
     --tw-prose-hr: color-mix(in srgb, var(--ink) 15%, transparent);
   }
+
+  /* Heading links inside prose should inherit heading color, not link color */
+  .prose-site :is(h1, h2, h3, h4, h5, h6) a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .prose-site :is(h1, h2, h3, h4, h5, h6) a:hover {
+    color: var(--coral);
+  }
 }

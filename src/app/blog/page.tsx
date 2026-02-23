@@ -4,6 +4,7 @@ import { formatDate } from "@/lib/utils";
 import { TagPill } from "@/components/public/TagPill";
 import type { BlogCategory } from "@/generated/prisma/client";
 import { ArrowLeft } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const revalidate = 300;
 
@@ -29,14 +30,17 @@ export default async function BlogPage({
   return (
     <div className="min-h-screen mosaic-bg text-forest">
       <div className="mx-auto max-w-3xl px-6 py-16 md:px-12">
-        {/* Back link */}
-        <Link
-          href="/"
-          className="mb-10 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-ink/50 transition-colors hover:text-forest"
-        >
-          <ArrowLeft className="h-3 w-3" />
-          Back
-        </Link>
+        {/* Top bar */}
+        <div className="mb-10 flex items-center justify-between">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-ink/50 transition-colors hover:text-forest"
+          >
+            <ArrowLeft className="h-3 w-3" />
+            Back
+          </Link>
+          <ThemeToggle />
+        </div>
 
         <h1
           className="text-3xl font-bold tracking-tight text-forest mb-2"

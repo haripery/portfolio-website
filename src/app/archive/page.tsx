@@ -2,6 +2,7 @@ import { getProjects } from "@/actions/projects";
 import { TagPill } from "@/components/public/TagPill";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Github } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const revalidate = 300;
 
@@ -11,14 +12,17 @@ export default async function ArchivePage() {
   return (
     <div className="min-h-screen mosaic-bg text-forest">
       <div className="mx-auto max-w-4xl px-6 py-16 md:px-12">
-        {/* Back link */}
-        <Link
-          href="/"
-          className="mb-10 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-ink/50 transition-colors hover:text-forest"
-        >
-          <ArrowLeft className="h-3 w-3" />
-          Back
-        </Link>
+        {/* Top bar */}
+        <div className="mb-10 flex items-center justify-between">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-ink/50 transition-colors hover:text-forest"
+          >
+            <ArrowLeft className="h-3 w-3" />
+            Back
+          </Link>
+          <ThemeToggle />
+        </div>
 
         <h1
           className="text-3xl font-bold tracking-tight text-forest mb-2"

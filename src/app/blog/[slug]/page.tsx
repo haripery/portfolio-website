@@ -6,6 +6,7 @@ import { TagPill } from "@/components/public/TagPill";
 import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import { TwitterEmbed } from "@/components/public/TwitterEmbed";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const revalidate = 300;
 
@@ -55,14 +56,17 @@ export default async function BlogPostPage({
   return (
     <div className="min-h-screen mosaic-bg text-forest">
       <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 md:px-8 lg:px-12 lg:py-16">
-        {/* Back link */}
-        <Link
-          href="/blog"
-          className="mb-10 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-ink/50 transition-colors hover:text-forest"
-        >
-          <ArrowLeft className="h-3 w-3" />
-          All Posts
-        </Link>
+        {/* Top bar */}
+        <div className="mb-10 flex items-center justify-between">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-ink/50 transition-colors hover:text-forest"
+          >
+            <ArrowLeft className="h-3 w-3" />
+            All Posts
+          </Link>
+          <ThemeToggle />
+        </div>
 
         {/* Post header */}
         <header className="mb-10">
