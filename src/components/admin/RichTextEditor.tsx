@@ -40,7 +40,7 @@ export function RichTextEditor({ content = "", onChange }: RichTextEditorProps) 
     editorProps: {
       attributes: {
         class:
-          "prose prose-site max-w-none min-h-[320px] focus:outline-none px-4 py-4 text-[rgba(58,58,56,0.75)] leading-relaxed",
+          "prose prose-site max-w-none min-h-[320px] focus:outline-none px-4 py-4 text-ink/75 leading-relaxed",
       },
     },
   });
@@ -53,7 +53,7 @@ export function RichTextEditor({ content = "", onChange }: RichTextEditorProps) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // only run on mount
 
-  if (!editor) return <div className="h-64 animate-pulse bg-[rgba(58,58,56,0.06)]" style={{ borderRadius: "2px" }} />;
+  if (!editor) return <div className="h-64 animate-pulse bg-ink/6" style={{ borderRadius: "2px" }} />;
 
   const TOOLBAR_ITEMS = [
     {
@@ -129,14 +129,14 @@ export function RichTextEditor({ content = "", onChange }: RichTextEditorProps) 
   ];
 
   return (
-    <div className="overflow-hidden border border-[rgba(58,58,56,0.2)]" style={{ borderRadius: "2px" }}>
+    <div className="overflow-hidden border border-ink/20" style={{ borderRadius: "2px" }}>
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-0.5 border-b border-[rgba(58,58,56,0.15)] bg-[rgba(58,58,56,0.04)] px-2 py-1.5">
+      <div className="flex flex-wrap items-center gap-0.5 border-b border-ink/15 bg-ink/4 px-2 py-1.5">
         {TOOLBAR_ITEMS.map((item, i) =>
           item === null ? (
             <span
               key={`sep-${i}`}
-              className="mx-1 h-4 w-px bg-[rgba(58,58,56,0.2)]"
+              className="mx-1 h-4 w-px bg-ink/20"
             />
           ) : (
             <button
@@ -146,8 +146,8 @@ export function RichTextEditor({ content = "", onChange }: RichTextEditorProps) 
               onClick={item.action}
               className={`p-1.5 transition-colors ${
                 item.active
-                  ? "bg-[rgba(26,60,43,0.12)] text-[#1A3C2B]"
-                  : "text-[rgba(58,58,56,0.5)] hover:bg-[rgba(58,58,56,0.08)] hover:text-[#1A3C2B]"
+                  ? "bg-forest/12 text-forest"
+                  : "text-ink/50 hover:bg-ink/8 hover:text-forest"
               }`}
               style={{ borderRadius: "2px" }}
             >
@@ -156,7 +156,7 @@ export function RichTextEditor({ content = "", onChange }: RichTextEditorProps) 
           )
         )}
       </div>
-      <div className="bg-white">
+      <div className="bg-card">
         <EditorContent editor={editor} />
       </div>
     </div>

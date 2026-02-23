@@ -4,28 +4,28 @@ import { ArrowUpRight } from "lucide-react";
 
 export function ExperienceCard({ exp }: { exp: ExperienceWithRelations }) {
   return (
-    <div className="group relative p-4 transition-colors duration-200 hover:bg-[rgba(26,60,43,0.04)]">
+    <div className="group relative p-4 transition-colors duration-200 hover:bg-forest/4">
       <div className="grid gap-4 sm:grid-cols-8">
         <div className="sm:col-span-2">
           <p
-            className="mt-1 text-[10px] uppercase tracking-widest text-[rgba(58,58,56,0.45)]"
+            className="mt-1 text-[10px] uppercase tracking-widest text-ink/45"
             style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
           >
             {exp.period}
           </p>
         </div>
         <div className="sm:col-span-6">
-          <h3 className="font-semibold leading-snug text-[#1A3C2B]">
+          <h3 className="font-semibold leading-snug text-forest">
             {exp.company ? (
               exp.companyUrl ? (
                 <a
                   href={exp.companyUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1 transition-colors hover:text-[#FF8C69] group/link"
+                  className="inline-flex items-center gap-1 transition-colors hover:text-coral group/link"
                 >
                   {exp.title} ·{" "}
-                  <span className="text-[rgba(58,58,56,0.6)] group-hover/link:text-[#FF8C69]">
+                  <span className="text-ink/60 group-hover/link:text-coral">
                     {exp.company}
                   </span>
                   <ArrowUpRight className="h-3 w-3 opacity-0 transition-opacity group-hover/link:opacity-100" />
@@ -33,7 +33,7 @@ export function ExperienceCard({ exp }: { exp: ExperienceWithRelations }) {
               ) : (
                 <>
                   {exp.title} ·{" "}
-                  <span className="font-normal text-[rgba(58,58,56,0.6)]">{exp.company}</span>
+                  <span className="font-normal text-ink/60">{exp.company}</span>
                 </>
               )
             ) : (
@@ -42,7 +42,7 @@ export function ExperienceCard({ exp }: { exp: ExperienceWithRelations }) {
           </h3>
           {exp.description && (
             <div
-              className="mt-2 text-sm leading-relaxed text-[rgba(58,58,56,0.65)] [&_strong]:font-semibold [&_strong]:text-[#1A3C2B] [&_ul]:list-disc [&_ul]:pl-4"
+              className="mt-2 text-sm leading-relaxed text-ink/65 [&_strong]:font-semibold [&_strong]:text-forest [&_ul]:list-disc [&_ul]:pl-4"
               dangerouslySetInnerHTML={{ __html: exp.description }}
             />
           )}
@@ -54,7 +54,7 @@ export function ExperienceCard({ exp }: { exp: ExperienceWithRelations }) {
                     href={link.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1 text-xs font-medium text-[#1A3C2B] transition-colors hover:text-[#FF8C69]"
+                    className="inline-flex items-center gap-1 text-xs font-medium text-forest transition-colors hover:text-coral"
                     style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
                   >
                     {link.label}

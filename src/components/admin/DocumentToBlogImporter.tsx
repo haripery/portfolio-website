@@ -81,7 +81,7 @@ export function DocumentToBlogImporter() {
       <button
         onClick={() => setOpen((v) => !v)}
         disabled={isLoading}
-        className="inline-flex items-center gap-2 bg-[rgba(58,58,56,0.08)] px-4 py-2 text-sm font-semibold text-[#1A3C2B] ring-1 ring-[rgba(58,58,56,0.2)] transition-colors hover:bg-[rgba(58,58,56,0.14)] disabled:opacity-60"
+        className="inline-flex items-center gap-2 bg-ink/8 px-4 py-2 text-sm font-semibold text-forest ring-1 ring-ink/20 transition-colors hover:bg-ink/14 disabled:opacity-60"
         style={{ borderRadius: "2px" }}
       >
         {isLoading ? (
@@ -91,21 +91,21 @@ export function DocumentToBlogImporter() {
           </>
         ) : (
           <>
-            <Sparkles className="h-4 w-4 text-[#1A3C2B]" />
+            <Sparkles className="h-4 w-4 text-forest" />
             Import from Document
             {open ? (
-              <ChevronUp className="h-3.5 w-3.5 text-[rgba(58,58,56,0.45)]" />
+              <ChevronUp className="h-3.5 w-3.5 text-ink/45" />
             ) : (
-              <ChevronDown className="h-3.5 w-3.5 text-[rgba(58,58,56,0.45)]" />
+              <ChevronDown className="h-3.5 w-3.5 text-ink/45" />
             )}
           </>
         )}
       </button>
 
       {open && !isLoading && (
-        <div className="absolute right-0 top-full z-10 mt-1 w-72 border border-[rgba(58,58,56,0.15)] bg-white p-4 shadow-lg" style={{ borderRadius: "2px" }}>
-          <p className="text-sm font-medium text-[#1A3C2B]">Generate Blog Draft</p>
-          <p className="mt-1 text-xs text-[rgba(58,58,56,0.6)]">
+        <div className="absolute right-0 top-full z-10 mt-1 w-72 border border-ink/15 bg-card p-4 shadow-lg" style={{ borderRadius: "2px" }}>
+          <p className="text-sm font-medium text-forest">Generate Blog Draft</p>
+          <p className="mt-1 text-xs text-ink/60">
             Upload a PDF, Markdown, or text file. Claude will generate a full
             draft blog post and open it in the editor.
           </p>
@@ -114,13 +114,13 @@ export function DocumentToBlogImporter() {
               setOpen(false);
               inputRef.current?.click();
             }}
-            className="mt-3 inline-flex w-full items-center justify-center gap-2 bg-[rgba(26,60,43,0.08)] px-3 py-2 text-sm font-medium text-[#1A3C2B] ring-1 ring-[rgba(26,60,43,0.25)] transition-colors hover:bg-[rgba(26,60,43,0.14)]"
+            className="mt-3 inline-flex w-full items-center justify-center gap-2 bg-forest/8 px-3 py-2 text-sm font-medium text-forest ring-1 ring-forest/25 transition-colors hover:bg-forest/14"
             style={{ borderRadius: "2px" }}
           >
             <Upload className="h-4 w-4" />
             Choose File
           </button>
-          <p className="mt-2 text-center text-xs text-[rgba(58,58,56,0.45)]">
+          <p className="mt-2 text-center text-xs text-ink/45">
             PDF · Markdown · TXT · up to 10 MB
           </p>
         </div>

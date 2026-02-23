@@ -27,9 +27,9 @@ export function SlugInput({
 
   return (
     <div className="space-y-1.5">
-      <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">Slug</label>
+      <label className="block text-sm font-medium text-ink/75">Slug</label>
       <div className="flex items-center gap-2">
-        <span className="shrink-0 text-sm text-[rgba(58,58,56,0.45)]">{basePath}</span>
+        <span className="shrink-0 text-sm text-ink/45">{basePath}</span>
         <input
           type="text"
           value={value}
@@ -37,13 +37,13 @@ export function SlugInput({
             !disabled && onChange(slugify(e.target.value))
           }
           readOnly={disabled}
-          className="flex-1 border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B] disabled:cursor-not-allowed disabled:opacity-50 read-only:cursor-default read-only:opacity-70"
+          className="flex-1 border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest disabled:cursor-not-allowed disabled:opacity-50 read-only:cursor-default read-only:opacity-70"
           style={{ borderRadius: "2px" }}
           placeholder="my-post-slug"
         />
       </div>
       {disabled && (
-        <p className="text-xs text-[rgba(58,58,56,0.45)]">
+        <p className="text-xs text-ink/45">
           Slug cannot be changed after publishing to avoid broken URLs.
         </p>
       )}

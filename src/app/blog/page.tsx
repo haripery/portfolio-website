@@ -27,24 +27,24 @@ export default async function BlogPage({
   const FILTERS = ["All", "LEARNINGS", "MENTORSHIP", "AI"] as const;
 
   return (
-    <div className="min-h-screen mosaic-bg text-[#1A3C2B]">
+    <div className="min-h-screen mosaic-bg text-forest">
       <div className="mx-auto max-w-3xl px-6 py-16 md:px-12">
         {/* Back link */}
         <Link
           href="/"
-          className="mb-10 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[rgba(58,58,56,0.5)] transition-colors hover:text-[#1A3C2B]"
+          className="mb-10 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-ink/50 transition-colors hover:text-forest"
         >
           <ArrowLeft className="h-3 w-3" />
           Back
         </Link>
 
         <h1
-          className="text-3xl font-bold tracking-tight text-[#1A3C2B] mb-2"
+          className="text-3xl font-bold tracking-tight text-forest mb-2"
           style={{ fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" }}
         >
           Writing
         </h1>
-        <p className="text-sm text-[rgba(58,58,56,0.6)] mb-10">
+        <p className="text-sm text-ink/60 mb-10">
           Thoughts on code, learning, and what it means to build near the singularity.
         </p>
 
@@ -59,8 +59,8 @@ export default async function BlogPage({
                 href={filter === "All" ? "/blog" : `/blog?category=${filter}`}
                 className={`px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest transition-colors ${
                   isActive
-                    ? "bg-[#1A3C2B] text-[#F7F7F5]"
-                    : "border border-[rgba(58,58,56,0.2)] text-[rgba(58,58,56,0.55)] hover:border-[#1A3C2B] hover:text-[#1A3C2B]"
+                    ? "bg-forest text-paper"
+                    : "border border-ink/20 text-ink/55 hover:border-forest hover:text-forest"
                 }`}
                 style={{ borderRadius: "2px" }}
               >
@@ -72,15 +72,15 @@ export default async function BlogPage({
 
         {/* Post list */}
         {posts.length > 0 ? (
-          <ol className="divide-y divide-[rgba(58,58,56,0.1)]">
+          <ol className="divide-y divide-ink/10">
             {posts.map((post) => (
               <li key={post.id}>
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="group block py-6 transition-colors hover:bg-[rgba(26,60,43,0.03)]"
+                  className="group block py-6 transition-colors hover:bg-forest/3"
                 >
                   <p
-                    className="mb-1.5 text-[10px] uppercase tracking-widest text-[rgba(58,58,56,0.45)]"
+                    className="mb-1.5 text-[10px] uppercase tracking-widest text-ink/45"
                     style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
                   >
                     {post.publishedAt ? formatDate(post.publishedAt) : ""}
@@ -88,11 +88,11 @@ export default async function BlogPage({
                     {CATEGORY_LABELS[post.category] ?? post.category}
                     {post.readTime && ` · ${post.readTime}`}
                   </p>
-                  <h2 className="text-lg font-semibold text-[#1A3C2B] transition-colors group-hover:text-[#FF8C69]">
+                  <h2 className="text-lg font-semibold text-forest transition-colors group-hover:text-coral">
                     {post.title}
                   </h2>
                   {post.excerpt && (
-                    <p className="mt-1 text-sm text-[rgba(58,58,56,0.6)] line-clamp-2">
+                    <p className="mt-1 text-sm text-ink/60 line-clamp-2">
                       {post.excerpt}
                     </p>
                   )}
@@ -110,7 +110,7 @@ export default async function BlogPage({
             ))}
           </ol>
         ) : (
-          <p className="text-sm text-[rgba(58,58,56,0.4)]">No posts published in this category yet.</p>
+          <p className="text-sm text-ink/40">No posts published in this category yet.</p>
         )}
       </div>
     </div>

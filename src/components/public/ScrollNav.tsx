@@ -42,13 +42,13 @@ export function ScrollNav() {
               href={`#${id}`}
               className={`group flex items-center gap-3 py-1.5 transition-all duration-200 ${
                 active === id
-                  ? "text-[#1A3C2B]"
-                  : "text-[rgba(58,58,56,0.45)] hover:text-[#1A3C2B]"
+                  ? "text-forest"
+                  : "text-ink/45 hover:text-forest"
               }`}
               style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
             >
               <span
-                className={`flex-shrink-0 text-[#FF8C69] text-[10px] transition-opacity duration-200 ${
+                className={`flex-shrink-0 text-coral text-[10px] transition-opacity duration-200 ${
                   active === id ? "opacity-100" : "opacity-50 group-hover:opacity-100"
                 }`}
               >
@@ -58,7 +58,7 @@ export function ScrollNav() {
                 {label}
               </span>
               {active === id && (
-                <span className="ml-1 h-px flex-1 bg-[#1A3C2B] opacity-30" />
+                <span className="ml-1 h-px flex-1 bg-forest opacity-30" />
               )}
             </a>
           </li>

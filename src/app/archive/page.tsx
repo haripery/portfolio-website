@@ -9,24 +9,24 @@ export default async function ArchivePage() {
   const projects = await getProjects();
 
   return (
-    <div className="min-h-screen mosaic-bg text-[#1A3C2B]">
+    <div className="min-h-screen mosaic-bg text-forest">
       <div className="mx-auto max-w-4xl px-6 py-16 md:px-12">
         {/* Back link */}
         <Link
           href="/"
-          className="mb-10 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[rgba(58,58,56,0.5)] transition-colors hover:text-[#1A3C2B]"
+          className="mb-10 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-ink/50 transition-colors hover:text-forest"
         >
           <ArrowLeft className="h-3 w-3" />
           Back
         </Link>
 
         <h1
-          className="text-3xl font-bold tracking-tight text-[#1A3C2B] mb-2"
+          className="text-3xl font-bold tracking-tight text-forest mb-2"
           style={{ fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" }}
         >
           All Projects
         </h1>
-        <p className="text-sm text-[rgba(58,58,56,0.6)] mb-10">
+        <p className="text-sm text-ink/60 mb-10">
           A full archive of things I&apos;ve built over the years.
         </p>
 
@@ -35,7 +35,7 @@ export default async function ArchivePage() {
             <table className="w-full text-left">
               <thead>
                 <tr
-                  className="border-b border-[rgba(58,58,56,0.15)] text-[10px] uppercase tracking-widest text-[rgba(58,58,56,0.45)]"
+                  className="border-b border-ink/15 text-[10px] uppercase tracking-widest text-ink/45"
                   style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
                 >
                   <th className="pb-4 pr-6 font-medium">Year</th>
@@ -49,28 +49,28 @@ export default async function ArchivePage() {
                 {projects.map((project) => (
                   <tr
                     key={project.id}
-                    className="border-b border-[rgba(58,58,56,0.08)] transition-colors hover:bg-[rgba(26,60,43,0.04)]"
+                    className="border-b border-ink/8 transition-colors hover:bg-forest/4"
                   >
                     <td
-                      className="py-4 pr-6 text-[10px] text-[rgba(58,58,56,0.45)] align-top whitespace-nowrap"
+                      className="py-4 pr-6 text-[10px] text-ink/45 align-top whitespace-nowrap"
                       style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
                     >
                       {project.createdAt.getFullYear()}
                     </td>
                     <td className="py-4 pr-6 align-top">
-                      <span className="font-semibold text-[#1A3C2B]">
+                      <span className="font-semibold text-forest">
                         {project.title}
                       </span>
                       {project.featured && (
                         <span
-                          className="ml-2 border border-[#9EFFBF] bg-[rgba(158,255,191,0.15)] px-1.5 py-0.5 text-[9px] uppercase tracking-wider text-[#1A3C2B]"
+                          className="ml-2 border border-mint bg-mint/15 px-1.5 py-0.5 text-[9px] uppercase tracking-wider text-forest"
                           style={{ fontFamily: "var(--font-jetbrains-mono), monospace", borderRadius: "2px" }}
                         >
                           Featured
                         </span>
                       )}
                     </td>
-                    <td className="hidden py-4 pr-6 text-sm text-[rgba(58,58,56,0.6)] align-top md:table-cell max-w-xs">
+                    <td className="hidden py-4 pr-6 text-sm text-ink/60 align-top md:table-cell max-w-xs">
                       <p className="line-clamp-2">{project.description}</p>
                     </td>
                     <td className="hidden py-4 pr-6 align-top sm:table-cell">
@@ -89,7 +89,7 @@ export default async function ArchivePage() {
                             href={project.url}
                             target="_blank"
                             rel="noreferrer"
-                            className="text-[rgba(58,58,56,0.45)] transition-colors hover:text-[#1A3C2B]"
+                            className="text-ink/45 transition-colors hover:text-forest"
                             aria-label={`Visit ${project.title}`}
                           >
                             <ArrowUpRight className="h-4 w-4" />
@@ -100,7 +100,7 @@ export default async function ArchivePage() {
                             href={project.githubUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="text-[rgba(58,58,56,0.45)] transition-colors hover:text-[#1A3C2B]"
+                            className="text-ink/45 transition-colors hover:text-forest"
                             aria-label={`${project.title} on GitHub`}
                           >
                             <Github className="h-4 w-4" />
@@ -114,7 +114,7 @@ export default async function ArchivePage() {
             </table>
           </div>
         ) : (
-          <p className="text-sm text-[rgba(58,58,56,0.4)]">No projects yet.</p>
+          <p className="text-sm text-ink/40">No projects yet.</p>
         )}
       </div>
     </div>

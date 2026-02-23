@@ -4,6 +4,7 @@ import { ExperienceCard } from "@/components/public/ExperienceCard";
 import { ProjectCard } from "@/components/public/ProjectCard";
 import { TagPill } from "@/components/public/TagPill";
 import { Footer } from "@/components/public/Footer";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { getProfile } from "@/actions/profile";
 import { getExperiences } from "@/actions/experience";
 import { getProjects } from "@/actions/projects";
@@ -32,12 +33,12 @@ export default async function Home() {
     <div className="relative min-h-screen mosaic-bg">
 
       {/* ── TOP NAV ── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[rgba(58,58,56,0.15)] bg-[#F7F7F5]/90 backdrop-blur-sm">
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-ink/15 bg-paper/90 backdrop-blur-sm">
         <div className="mx-auto flex max-w-screen-xl items-center justify-between px-6 py-3 md:px-12 lg:px-24">
           {/* Square logo mark */}
           <Link
             href="/"
-            className="flex h-8 w-8 items-center justify-center border border-[#1A3C2B] bg-[#1A3C2B] text-[#F7F7F5] font-mono text-xs font-bold tracking-widest"
+            className="flex h-8 w-8 items-center justify-center border border-forest bg-forest text-paper font-mono text-xs font-bold tracking-widest"
           >
             {profile?.name?.charAt(0) ?? "H"}
           </Link>
@@ -53,26 +54,29 @@ export default async function Home() {
               <li key={href}>
                 <a
                   href={href}
-                  className="group flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-[rgba(58,58,56,0.55)] transition-colors hover:text-[#1A3C2B]"
+                  className="group flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-ink/55 transition-colors hover:text-forest"
                 >
-                  <span className="text-[#FF8C69]">{n}.</span>
+                  <span className="text-coral">{n}.</span>
                   {label}
                 </a>
               </li>
             ))}
           </ul>
 
-          {/* Resume link */}
-          {profile?.resumeUrl && (
-            <a
-              href={profile.resumeUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="hidden border border-[#1A3C2B] px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-[#1A3C2B] transition-colors hover:bg-[#1A3C2B] hover:text-[#F7F7F5] sm:inline-flex"
-            >
-              Résumé
-            </a>
-          )}
+          {/* Resume link + Theme toggle */}
+          <div className="flex items-center gap-3">
+            {profile?.resumeUrl && (
+              <a
+                href={profile.resumeUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="hidden border border-forest px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:bg-forest hover:text-paper sm:inline-flex"
+              >
+                Résumé
+              </a>
+            )}
+            <ThemeToggle />
+          </div>
         </div>
       </nav>
 
@@ -84,7 +88,7 @@ export default async function Home() {
             <div>
               {/* Profile photo — square, forest border */}
               {profile?.photoUrl && (
-                <div className="mb-8 h-16 w-16 overflow-hidden border border-[rgba(58,58,56,0.3)]">
+                <div className="mb-8 h-16 w-16 overflow-hidden border border-ink/30">
                   <Image
                     src={profile.photoUrl}
                     alt={profile.name}
@@ -97,26 +101,26 @@ export default async function Home() {
 
               {/* Name — Space Grotesk, large, forest */}
               <h1
-                className="font-display text-4xl font-bold tracking-tight text-[#1A3C2B] sm:text-5xl"
+                className="font-display text-4xl font-bold tracking-tight text-forest sm:text-5xl"
                 style={{ fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" }}
               >
                 {profile?.name ?? "Your Name"}
               </h1>
 
               {/* Role — medium weight */}
-              <h2 className="mt-2 text-base font-medium tracking-tight text-[rgba(58,58,56,0.7)]">
+              <h2 className="mt-2 text-base font-medium tracking-tight text-ink/70">
                 {profile?.role ?? "Software Engineer"}
               </h2>
 
               {/* Tagline */}
-              <p className="mt-4 max-w-xs text-sm leading-relaxed text-[rgba(58,58,56,0.6)]">
+              <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink/60">
                 {profile?.tagline ?? ""}
               </p>
 
               {/* Status badge */}
-              <div className="mt-6 inline-flex items-center gap-2 border border-[rgba(58,58,56,0.15)] px-3 py-1.5">
-                <span className="h-2 w-2 bg-[#9EFFBF]" />
-                <span className="font-mono text-xs uppercase tracking-widest text-[rgba(58,58,56,0.6)]">
+              <div className="mt-6 inline-flex items-center gap-2 border border-ink/15 px-3 py-1.5">
+                <span className="h-2 w-2 bg-mint" />
+                <span className="font-mono text-xs uppercase tracking-widest text-ink/60">
                   Open to interesting conversations
                 </span>
               </div>
@@ -144,11 +148,11 @@ export default async function Home() {
 
               {profile?.bio ? (
                 <div
-                  className="mt-6 space-y-4 text-sm leading-relaxed text-[rgba(58,58,56,0.75)] [&_a]:font-medium [&_a]:text-[#1A3C2B] [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:text-[#FF8C69] [&_strong]:font-semibold [&_strong]:text-[#1A3C2B]"
+                  className="mt-6 space-y-4 text-sm leading-relaxed text-ink/75 [&_a]:font-medium [&_a]:text-forest [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:text-coral [&_strong]:font-semibold [&_strong]:text-forest"
                   dangerouslySetInnerHTML={{ __html: profile.bio }}
                 />
               ) : (
-                <p className="mt-6 text-sm text-[rgba(58,58,56,0.5)]">
+                <p className="mt-6 text-sm text-ink/50">
                   Add your bio in the admin dashboard.
                 </p>
               )}
@@ -159,7 +163,7 @@ export default async function Home() {
                     href={profile.resumeUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="group inline-flex items-center gap-2 border-b border-[#1A3C2B] pb-0.5 font-mono text-xs uppercase tracking-widest text-[#1A3C2B] transition-colors hover:border-[#FF8C69] hover:text-[#FF8C69]"
+                    className="group inline-flex items-center gap-2 border-b border-forest pb-0.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:border-coral hover:text-coral"
                   >
                     View Full Résumé
                     <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
@@ -173,7 +177,7 @@ export default async function Home() {
               <SectionLabel number="02" label="Experience" />
 
               {experiences.length > 0 ? (
-                <ol className="mt-2 divide-y divide-[rgba(58,58,56,0.1)]">
+                <ol className="mt-2 divide-y divide-ink/10">
                   {experiences.map((exp) => (
                     <li key={exp.id} className="py-1">
                       <ExperienceCard exp={exp} />
@@ -181,13 +185,13 @@ export default async function Home() {
                   ))}
                 </ol>
               ) : (
-                <p className="mt-6 text-sm text-[rgba(58,58,56,0.4)]">No experience entries yet.</p>
+                <p className="mt-6 text-sm text-ink/40">No experience entries yet.</p>
               )}
 
               <div className="mt-8">
                 <Link
                   href="/archive"
-                  className="group inline-flex items-center gap-2 border-b border-[#1A3C2B] pb-0.5 font-mono text-xs uppercase tracking-widest text-[#1A3C2B] transition-colors hover:border-[#FF8C69] hover:text-[#FF8C69]"
+                  className="group inline-flex items-center gap-2 border-b border-forest pb-0.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:border-coral hover:text-coral"
                 >
                   View Full Archive
                   <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
@@ -200,7 +204,7 @@ export default async function Home() {
               <SectionLabel number="03" label="Projects" />
 
               {projects.length > 0 ? (
-                <ol className="mt-2 divide-y divide-[rgba(58,58,56,0.1)]">
+                <ol className="mt-2 divide-y divide-ink/10">
                   {projects.map((project) => (
                     <li key={project.id} className="py-1">
                       <ProjectCard project={project} />
@@ -208,13 +212,13 @@ export default async function Home() {
                   ))}
                 </ol>
               ) : (
-                <p className="mt-6 text-sm text-[rgba(58,58,56,0.4)]">No projects yet.</p>
+                <p className="mt-6 text-sm text-ink/40">No projects yet.</p>
               )}
 
               <div className="mt-8">
                 <Link
                   href="/archive"
-                  className="group inline-flex items-center gap-2 border-b border-[#1A3C2B] pb-0.5 font-mono text-xs uppercase tracking-widest text-[#1A3C2B] transition-colors hover:border-[#FF8C69] hover:text-[#FF8C69]"
+                  className="group inline-flex items-center gap-2 border-b border-forest pb-0.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:border-coral hover:text-coral"
                 >
                   View Full Project Archive
                   <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
@@ -227,23 +231,23 @@ export default async function Home() {
               <SectionLabel number="04" label="Writing" />
 
               {recentPosts.length > 0 ? (
-                <ol className="mt-4 space-y-0 divide-y divide-[rgba(58,58,56,0.1)]">
+                <ol className="mt-4 space-y-0 divide-y divide-ink/10">
                   {recentPosts.map((post) => (
                     <li key={post.id}>
                       <Link
                         href={`/blog/${post.slug}`}
-                        className="group block py-5 transition-colors hover:bg-[rgba(26,60,43,0.03)]"
+                        className="group block py-5 transition-colors hover:bg-forest/3"
                       >
-                        <p className="mb-1.5 font-mono text-[10px] uppercase tracking-widest text-[rgba(58,58,56,0.45)]">
+                        <p className="mb-1.5 font-mono text-[10px] uppercase tracking-widest text-ink/45">
                           {post.publishedAt ? formatDate(post.publishedAt) : ""}
                           {" · "}
                           <span>{post.category.toLowerCase()}</span>
                         </p>
-                        <h3 className="font-semibold text-[#1A3C2B] transition-colors group-hover:text-[#FF8C69]">
+                        <h3 className="font-semibold text-forest transition-colors group-hover:text-coral">
                           {post.title}
                         </h3>
                         {post.excerpt && (
-                          <p className="mt-1 text-sm text-[rgba(58,58,56,0.55)] line-clamp-1">
+                          <p className="mt-1 text-sm text-ink/55 line-clamp-1">
                             {post.excerpt}
                           </p>
                         )}
@@ -261,13 +265,13 @@ export default async function Home() {
                   ))}
                 </ol>
               ) : (
-                <p className="mt-6 text-sm text-[rgba(58,58,56,0.4)]">No posts published yet.</p>
+                <p className="mt-6 text-sm text-ink/40">No posts published yet.</p>
               )}
 
               <div className="mt-8">
                 <Link
                   href="/blog"
-                  className="group inline-flex items-center gap-2 border-b border-[#1A3C2B] pb-0.5 font-mono text-xs uppercase tracking-widest text-[#1A3C2B] transition-colors hover:border-[#FF8C69] hover:text-[#FF8C69]"
+                  className="group inline-flex items-center gap-2 border-b border-forest pb-0.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:border-coral hover:text-coral"
                 >
                   View All Posts
                   <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
@@ -289,15 +293,15 @@ function SectionLabel({ number, label }: { number: string; label: string }) {
     <div className="flex items-center gap-3">
       {/* L-shaped corner marker */}
       <div className="relative h-5 w-5 flex-shrink-0">
-        <span className="absolute left-0 top-0 h-full w-px bg-[#1A3C2B]" />
-        <span className="absolute left-0 top-0 h-px w-full bg-[#1A3C2B]" />
+        <span className="absolute left-0 top-0 h-full w-px bg-forest" />
+        <span className="absolute left-0 top-0 h-px w-full bg-forest" />
       </div>
-      <span className="font-mono text-[10px] text-[#FF8C69]">{number}.</span>
-      <h2 className="font-display text-xs font-bold uppercase tracking-[0.2em] text-[#1A3C2B]"
+      <span className="font-mono text-[10px] text-coral">{number}.</span>
+      <h2 className="font-display text-xs font-bold uppercase tracking-[0.2em] text-forest"
         style={{ fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" }}>
         {label}
       </h2>
-      <span className="flex-1 border-t border-[rgba(58,58,56,0.15)]" />
+      <span className="flex-1 border-t border-ink/15" />
     </div>
   );
 }

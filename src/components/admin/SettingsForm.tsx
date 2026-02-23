@@ -68,63 +68,63 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
   return (
     <div className="space-y-8 max-w-2xl">
       {/* Site Settings */}
-      <div className="border border-[rgba(58,58,56,0.12)] bg-white p-6 space-y-5">
-        <h2 className="text-xs font-semibold uppercase tracking-widest text-[rgba(58,58,56,0.5)]">
+      <div className="border border-ink/12 bg-card p-6 space-y-5">
+        <h2 className="text-xs font-semibold uppercase tracking-widest text-ink/50">
           Site Settings
         </h2>
 
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+          <label className="block text-sm font-medium text-ink/75">
             Site Title
           </label>
           <input
             type="text"
             value={siteTitle}
             onChange={(e) => setSiteTitle(e.target.value)}
-            className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]"
+            className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest"
             placeholder="Near the Singularity"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+          <label className="block text-sm font-medium text-ink/75">
             Site Description
           </label>
           <textarea
             value={siteDescription}
             onChange={(e) => setSiteDescription(e.target.value)}
             rows={2}
-            className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B] resize-none"
+            className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest resize-none"
             placeholder="Frontend developer portfolio and blog"
           />
-          <p className="text-xs text-[rgba(58,58,56,0.45)]">Used in meta description and Open Graph tags.</p>
+          <p className="text-xs text-ink/45">Used in meta description and Open Graph tags.</p>
         </div>
 
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+          <label className="block text-sm font-medium text-ink/75">
             GA Tracking ID
           </label>
           <input
             type="text"
             value={gaTrackingId}
             onChange={(e) => setGaTrackingId(e.target.value)}
-            className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]"
+            className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest"
             placeholder="G-XXXXXXXXXX"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+          <label className="block text-sm font-medium text-ink/75">
             Footer Text
           </label>
           <textarea
             value={footerText}
             onChange={(e) => setFooterText(e.target.value)}
             rows={2}
-            className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B] resize-none"
+            className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest resize-none"
             placeholder="Loosely designed in Figma and coded in VS Code…"
           />
-          <p className="text-xs text-[rgba(58,58,56,0.45)]">Leave blank to use the default footer text.</p>
+          <p className="text-xs text-ink/45">Leave blank to use the default footer text.</p>
         </div>
 
         <ImageUploader
@@ -133,7 +133,7 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
           onChange={setOgImage}
           folder="og"
         />
-        <p className="text-xs text-[rgba(58,58,56,0.45)] -mt-2">
+        <p className="text-xs text-ink/45 -mt-2">
           Recommended size: 1200 × 630 px. Used for social sharing previews.
         </p>
 
@@ -141,20 +141,20 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
           type="button"
           onClick={handleSaveSettings}
           disabled={isSettingsPending}
-          className="bg-[#1A3C2B] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#1D4531] disabled:opacity-50"
+          className="bg-forest px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-forest/80 disabled:opacity-50"
         >
           {isSettingsPending ? "Saving…" : "Save Settings"}
         </button>
       </div>
 
       {/* Change Password */}
-      <div className="border border-[rgba(58,58,56,0.12)] bg-white p-6 space-y-5">
-        <h2 className="text-xs font-semibold uppercase tracking-widest text-[rgba(58,58,56,0.5)]">
+      <div className="border border-ink/12 bg-card p-6 space-y-5">
+        <h2 className="text-xs font-semibold uppercase tracking-widest text-ink/50">
           Change Password
         </h2>
 
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+          <label className="block text-sm font-medium text-ink/75">
             Current Password
           </label>
           <input
@@ -162,12 +162,12 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
             autoComplete="current-password"
-            className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]"
+            className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+          <label className="block text-sm font-medium text-ink/75">
             New Password
           </label>
           <input
@@ -175,13 +175,13 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             autoComplete="new-password"
-            className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]"
+            className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest"
           />
-          <p className="text-xs text-[rgba(58,58,56,0.45)]">Minimum 8 characters.</p>
+          <p className="text-xs text-ink/45">Minimum 8 characters.</p>
         </div>
 
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+          <label className="block text-sm font-medium text-ink/75">
             Confirm New Password
           </label>
           <input
@@ -189,7 +189,7 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             autoComplete="new-password"
-            className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]"
+            className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest"
           />
         </div>
 
@@ -197,7 +197,7 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
           type="button"
           onClick={handleChangePassword}
           disabled={isPasswordPending || !currentPassword || !newPassword || !confirmPassword}
-          className="border border-[rgba(58,58,56,0.2)] bg-white px-4 py-2 text-sm font-semibold text-[rgba(58,58,56,0.7)] transition-colors hover:border-[#1A3C2B] hover:text-[#1A3C2B] disabled:opacity-50"
+          className="border border-ink/20 bg-card px-4 py-2 text-sm font-semibold text-ink/70 transition-colors hover:border-forest hover:text-forest disabled:opacity-50"
         >
           {isPasswordPending ? "Updating…" : "Update Password"}
         </button>

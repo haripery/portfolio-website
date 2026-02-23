@@ -89,7 +89,7 @@ export function BlogPostForm({
           <div className="flex-1 space-y-5">
             {/* Title */}
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+              <label className="block text-sm font-medium text-ink/75">
                 Title <span className="text-red-400">*</span>
               </label>
               <input
@@ -97,21 +97,21 @@ export function BlogPostForm({
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
-                className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]"
+                className="w-full border border-ink/20 bg-card px-3 py-2 text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest"
                 placeholder="Post title"
               />
             </div>
 
             {/* Excerpt */}
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+              <label className="block text-sm font-medium text-ink/75">
                 Excerpt
               </label>
               <textarea
                 value={excerpt}
                 onChange={(e) => setExcerpt(e.target.value)}
                 rows={2}
-                className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B] resize-none"
+                className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest resize-none"
                 placeholder="Short summary displayed in post listings…"
               />
             </div>
@@ -119,13 +119,13 @@ export function BlogPostForm({
             {/* Rich text editor */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+                <label className="block text-sm font-medium text-ink/75">
                   Content
                 </label>
                 <button
                   type="button"
                   onClick={() => setSourceMode(!sourceMode)}
-                  className="text-xs font-mono px-2 py-1 border border-[rgba(58,58,56,0.2)] text-[rgba(58,58,56,0.5)] hover:text-[#1A3C2B] hover:border-[#1A3C2B] transition-colors"
+                  className="text-xs font-mono px-2 py-1 border border-ink/20 text-ink/50 hover:text-forest hover:border-forest transition-colors"
                 >
                   {sourceMode ? "Visual Editor" : "HTML Source"}
                 </button>
@@ -135,7 +135,7 @@ export function BlogPostForm({
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   rows={20}
-                  className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm font-mono text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B] resize-y"
+                  className="w-full border border-ink/20 bg-card px-3 py-2 text-sm font-mono text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest resize-y"
                   placeholder="Paste raw HTML here…"
                 />
               ) : (
@@ -150,14 +150,14 @@ export function BlogPostForm({
           {/* ── SIDEBAR (settings) ── */}
           <aside className="w-full lg:w-72 space-y-5">
             {/* Publish actions */}
-            <div className="border border-[rgba(58,58,56,0.15)] bg-[rgba(58,58,56,0.03)] p-4 space-y-3">
+            <div className="border border-ink/15 bg-ink/3 p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-[rgba(58,58,56,0.75)]">
+                <span className="text-sm font-medium text-ink/75">
                   Status
                 </span>
                 <span
                   className={`text-xs font-semibold ${
-                    published ? "text-[#FF8C69]" : "text-[rgba(58,58,56,0.4)]"
+                    published ? "text-coral" : "text-ink/40"
                   }`}
                 >
                   {published ? "Published" : "Draft"}
@@ -171,7 +171,7 @@ export function BlogPostForm({
                     setPublished(false);
                     handleSubmit(e as unknown as React.FormEvent, false);
                   }}
-                  className="flex-1 border border-[rgba(58,58,56,0.2)] py-1.5 text-sm text-[rgba(58,58,56,0.6)] hover:bg-[rgba(58,58,56,0.06)] transition-colors disabled:opacity-50"
+                  className="flex-1 border border-ink/20 py-1.5 text-sm text-ink/60 hover:bg-ink/6 transition-colors disabled:opacity-50"
                 >
                   Save Draft
                 </button>
@@ -182,7 +182,7 @@ export function BlogPostForm({
                     setPublished(true);
                     handleSubmit(e as unknown as React.FormEvent, true);
                   }}
-                  className="flex-1 bg-[#1A3C2B] py-1.5 text-sm font-semibold text-white hover:bg-[#1D4531] transition-colors disabled:opacity-50"
+                  className="flex-1 bg-forest py-1.5 text-sm font-semibold text-white hover:bg-forest/80 transition-colors disabled:opacity-50"
                 >
                   {isPending ? "Saving…" : published ? "Update" : "Publish"}
                 </button>
@@ -199,7 +199,7 @@ export function BlogPostForm({
 
             {/* Category */}
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+              <label className="block text-sm font-medium text-ink/75">
                 Category
               </label>
               <select
@@ -207,7 +207,7 @@ export function BlogPostForm({
                 onChange={(e) =>
                   setCategory(e.target.value as typeof category)
                 }
-                className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]"
+                className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest"
               >
                 <option value="LEARNINGS">My Learnings</option>
                 <option value="MENTORSHIP">Mentorship</option>
@@ -217,7 +217,7 @@ export function BlogPostForm({
 
             {/* Tags */}
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+              <label className="block text-sm font-medium text-ink/75">
                 Tags
               </label>
               <TagInput value={tags} onChange={setTags} />
@@ -225,14 +225,14 @@ export function BlogPostForm({
 
             {/* Read time */}
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+              <label className="block text-sm font-medium text-ink/75">
                 Read time
               </label>
               <input
                 type="text"
                 value={readTime}
                 onChange={(e) => setReadTime(e.target.value)}
-                className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]"
+                className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest"
                 placeholder="e.g. 8 min read"
               />
             </div>
@@ -252,7 +252,7 @@ export function BlogPostForm({
           <button
             type="button"
             onClick={() => router.push("/admin/blog")}
-            className="border border-[rgba(58,58,56,0.2)] px-4 py-2 text-sm text-[rgba(58,58,56,0.6)] hover:bg-[rgba(58,58,56,0.06)] transition-colors"
+            className="border border-ink/20 px-4 py-2 text-sm text-ink/60 hover:bg-ink/6 transition-colors"
           >
             Cancel
           </button>

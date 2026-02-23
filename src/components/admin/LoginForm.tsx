@@ -47,7 +47,7 @@ export function LoginForm() {
   }
 
   const inputClass =
-    "w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]";
+    "w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
@@ -58,7 +58,7 @@ export function LoginForm() {
       )}
 
       <div className="space-y-1.5">
-        <label htmlFor="email" className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+        <label htmlFor="email" className="block text-sm font-medium text-ink/75">
           Email address
         </label>
         <input
@@ -74,7 +74,7 @@ export function LoginForm() {
       </div>
 
       <div className="space-y-1.5">
-        <label htmlFor="password" className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+        <label htmlFor="password" className="block text-sm font-medium text-ink/75">
           Password
         </label>
         <div className="relative">
@@ -91,7 +91,7 @@ export function LoginForm() {
           <button
             type="button"
             onClick={() => setShowPassword((v) => !v)}
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[rgba(58,58,56,0.4)] hover:text-[#1A3C2B]"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-ink/40 hover:text-forest"
             tabIndex={-1}
           >
             {showPassword ? (
@@ -106,7 +106,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={isPending}
-        className="w-full bg-[#1A3C2B] py-2 text-sm font-semibold text-white transition-colors hover:bg-[#1D4531] disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full bg-forest py-2 text-sm font-semibold text-white transition-colors hover:bg-forest/80 disabled:cursor-not-allowed disabled:opacity-50"
         style={{ borderRadius: "2px" }}
       >
         {isPending ? "Signing in…" : "Sign In"}

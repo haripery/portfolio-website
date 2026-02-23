@@ -100,20 +100,20 @@ export function ResumeAIImporter() {
 
   if (state.status === "idle") {
     return (
-      <div className="border border-dashed border-[rgba(26,60,43,0.3)] bg-[rgba(26,60,43,0.03)] p-6" style={{ borderRadius: "2px" }}>
+      <div className="border border-dashed border-forest/30 bg-forest/3 p-6" style={{ borderRadius: "2px" }}>
         <div className="flex flex-col items-center gap-3 text-center">
-          <div className="flex h-12 w-12 items-center justify-center bg-[rgba(26,60,43,0.08)]" style={{ borderRadius: "50%" }}>
-            <Sparkles className="h-6 w-6 text-[#1A3C2B]" />
+          <div className="flex h-12 w-12 items-center justify-center bg-forest/8" style={{ borderRadius: "50%" }}>
+            <Sparkles className="h-6 w-6 text-forest" />
           </div>
           <div>
-            <p className="font-medium text-[#1A3C2B]">AI Experience Import</p>
-            <p className="mt-1 text-sm text-[rgba(58,58,56,0.6)]">
+            <p className="font-medium text-forest">AI Experience Import</p>
+            <p className="mt-1 text-sm text-ink/60">
               Upload your resume PDF and Claude will extract your work history automatically.
             </p>
           </div>
           <button
             onClick={() => inputRef.current?.click()}
-            className="mt-1 inline-flex items-center gap-2 bg-[rgba(26,60,43,0.08)] px-4 py-2 text-sm font-medium text-[#1A3C2B] ring-1 ring-[rgba(26,60,43,0.25)] transition-colors hover:bg-[rgba(26,60,43,0.14)]"
+            className="mt-1 inline-flex items-center gap-2 bg-forest/8 px-4 py-2 text-sm font-medium text-forest ring-1 ring-forest/25 transition-colors hover:bg-forest/14"
             style={{ borderRadius: "2px" }}
           >
             <Upload className="h-4 w-4" />
@@ -133,12 +133,12 @@ export function ResumeAIImporter() {
 
   if (state.status === "uploading") {
     return (
-      <div className="border border-[rgba(58,58,56,0.12)] bg-white p-6" style={{ borderRadius: "2px" }}>
+      <div className="border border-ink/12 bg-card p-6" style={{ borderRadius: "2px" }}>
         <div className="flex flex-col items-center gap-3 text-center">
-          <Loader2 className="h-8 w-8 animate-spin text-[#1A3C2B]" />
+          <Loader2 className="h-8 w-8 animate-spin text-forest" />
           <div>
-            <p className="font-medium text-[#1A3C2B]">Analyzing resume…</p>
-            <p className="mt-1 text-sm text-[rgba(58,58,56,0.6)]">
+            <p className="font-medium text-forest">Analyzing resume…</p>
+            <p className="mt-1 text-sm text-ink/60">
               Claude is extracting your work history. This may take up to 30 seconds.
             </p>
           </div>
@@ -151,20 +151,20 @@ export function ResumeAIImporter() {
     const selectedCount = state.checked.filter(Boolean).length;
 
     return (
-      <div className="border border-[rgba(58,58,56,0.12)] bg-white" style={{ borderRadius: "2px" }}>
-        <div className="flex items-center justify-between border-b border-[rgba(58,58,56,0.08)] px-4 py-3">
+      <div className="border border-ink/12 bg-card" style={{ borderRadius: "2px" }}>
+        <div className="flex items-center justify-between border-b border-ink/8 px-4 py-3">
           <div>
-            <p className="font-medium text-[#1A3C2B]">
+            <p className="font-medium text-forest">
               Found {state.experiences.length} experience{state.experiences.length !== 1 ? "s" : ""}
             </p>
-            <p className="text-sm text-[rgba(58,58,56,0.6)]">
+            <p className="text-sm text-ink/60">
               Review and select which ones to import
             </p>
           </div>
           <div className="flex gap-2">
             <button
               onClick={() => setState({ status: "idle" })}
-              className="px-3 py-1.5 text-sm text-[rgba(58,58,56,0.6)] ring-1 ring-[rgba(58,58,56,0.2)] transition-colors hover:text-[#1A3C2B]"
+              className="px-3 py-1.5 text-sm text-ink/60 ring-1 ring-ink/20 transition-colors hover:text-forest"
               style={{ borderRadius: "2px" }}
             >
               Cancel
@@ -172,7 +172,7 @@ export function ResumeAIImporter() {
             <button
               onClick={handleImport}
               disabled={selectedCount === 0}
-              className="inline-flex items-center gap-2 bg-[#1A3C2B] px-3 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-[#1D4531] disabled:opacity-40"
+              className="inline-flex items-center gap-2 bg-forest px-3 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-forest/80 disabled:opacity-40"
               style={{ borderRadius: "2px" }}
             >
               <Sparkles className="h-3.5 w-3.5" />
@@ -181,7 +181,7 @@ export function ResumeAIImporter() {
           </div>
         </div>
 
-        <ul className="divide-y divide-[rgba(58,58,56,0.07)]">
+        <ul className="divide-y divide-ink/7">
           {state.experiences.map((exp, i) => (
             <li key={i} className="flex gap-3 p-4">
               <input
@@ -189,27 +189,27 @@ export function ResumeAIImporter() {
                 id={`exp-${i}`}
                 checked={state.checked[i]}
                 onChange={() => toggleCheck(i)}
-                className="mt-1 h-4 w-4 shrink-0 accent-[#1A3C2B]"
+                className="mt-1 h-4 w-4 shrink-0 accent-forest"
               />
               <label htmlFor={`exp-${i}`} className="cursor-pointer">
                 <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-                  <span className="font-medium text-[#1A3C2B]">{exp.title}</span>
-                  <span className="text-[rgba(58,58,56,0.7)]">· {exp.company}</span>
-                  <span className="text-xs text-[rgba(58,58,56,0.45)]">{exp.period}</span>
+                  <span className="font-medium text-forest">{exp.title}</span>
+                  <span className="text-ink/70">· {exp.company}</span>
+                  <span className="text-xs text-ink/45">{exp.period}</span>
                 </div>
                 {exp.tags.length > 0 && (
                   <div className="mt-1.5 flex flex-wrap gap-1.5">
                     {exp.tags.slice(0, 6).map((tag) => (
                       <span
                         key={tag}
-                        className="bg-[rgba(26,60,43,0.08)] px-2 py-0.5 text-xs text-[#1A3C2B] ring-1 ring-[rgba(26,60,43,0.18)]"
+                        className="bg-forest/8 px-2 py-0.5 text-xs text-forest ring-1 ring-forest/18"
                         style={{ borderRadius: "2px" }}
                       >
                         {tag}
                       </span>
                     ))}
                     {exp.tags.length > 6 && (
-                      <span className="text-xs text-[rgba(58,58,56,0.4)]">+{exp.tags.length - 6} more</span>
+                      <span className="text-xs text-ink/40">+{exp.tags.length - 6} more</span>
                     )}
                   </div>
                 )}
@@ -222,7 +222,7 @@ export function ResumeAIImporter() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center gap-1 text-xs text-[#FF8C69] hover:underline"
+                        className="inline-flex items-center gap-1 text-xs text-coral hover:underline"
                       >
                         <LinkIcon className="h-3 w-3" />
                         {link.label}
@@ -240,20 +240,20 @@ export function ResumeAIImporter() {
 
   if (state.status === "importing") {
     return (
-      <div className="border border-[rgba(58,58,56,0.12)] bg-white p-6" style={{ borderRadius: "2px" }}>
+      <div className="border border-ink/12 bg-card p-6" style={{ borderRadius: "2px" }}>
         <div className="flex flex-col items-center gap-3 text-center">
-          <Loader2 className="h-8 w-8 animate-spin text-[#1A3C2B]" />
+          <Loader2 className="h-8 w-8 animate-spin text-forest" />
           <div>
-            <p className="font-medium text-[#1A3C2B]">
+            <p className="font-medium text-forest">
               Importing {state.current} / {state.total}…
             </p>
-            <p className="mt-1 text-sm text-[rgba(58,58,56,0.6)]">
+            <p className="mt-1 text-sm text-ink/60">
               Saving experiences to the database
             </p>
           </div>
-          <div className="h-1.5 w-48 overflow-hidden bg-[rgba(58,58,56,0.1)]" style={{ borderRadius: "2px" }}>
+          <div className="h-1.5 w-48 overflow-hidden bg-ink/10" style={{ borderRadius: "2px" }}>
             <div
-              className="h-full bg-[#1A3C2B] transition-all duration-300"
+              className="h-full bg-forest transition-all duration-300"
               style={{ width: `${(state.current / state.total) * 100}%` }}
             />
           </div>
@@ -264,28 +264,28 @@ export function ResumeAIImporter() {
 
   // done
   return (
-    <div className="border border-[rgba(26,60,43,0.2)] bg-[rgba(26,60,43,0.03)] p-6" style={{ borderRadius: "2px" }}>
+    <div className="border border-forest/20 bg-forest/3 p-6" style={{ borderRadius: "2px" }}>
       <div className="flex flex-col items-center gap-3 text-center">
-        <CheckCircle className="h-10 w-10 text-[#1A3C2B]" />
+        <CheckCircle className="h-10 w-10 text-forest" />
         <div>
-          <p className="font-medium text-[#1A3C2B]">
+          <p className="font-medium text-forest">
             Imported {state.imported} experience{state.imported !== 1 ? "s" : ""}
           </p>
-          <p className="mt-1 text-sm text-[rgba(58,58,56,0.6)]">
+          <p className="mt-1 text-sm text-ink/60">
             Your work history has been added successfully.
           </p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={() => setState({ status: "idle" })}
-            className="px-3 py-1.5 text-sm text-[rgba(58,58,56,0.6)] ring-1 ring-[rgba(58,58,56,0.2)] transition-colors hover:text-[#1A3C2B]"
+            className="px-3 py-1.5 text-sm text-ink/60 ring-1 ring-ink/20 transition-colors hover:text-forest"
             style={{ borderRadius: "2px" }}
           >
             Import Another
           </button>
           <Link
             href="/admin/experience"
-            className="bg-[#1A3C2B] px-3 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-[#1D4531]"
+            className="bg-forest px-3 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-forest/80"
             style={{ borderRadius: "2px" }}
           >
             View Experiences →

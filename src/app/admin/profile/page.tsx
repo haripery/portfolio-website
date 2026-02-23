@@ -8,8 +8,8 @@ export default async function AdminProfilePage() {
   return (
     <AdminLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-[#1A3C2B]">Profile</h1>
-        <p className="mt-1 text-sm text-[rgba(58,58,56,0.55)]">
+        <h1 className="text-2xl font-bold text-forest">Profile</h1>
+        <p className="mt-1 text-sm text-ink/55">
           Update your public-facing profile and social links.
         </p>
       </div>

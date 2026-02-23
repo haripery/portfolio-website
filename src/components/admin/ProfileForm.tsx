@@ -87,8 +87,8 @@ export function ProfileForm({
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
       {/* Basic info */}
-      <div className="border border-[rgba(58,58,56,0.12)] bg-white p-6 space-y-4">
-        <h2 className="text-xs font-semibold uppercase tracking-widest text-[rgba(58,58,56,0.5)]">
+      <div className="border border-ink/12 bg-card p-6 space-y-4">
+        <h2 className="text-xs font-semibold uppercase tracking-widest text-ink/50">
           Basic Info
         </h2>
 
@@ -101,7 +101,7 @@ export function ProfileForm({
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+            <label className="block text-sm font-medium text-ink/75">
               Full Name <span className="text-red-400">*</span>
             </label>
             <input
@@ -109,12 +109,12 @@ export function ProfileForm({
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]"
+              className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest"
               placeholder="Your Name"
             />
           </div>
           <div className="space-y-1.5">
-            <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+            <label className="block text-sm font-medium text-ink/75">
               Role / Title <span className="text-red-400">*</span>
             </label>
             <input
@@ -122,42 +122,42 @@ export function ProfileForm({
               value={role}
               onChange={(e) => setRole(e.target.value)}
               required
-              className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]"
+              className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest"
               placeholder="Software Engineer"
             />
           </div>
         </div>
 
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+          <label className="block text-sm font-medium text-ink/75">
             Tagline
           </label>
           <input
             type="text"
             value={tagline}
             onChange={(e) => setTagline(e.target.value)}
-            className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]"
+            className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest"
             placeholder="Short tagline shown on the homepage"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+          <label className="block text-sm font-medium text-ink/75">
             Email
           </label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]"
+            className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest"
             placeholder="hello@nearthesingularity.com"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+          <label className="block text-sm font-medium text-ink/75">
             Bio{" "}
-            <span className="text-xs font-normal text-[rgba(58,58,56,0.45)]">
+            <span className="text-xs font-normal text-ink/45">
               (HTML supported)
             </span>
           </label>
@@ -165,35 +165,35 @@ export function ProfileForm({
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             rows={6}
-            className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B] resize-y"
+            className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest resize-y"
             placeholder="<p>Write your bio here. HTML is supported.</p>"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+          <label className="block text-sm font-medium text-ink/75">
             Resume URL
           </label>
           <input
             type="url"
             value={resumeUrl}
             onChange={(e) => setResumeUrl(e.target.value)}
-            className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]"
+            className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest"
             placeholder="https://..."
           />
         </div>
       </div>
 
       {/* Social links */}
-      <div className="border border-[rgba(58,58,56,0.12)] bg-white p-6 space-y-4">
+      <div className="border border-ink/12 bg-card p-6 space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-[rgba(58,58,56,0.5)]">
+          <h2 className="text-xs font-semibold uppercase tracking-widest text-ink/50">
             Social Links
           </h2>
           <button
             type="button"
             onClick={addSocial}
-            className="inline-flex items-center gap-1.5 text-sm text-[#FF8C69] hover:text-[#e87d5c]"
+            className="inline-flex items-center gap-1.5 text-sm text-coral hover:text-coral/80"
           >
             <Plus className="h-4 w-4" />
             Add
@@ -201,7 +201,7 @@ export function ProfileForm({
         </div>
 
         {socials.length === 0 && (
-          <p className="text-sm text-[rgba(58,58,56,0.45)]">
+          <p className="text-sm text-ink/45">
             No social links yet. Click &ldquo;Add&rdquo; to add one.
           </p>
         )}
@@ -214,7 +214,7 @@ export function ProfileForm({
                 onChange={(e) =>
                   updateSocialField(social.id, "platform", e.target.value)
                 }
-                className="border border-[rgba(58,58,56,0.2)] bg-white px-2 py-2 text-sm text-[#1A3C2B] focus:border-[#1A3C2B] focus:outline-none"
+                className="border border-ink/20 bg-card px-2 py-2 text-sm text-forest focus:border-forest focus:outline-none"
               >
                 {PLATFORM_OPTIONS.map((p) => (
                   <option key={p} value={p}>
@@ -228,7 +228,7 @@ export function ProfileForm({
                 onChange={(e) =>
                   updateSocialField(social.id, "url", e.target.value)
                 }
-                className="flex-1 border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none"
+                className="flex-1 border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none"
                 placeholder="https://..."
               />
               <input
@@ -237,13 +237,13 @@ export function ProfileForm({
                 onChange={(e) =>
                   updateSocialField(social.id, "label", e.target.value)
                 }
-                className="w-28 border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none"
+                className="w-28 border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none"
                 placeholder="Label"
               />
               <button
                 type="button"
                 onClick={() => removeSocial(social.id)}
-                className="text-[rgba(58,58,56,0.4)] hover:text-red-500 transition-colors"
+                className="text-ink/40 hover:text-red-500 transition-colors"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -255,7 +255,7 @@ export function ProfileForm({
       <button
         type="submit"
         disabled={isPending}
-        className="bg-[#1A3C2B] px-6 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#1D4531] disabled:cursor-not-allowed disabled:opacity-50"
+        className="bg-forest px-6 py-2 text-sm font-semibold text-white transition-colors hover:bg-forest/80 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isPending ? "Saving…" : "Save Changes"}
       </button>

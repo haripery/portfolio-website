@@ -23,20 +23,20 @@ export function ResumeUploadForm({ currentUrl }: { currentUrl: string }) {
 
   return (
     <div className="max-w-md space-y-6">
-      <div className="border border-[rgba(58,58,56,0.12)] bg-white p-6 space-y-4" style={{ borderRadius: "2px" }}>
+      <div className="border border-ink/12 bg-card p-6 space-y-4" style={{ borderRadius: "2px" }}>
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
+          <label className="block text-sm font-medium text-ink/75">
             Resume URL
           </label>
           <input
             type="url"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]"
+            className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest"
             style={{ borderRadius: "2px" }}
             placeholder="https://..."
           />
-          <p className="text-xs text-[rgba(58,58,56,0.45)]">
+          <p className="text-xs text-ink/45">
             Enter a direct link to your resume PDF, or upload one below.
           </p>
         </div>
@@ -46,7 +46,7 @@ export function ResumeUploadForm({ currentUrl }: { currentUrl: string }) {
             href={url}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-[#FF8C69] hover:underline"
+            className="inline-flex items-center gap-2 text-sm text-coral hover:underline"
           >
             <FileText className="h-4 w-4" />
             View current resume
@@ -58,16 +58,16 @@ export function ResumeUploadForm({ currentUrl }: { currentUrl: string }) {
           type="button"
           onClick={handleSave}
           disabled={isPending}
-          className="bg-[#1A3C2B] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#1D4531] disabled:opacity-50"
+          className="bg-forest px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-forest/80 disabled:opacity-50"
           style={{ borderRadius: "2px" }}
         >
           {isPending ? "Saving…" : "Save URL"}
         </button>
       </div>
 
-      <div className="border border-[rgba(58,58,56,0.12)] bg-white p-6" style={{ borderRadius: "2px" }}>
+      <div className="border border-ink/12 bg-card p-6" style={{ borderRadius: "2px" }}>
         <h2
-          className="mb-4 text-xs font-semibold uppercase tracking-widest text-[rgba(58,58,56,0.5)]"
+          className="mb-4 text-xs font-semibold uppercase tracking-widest text-ink/50"
           style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
         >
           Upload PDF
@@ -81,7 +81,7 @@ export function ResumeUploadForm({ currentUrl }: { currentUrl: string }) {
           folder="resume"
           acceptPdf
         />
-        <p className="mt-3 text-xs text-[rgba(58,58,56,0.45)]">
+        <p className="mt-3 text-xs text-ink/45">
           Uploading will update the URL above. Click &ldquo;Save URL&rdquo; to apply.
         </p>
       </div>

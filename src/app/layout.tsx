@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
 const inter = Inter({
@@ -62,6 +63,16 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+const themeScript = `
+(function(){
+  try {
+    var t = localStorage.getItem('theme');
+    var d = t === 'dark' || (t !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (d) document.documentElement.classList.add('dark');
+  } catch(e) {}
+})();
+`;
+
 export default function RootLayout({
   children,
 }: {
@@ -70,26 +81,32 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="min-h-screen antialiased">
-        {children}
-        <Toaster
-          position="bottom-right"
-          toastOptions={{
-            style: {
-              background: "#1e293b",
-              color: "#e2e8f0",
-              border: "1px solid rgba(148, 163, 184, 0.12)",
-            },
-            success: {
-              iconTheme: {
-                primary: "#9EFFBF",
-                secondary: "#1A3C2B",
+        <ThemeProvider>
+          {children}
+          <Toaster
+            position="bottom-right"
+            toastOptions={{
+              style: {
+                background: "var(--card)",
+                color: "var(--forest)",
+                border: "1px solid var(--border)",
               },
-            },
-          }}
-        />
+              success: {
+                iconTheme: {
+                  primary: "#9EFFBF",
+                  secondary: "var(--forest)",
+                },
+              },
+            }}
+          />
+        </ThemeProvider>
       </body>
     </html>
   );
