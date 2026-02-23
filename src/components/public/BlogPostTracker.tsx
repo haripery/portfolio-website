@@ -1,6 +1,6 @@
 "use client";
 
-import posthog from "posthog-js";
+import { usePostHog } from "posthog-js/react";
 import { useEffect } from "react";
 
 interface BlogPostTrackerProps {
@@ -11,8 +11,10 @@ interface BlogPostTrackerProps {
 }
 
 export function BlogPostTracker({ slug, title, category, tags }: BlogPostTrackerProps) {
+  const posthog = usePostHog();
+
   useEffect(() => {
-    if (!posthog.__loaded) return;
+    if (!posthog) return;
 
     posthog.capture("blog_post_viewed", {
       post_slug: slug,
@@ -20,7 +22,7 @@ export function BlogPostTracker({ slug, title, category, tags }: BlogPostTracker
       post_category: category,
       post_tags: tags,
     });
-  }, [slug, title, category, tags]);
+  }, [posthog, slug, title, category, tags]);
 
   return null;
 }
