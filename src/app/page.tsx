@@ -117,7 +117,7 @@ export default async function Home() {
               <div className="mt-6 inline-flex items-center gap-2 border border-[rgba(58,58,56,0.15)] px-3 py-1.5">
                 <span className="h-2 w-2 bg-[#9EFFBF]" />
                 <span className="font-mono text-xs uppercase tracking-widest text-[rgba(58,58,56,0.6)]">
-                  Available for opportunities
+                  Open to interesting conversations
                 </span>
               </div>
 
