@@ -12,6 +12,7 @@ import { BlogPostTracker } from "@/components/public/BlogPostTracker";
 import { CommentSection } from "@/components/public/CommentSection";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { ShareButtons } from "@/components/public/ShareButtons";
+import { SupportBanner } from "@/components/public/SupportBanner";
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
@@ -195,6 +196,9 @@ export default async function BlogPostPage({
           category={post.category}
           tags={post.tags.map((t) => t.label)}
         />
+
+        {/* Support banner */}
+        <SupportBanner />
 
         {/* Comments */}
         <CommentSection blogPostId={post.id} />
