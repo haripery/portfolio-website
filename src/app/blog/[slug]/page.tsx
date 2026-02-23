@@ -128,8 +128,8 @@ export default async function BlogPostPage({
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
 
-        {/* Load Twitter widgets.js to render embedded tweets */}
-        <TwitterEmbed />
+        {/* Load Twitter widgets.js to render embedded tweets — key forces remount on navigation */}
+        <TwitterEmbed key={post.slug} />
         <BlogPostTracker
           slug={post.slug}
           title={post.title}

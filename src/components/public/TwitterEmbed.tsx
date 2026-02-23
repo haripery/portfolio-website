@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 declare global {
   interface Window {
@@ -8,37 +8,58 @@ declare global {
       widgets: {
         load: (el?: HTMLElement) => void;
       };
+      ready: (cb: () => void) => void;
     };
   }
 }
 
+function loadTweets() {
+  // Find the prose content container that holds the tweet blockquotes
+  const container =
+    document.querySelector(".prose") ?? document.body;
+  window.twttr?.widgets.load(container as HTMLElement);
+}
+
 export function TwitterEmbed() {
+  const scriptLoaded = useRef(false);
+
   useEffect(() => {
-    // If the script is already loaded, just re-hydrate tweet blockquotes
+    // If twttr is already fully initialised, just re-scan for new tweets
     if (window.twttr?.widgets) {
-      window.twttr.widgets.load();
+      loadTweets();
       return;
     }
 
-    // Otherwise load the script for the first time
+    // Only inject the script tag once across all mounts
+    if (scriptLoaded.current) return;
+
     const existing = document.querySelector(
       'script[src="https://platform.twitter.com/widgets.js"]'
     );
-    if (existing) {
-      // Script tag exists but twttr not ready yet — wait for it
-      existing.addEventListener("load", () => {
-        window.twttr?.widgets.load();
-      });
-    } else {
+
+    if (!existing) {
+      scriptLoaded.current = true;
       const script = document.createElement("script");
       script.src = "https://platform.twitter.com/widgets.js";
       script.async = true;
-      script.onload = () => {
-        window.twttr?.widgets.load();
-      };
       document.body.appendChild(script);
     }
-  });
+
+    // Poll briefly for window.twttr (widgets.js initialises asynchronously)
+    let attempts = 0;
+    const interval = setInterval(() => {
+      attempts++;
+      if (window.twttr?.widgets) {
+        clearInterval(interval);
+        loadTweets();
+      } else if (attempts > 50) {
+        // Give up after ~5 s
+        clearInterval(interval);
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, []); // run once per mount
 
   return null;
 }
