@@ -12,8 +12,8 @@ export default async function AdminBlogPage() {
     <AdminLayout>
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Blog Posts</h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <h1 className="text-2xl font-bold text-[#1A3C2B]">Blog Posts</h1>
+          <p className="mt-1 text-sm text-[rgba(58,58,56,0.55)]">
             {posts.length} post{posts.length !== 1 ? "s" : ""}
           </p>
         </div>
@@ -21,7 +21,8 @@ export default async function AdminBlogPage() {
           <DocumentToBlogImporter />
           <Link
             href="/admin/blog/new"
-            className="inline-flex items-center gap-2 rounded-md bg-teal-500 px-4 py-2 text-sm font-semibold text-slate-900 transition-colors hover:bg-teal-400"
+            className="inline-flex items-center gap-2 bg-[#1A3C2B] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#1D4531]"
+            style={{ borderRadius: "2px" }}
           >
             <FilePlus className="h-4 w-4" />
             New Post

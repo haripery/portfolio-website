@@ -40,7 +40,7 @@ export function RichTextEditor({ content = "", onChange }: RichTextEditorProps) 
     editorProps: {
       attributes: {
         class:
-          "prose prose-invert max-w-none min-h-[320px] focus:outline-none px-4 py-4 text-slate-300 leading-relaxed",
+          "prose prose-site max-w-none min-h-[320px] focus:outline-none px-4 py-4 text-[rgba(58,58,56,0.75)] leading-relaxed",
       },
     },
   });
@@ -53,7 +53,7 @@ export function RichTextEditor({ content = "", onChange }: RichTextEditorProps) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // only run on mount
 
-  if (!editor) return <div className="h-64 animate-pulse rounded-md bg-slate-800" />;
+  if (!editor) return <div className="h-64 animate-pulse bg-[rgba(58,58,56,0.06)]" style={{ borderRadius: "2px" }} />;
 
   const TOOLBAR_ITEMS = [
     {
@@ -129,14 +129,14 @@ export function RichTextEditor({ content = "", onChange }: RichTextEditorProps) 
   ];
 
   return (
-    <div className="overflow-hidden rounded-md border border-slate-700">
+    <div className="overflow-hidden border border-[rgba(58,58,56,0.2)]" style={{ borderRadius: "2px" }}>
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-0.5 border-b border-slate-700 bg-slate-800 px-2 py-1.5">
+      <div className="flex flex-wrap items-center gap-0.5 border-b border-[rgba(58,58,56,0.15)] bg-[rgba(58,58,56,0.04)] px-2 py-1.5">
         {TOOLBAR_ITEMS.map((item, i) =>
           item === null ? (
             <span
               key={`sep-${i}`}
-              className="mx-1 h-4 w-px bg-slate-700"
+              className="mx-1 h-4 w-px bg-[rgba(58,58,56,0.2)]"
             />
           ) : (
             <button
@@ -144,18 +144,19 @@ export function RichTextEditor({ content = "", onChange }: RichTextEditorProps) 
               type="button"
               title={item.label}
               onClick={item.action}
-              className={`rounded p-1.5 transition-colors ${
+              className={`p-1.5 transition-colors ${
                 item.active
-                  ? "bg-teal-500/20 text-teal-400"
-                  : "text-slate-400 hover:bg-slate-700 hover:text-slate-200"
+                  ? "bg-[rgba(26,60,43,0.12)] text-[#1A3C2B]"
+                  : "text-[rgba(58,58,56,0.5)] hover:bg-[rgba(58,58,56,0.08)] hover:text-[#1A3C2B]"
               }`}
+              style={{ borderRadius: "2px" }}
             >
               <item.Icon className="h-4 w-4" />
             </button>
           )
         )}
       </div>
-      <div className="bg-slate-900">
+      <div className="bg-white">
         <EditorContent editor={editor} />
       </div>
     </div>

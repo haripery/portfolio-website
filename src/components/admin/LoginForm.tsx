@@ -46,19 +46,19 @@ export function LoginForm() {
     });
   }
 
+  const inputClass =
+    "w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]";
+
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       {error && (
-        <div className="rounded-md border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+        <div className="border border-red-400/30 bg-red-50 px-4 py-3 text-sm text-red-600" style={{ borderRadius: "2px" }}>
           {error}
         </div>
       )}
 
       <div className="space-y-1.5">
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium text-slate-300"
-        >
+        <label htmlFor="email" className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
           Email address
         </label>
         <input
@@ -67,16 +67,14 @@ export function LoginForm() {
           type="email"
           required
           autoComplete="email"
-          className="w-full rounded-md border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
+          className={inputClass}
+          style={{ borderRadius: "2px" }}
           placeholder="admin@nearthesingularity.com"
         />
       </div>
 
       <div className="space-y-1.5">
-        <label
-          htmlFor="password"
-          className="block text-sm font-medium text-slate-300"
-        >
+        <label htmlFor="password" className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
           Password
         </label>
         <div className="relative">
@@ -86,13 +84,14 @@ export function LoginForm() {
             type={showPassword ? "text" : "password"}
             required
             autoComplete="current-password"
-            className="w-full rounded-md border border-slate-700 bg-slate-800 px-3 py-2 pr-10 text-sm text-white placeholder:text-slate-500 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
+            className={`${inputClass} pr-10`}
+            style={{ borderRadius: "2px" }}
             placeholder="••••••••"
           />
           <button
             type="button"
             onClick={() => setShowPassword((v) => !v)}
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[rgba(58,58,56,0.4)] hover:text-[#1A3C2B]"
             tabIndex={-1}
           >
             {showPassword ? (
@@ -107,7 +106,8 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={isPending}
-        className="w-full rounded-md bg-teal-500 py-2 text-sm font-semibold text-slate-900 transition-colors hover:bg-teal-400 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full bg-[#1A3C2B] py-2 text-sm font-semibold text-white transition-colors hover:bg-[#1D4531] disabled:cursor-not-allowed disabled:opacity-50"
+        style={{ borderRadius: "2px" }}
       >
         {isPending ? "Signing in…" : "Sign In"}
       </button>

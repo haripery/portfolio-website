@@ -50,24 +50,24 @@
 :root {
   --radius: 0.125rem; /* 2px — flat aesthetic */
 
-  /* shadcn/ui dark tokens — used by admin UI components */
-  --background: #0f172a;
-  --foreground: #e2e8f0;
-  --card: #1e293b;
-  --card-foreground: #e2e8f0;
-  --popover: #1e293b;
-  --popover-foreground: #e2e8f0;
-  --primary: #e2e8f0;
-  --primary-foreground: #0f172a;
-  --secondary: #1e293b;
-  --secondary-foreground: #e2e8f0;
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
-  --accent: #1e293b;
-  --accent-foreground: #e2e8f0;
+  /* shadcn/ui tokens — light theme */
+  --background: #F7F7F5;
+  --foreground: #1A3C2B;
+  --card: #ffffff;
+  --card-foreground: #1A3C2B;
+  --popover: #ffffff;
+  --popover-foreground: #1A3C2B;
+  --primary: #1A3C2B;
+  --primary-foreground: #ffffff;
+  --secondary: rgba(58, 58, 56, 0.06);
+  --secondary-foreground: #1A3C2B;
+  --muted: rgba(58, 58, 56, 0.06);
+  --muted-foreground: rgba(58, 58, 56, 0.55);
+  --accent: rgba(58, 58, 56, 0.06);
+  --accent-foreground: #1A3C2B;
   --destructive: #ef4444;
-  --border: rgba(148, 163, 184, 0.12);
-  --input: rgba(148, 163, 184, 0.12);
+  --border: rgba(58, 58, 56, 0.15);
+  --input: rgba(58, 58, 56, 0.15);
   --ring: #1A3C2B;
 
   /* Public site tokens */
@@ -79,15 +79,6 @@
   --site-accent-2: #9EFFBF;
   --site-accent-3: #F4D35E;
   --site-border: rgba(58, 58, 56, 0.2);
-}
-
-/* ─── Admin pages stay dark ─── */
-.admin-theme {
-  --background: #020617;
-  --card: #0f172a;
-  --secondary: #0f172a;
-  --muted: #0f172a;
-  --border: rgba(148, 163, 184, 0.1);
 }
 
 /* ─── Solid paper background (used by public pages) ─── */

@@ -88,7 +88,7 @@ export function BlogPostForm({
           <div className="flex-1 space-y-5">
             {/* Title */}
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-slate-300">
+              <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
                 Title <span className="text-red-400">*</span>
               </label>
               <input
@@ -96,28 +96,28 @@ export function BlogPostForm({
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
-                className="w-full rounded-md border border-slate-700 bg-slate-800 px-3 py-2 text-white placeholder:text-slate-500 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]"
                 placeholder="Post title"
               />
             </div>
 
             {/* Excerpt */}
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-slate-300">
+              <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
                 Excerpt
               </label>
               <textarea
                 value={excerpt}
                 onChange={(e) => setExcerpt(e.target.value)}
                 rows={2}
-                className="w-full rounded-md border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500 resize-none"
+                className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B] resize-none"
                 placeholder="Short summary displayed in post listings…"
               />
             </div>
 
             {/* Rich text editor */}
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-slate-300">
+              <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
                 Content
               </label>
               <RichTextEditor
@@ -130,14 +130,14 @@ export function BlogPostForm({
           {/* ── SIDEBAR (settings) ── */}
           <aside className="w-full lg:w-72 space-y-5">
             {/* Publish actions */}
-            <div className="rounded-md border border-slate-700 bg-slate-800/50 p-4 space-y-3">
+            <div className="border border-[rgba(58,58,56,0.15)] bg-[rgba(58,58,56,0.03)] p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-slate-300">
+                <span className="text-sm font-medium text-[rgba(58,58,56,0.75)]">
                   Status
                 </span>
                 <span
                   className={`text-xs font-semibold ${
-                    published ? "text-teal-400" : "text-slate-500"
+                    published ? "text-[#FF8C69]" : "text-[rgba(58,58,56,0.4)]"
                   }`}
                 >
                   {published ? "Published" : "Draft"}
@@ -151,7 +151,7 @@ export function BlogPostForm({
                     setPublished(false);
                     handleSubmit(e as unknown as React.FormEvent, false);
                   }}
-                  className="flex-1 rounded-md border border-slate-600 py-1.5 text-sm text-slate-300 hover:bg-slate-700 transition-colors disabled:opacity-50"
+                  className="flex-1 border border-[rgba(58,58,56,0.2)] py-1.5 text-sm text-[rgba(58,58,56,0.6)] hover:bg-[rgba(58,58,56,0.06)] transition-colors disabled:opacity-50"
                 >
                   Save Draft
                 </button>
@@ -162,7 +162,7 @@ export function BlogPostForm({
                     setPublished(true);
                     handleSubmit(e as unknown as React.FormEvent, true);
                   }}
-                  className="flex-1 rounded-md bg-teal-500 py-1.5 text-sm font-semibold text-slate-900 hover:bg-teal-400 transition-colors disabled:opacity-50"
+                  className="flex-1 bg-[#1A3C2B] py-1.5 text-sm font-semibold text-white hover:bg-[#1D4531] transition-colors disabled:opacity-50"
                 >
                   {isPending ? "Saving…" : published ? "Update" : "Publish"}
                 </button>
@@ -179,7 +179,7 @@ export function BlogPostForm({
 
             {/* Category */}
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-slate-300">
+              <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
                 Category
               </label>
               <select
@@ -187,7 +187,7 @@ export function BlogPostForm({
                 onChange={(e) =>
                   setCategory(e.target.value as typeof category)
                 }
-                className="w-full rounded-md border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-white focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]"
               >
                 <option value="LEARNINGS">My Learnings</option>
                 <option value="MENTORSHIP">Mentorship</option>
@@ -197,7 +197,7 @@ export function BlogPostForm({
 
             {/* Tags */}
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-slate-300">
+              <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
                 Tags
               </label>
               <TagInput value={tags} onChange={setTags} />
@@ -205,14 +205,14 @@ export function BlogPostForm({
 
             {/* Read time */}
             <div className="space-y-1.5">
-              <label className="block text-sm font-medium text-slate-300">
+              <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">
                 Read time
               </label>
               <input
                 type="text"
                 value={readTime}
                 onChange={(e) => setReadTime(e.target.value)}
-                className="w-full rounded-md border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                className="w-full border border-[rgba(58,58,56,0.2)] bg-white px-3 py-2 text-sm text-[#1A3C2B] placeholder:text-[rgba(58,58,56,0.35)] focus:border-[#1A3C2B] focus:outline-none focus:ring-1 focus:ring-[#1A3C2B]"
                 placeholder="e.g. 8 min read"
               />
             </div>
@@ -232,7 +232,7 @@ export function BlogPostForm({
           <button
             type="button"
             onClick={() => router.push("/admin/blog")}
-            className="rounded-md border border-slate-700 px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 transition-colors"
+            className="border border-[rgba(58,58,56,0.2)] px-4 py-2 text-sm text-[rgba(58,58,56,0.6)] hover:bg-[rgba(58,58,56,0.06)] transition-colors"
           >
             Cancel
           </button>

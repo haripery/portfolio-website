@@ -33,15 +33,15 @@ export function ConfirmDialog({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
-      <AlertDialogContent className="bg-slate-900 border-slate-800 text-white">
+      <AlertDialogContent className="bg-white border-[rgba(58,58,56,0.15)] text-[#1A3C2B]">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-white">{title}</AlertDialogTitle>
-          <AlertDialogDescription className="text-slate-400">
+          <AlertDialogTitle className="text-[#1A3C2B]">{title}</AlertDialogTitle>
+          <AlertDialogDescription className="text-[rgba(58,58,56,0.6)]">
             {description}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className="border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700">
+          <AlertDialogCancel className="border-[rgba(58,58,56,0.2)] bg-white text-[rgba(58,58,56,0.6)] hover:bg-[rgba(58,58,56,0.06)]">
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
@@ -49,7 +49,7 @@ export function ConfirmDialog({
             className={
               variant === "destructive"
                 ? "bg-red-600 hover:bg-red-700 text-white"
-                : "bg-teal-500 hover:bg-teal-400 text-slate-900"
+                : "bg-[#1A3C2B] hover:bg-[#1D4531] text-white"
             }
           >
             {confirmLabel}

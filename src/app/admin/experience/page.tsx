@@ -8,8 +8,8 @@ export default async function AdminExperiencePage() {
   return (
     <AdminLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white">Experience</h1>
-        <p className="mt-1 text-sm text-slate-400">
+        <h1 className="text-2xl font-bold text-[#1A3C2B]">Experience</h1>
+        <p className="mt-1 text-sm text-[rgba(58,58,56,0.55)]">
           Manage your work history and career timeline.
         </p>
       </div>

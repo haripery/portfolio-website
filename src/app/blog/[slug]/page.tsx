@@ -5,6 +5,7 @@ import { formatDate } from "@/lib/utils";
 import { TagPill } from "@/components/public/TagPill";
 import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
+import { TwitterEmbed } from "@/components/public/TwitterEmbed";
 
 export const revalidate = 300;
 
@@ -132,6 +133,9 @@ export default async function BlogPostPage({
             prose-ol:text-[rgba(58,58,56,0.75)]"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
+
+        {/* Load Twitter widgets.js to render embedded tweets */}
+        <TwitterEmbed />
 
         {/* Back link */}
         <div className="mt-16 pt-8 border-t border-[rgba(58,58,56,0.15)]">

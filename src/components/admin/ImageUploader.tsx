@@ -59,11 +59,11 @@ export function ImageUploader({
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-slate-300">{label}</label>
+      <label className="block text-sm font-medium text-[rgba(58,58,56,0.75)]">{label}</label>
 
       {/* Preview */}
       {isImage && (
-        <div className="relative h-24 w-36 overflow-hidden rounded-md border border-slate-700">
+        <div className="relative h-24 w-36 overflow-hidden border border-[rgba(58,58,56,0.2)]" style={{ borderRadius: "2px" }}>
           <Image
             src={value}
             alt={label}
@@ -74,13 +74,13 @@ export function ImageUploader({
         </div>
       )}
       {isPdf && (
-        <div className="flex items-center gap-2 rounded-md border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-slate-300">
+        <div className="flex items-center gap-2 border border-[rgba(58,58,56,0.15)] bg-[rgba(58,58,56,0.04)] px-3 py-2 text-sm text-[rgba(58,58,56,0.6)]" style={{ borderRadius: "2px" }}>
           <span className="font-mono text-xs">PDF</span>
           <a
             href={value}
             target="_blank"
             rel="noreferrer"
-            className="text-teal-400 hover:underline truncate"
+            className="text-[#FF8C69] hover:underline truncate"
           >
             View current file
           </a>
@@ -104,7 +104,8 @@ export function ImageUploader({
           type="button"
           disabled={uploading}
           onClick={() => inputRef.current?.click()}
-          className="inline-flex items-center gap-1.5 rounded-md border border-slate-700 px-3 py-1.5 text-sm text-slate-300 transition-colors hover:border-slate-500 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 border border-[rgba(58,58,56,0.2)] px-3 py-1.5 text-sm text-[rgba(58,58,56,0.6)] transition-colors hover:border-[#1A3C2B] hover:text-[#1A3C2B] disabled:cursor-not-allowed disabled:opacity-50"
+          style={{ borderRadius: "2px" }}
         >
           {uploading ? (
             <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -117,7 +118,7 @@ export function ImageUploader({
           <button
             type="button"
             onClick={() => onChange("")}
-            className="inline-flex items-center gap-1 text-xs text-red-400 hover:text-red-300"
+            className="inline-flex items-center gap-1 text-xs text-red-500 hover:text-red-400"
           >
             <X className="h-3 w-3" />
             Remove

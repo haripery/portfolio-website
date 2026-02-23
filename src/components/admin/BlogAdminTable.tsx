@@ -37,11 +37,11 @@ export function BlogAdminTable({ posts }: { posts: BlogPostWithTags[] }) {
 
   if (posts.length === 0) {
     return (
-      <div className="rounded-lg border border-slate-800 bg-slate-900 p-10 text-center">
-        <p className="text-slate-400">No blog posts yet.</p>
+      <div className="border border-[rgba(58,58,56,0.12)] bg-white p-10 text-center" style={{ borderRadius: "2px" }}>
+        <p className="text-[rgba(58,58,56,0.55)]">No blog posts yet.</p>
         <Link
           href="/admin/blog/new"
-          className="mt-4 inline-block text-sm text-teal-400 hover:underline"
+          className="mt-4 inline-block text-sm text-[#FF8C69] hover:underline"
         >
           Create your first post →
         </Link>
@@ -50,10 +50,13 @@ export function BlogAdminTable({ posts }: { posts: BlogPostWithTags[] }) {
   }
 
   return (
-    <div className="overflow-hidden rounded-lg border border-slate-800">
+    <div className="overflow-hidden border border-[rgba(58,58,56,0.12)]" style={{ borderRadius: "2px" }}>
       <table className="w-full text-sm">
-        <thead className="bg-slate-800/50">
-          <tr className="text-left text-xs font-semibold uppercase tracking-widest text-slate-400">
+        <thead className="bg-[rgba(58,58,56,0.04)]">
+          <tr
+            className="text-left text-xs font-semibold uppercase tracking-widest text-[rgba(58,58,56,0.5)]"
+            style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
+          >
             <th className="px-4 py-3">Title</th>
             <th className="hidden px-4 py-3 md:table-cell">Category</th>
             <th className="hidden px-4 py-3 lg:table-cell">Date</th>
@@ -61,35 +64,39 @@ export function BlogAdminTable({ posts }: { posts: BlogPostWithTags[] }) {
             <th className="px-4 py-3 text-right">Actions</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-slate-800 bg-slate-900">
+        <tbody className="divide-y divide-[rgba(58,58,56,0.08)] bg-white">
           {posts.map((post) => (
             <tr
               key={post.id}
-              className={`transition-colors hover:bg-slate-800/40 ${
+              className={`transition-colors hover:bg-[rgba(58,58,56,0.03)] ${
                 isPending ? "opacity-60" : ""
               }`}
             >
               <td className="px-4 py-3">
-                <p className="font-medium text-white">{post.title}</p>
-                <p className="mt-0.5 text-xs text-slate-500 font-mono">
+                <p className="font-medium text-[#1A3C2B]">{post.title}</p>
+                <p
+                  className="mt-0.5 text-xs text-[rgba(58,58,56,0.4)] font-mono"
+                  style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
+                >
                   /{post.slug}
                 </p>
               </td>
-              <td className="hidden px-4 py-3 text-slate-400 md:table-cell">
+              <td className="hidden px-4 py-3 text-[rgba(58,58,56,0.55)] md:table-cell">
                 {CATEGORY_LABELS[post.category] ?? post.category}
               </td>
-              <td className="hidden px-4 py-3 text-slate-400 lg:table-cell whitespace-nowrap">
+              <td className="hidden px-4 py-3 text-[rgba(58,58,56,0.55)] lg:table-cell whitespace-nowrap">
                 {post.publishedAt
                   ? formatDate(post.publishedAt)
                   : formatDate(post.createdAt)}
               </td>
               <td className="px-4 py-3">
                 <span
-                  className={`inline-flex rounded-full px-2 py-0.5 text-xs font-semibold ${
+                  className={`inline-flex px-2 py-0.5 text-xs font-semibold ${
                     post.published
-                      ? "bg-teal-400/10 text-teal-400"
-                      : "bg-slate-700 text-slate-400"
+                      ? "bg-[rgba(26,60,43,0.08)] text-[#1A3C2B]"
+                      : "bg-[rgba(58,58,56,0.08)] text-[rgba(58,58,56,0.5)]"
                   }`}
+                  style={{ borderRadius: "2px", fontFamily: "var(--font-jetbrains-mono), monospace" }}
                 >
                   {post.published ? "Published" : "Draft"}
                 </span>
@@ -103,7 +110,8 @@ export function BlogAdminTable({ posts }: { posts: BlogPostWithTags[] }) {
                     title={
                       post.published ? "Unpublish" : "Publish"
                     }
-                    className="rounded p-1.5 text-slate-400 hover:bg-slate-700 hover:text-white transition-colors"
+                    className="p-1.5 text-[rgba(58,58,56,0.45)] hover:bg-[rgba(58,58,56,0.08)] hover:text-[#1A3C2B] transition-colors"
+                    style={{ borderRadius: "2px" }}
                     disabled={isPending}
                   >
                     {post.published ? (
@@ -114,7 +122,8 @@ export function BlogAdminTable({ posts }: { posts: BlogPostWithTags[] }) {
                   </button>
                   <Link
                     href={`/admin/blog/${post.id}/edit`}
-                    className="rounded p-1.5 text-slate-400 hover:bg-slate-700 hover:text-white transition-colors"
+                    className="p-1.5 text-[rgba(58,58,56,0.45)] hover:bg-[rgba(58,58,56,0.08)] hover:text-[#1A3C2B] transition-colors"
+                    style={{ borderRadius: "2px" }}
                     title="Edit"
                   >
                     <Edit className="h-4 w-4" />
@@ -123,7 +132,8 @@ export function BlogAdminTable({ posts }: { posts: BlogPostWithTags[] }) {
                     trigger={
                       <button
                         title="Delete"
-                        className="rounded p-1.5 text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-colors"
+                        className="p-1.5 text-[rgba(58,58,56,0.45)] hover:bg-red-50 hover:text-red-500 transition-colors"
+                        style={{ borderRadius: "2px" }}
                         disabled={isPending}
                       >
                         <Trash2 className="h-4 w-4" />

@@ -35,13 +35,15 @@ export function TagInput({
 
   return (
     <div
-      className="flex flex-wrap gap-2 p-2 min-h-[44px] rounded-md border border-slate-700 bg-slate-800 cursor-text focus-within:border-teal-500 focus-within:ring-1 focus-within:ring-teal-500"
+      className="flex flex-wrap gap-2 p-2 min-h-[44px] border border-[rgba(58,58,56,0.2)] bg-white cursor-text focus-within:border-[#1A3C2B] focus-within:ring-1 focus-within:ring-[#1A3C2B]"
+      style={{ borderRadius: "2px" }}
       onClick={() => document.getElementById("tag-input-internal")?.focus()}
     >
       {value.map((tag) => (
         <span
           key={tag}
-          className="inline-flex items-center gap-1 rounded-full bg-teal-400/10 px-2.5 py-0.5 text-xs font-medium text-teal-300 ring-1 ring-inset ring-teal-400/20"
+          className="inline-flex items-center gap-1 bg-[rgba(26,60,43,0.08)] px-2.5 py-0.5 text-xs font-medium text-[#1A3C2B] ring-1 ring-inset ring-[rgba(26,60,43,0.18)]"
+          style={{ borderRadius: "2px" }}
         >
           {tag}
           <button
@@ -50,7 +52,7 @@ export function TagInput({
               e.stopPropagation();
               onChange(value.filter((t) => t !== tag));
             }}
-            className="text-teal-300/70 hover:text-teal-300"
+            className="text-[rgba(26,60,43,0.5)] hover:text-[#1A3C2B]"
           >
             <X className="h-3 w-3" />
           </button>
@@ -63,7 +65,7 @@ export function TagInput({
         onKeyDown={handleKeyDown}
         onBlur={addTag}
         placeholder={value.length === 0 ? placeholder : ""}
-        className="min-w-[120px] flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-500"
+        className="min-w-[120px] flex-1 bg-transparent text-sm text-[#1A3C2B] outline-none placeholder:text-[rgba(58,58,56,0.35)]"
       />
     </div>
   );

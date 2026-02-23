@@ -36,8 +36,8 @@ export default async function DashboardPage() {
   return (
     <AdminLayout>
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-        <p className="mt-1 text-sm text-slate-400">
+        <h1 className="text-2xl font-bold text-[#1A3C2B]" style={{ fontFamily: "var(--font-space-grotesk), sans-serif" }}>Dashboard</h1>
+        <p className="mt-1 text-sm text-[rgba(58,58,56,0.55)]">
           Welcome back{profile?.name ? `, ${profile.name.split(" ")[0]}` : ""}!
         </p>
       </div>
@@ -48,18 +48,22 @@ export default async function DashboardPage() {
           <Link
             key={label}
             href={href}
-            className="rounded-lg border border-slate-800 bg-slate-900 p-4 transition-colors hover:border-slate-700"
+            className="border border-[rgba(58,58,56,0.12)] bg-white p-4 transition-colors hover:border-[rgba(58,58,56,0.25)]"
+            style={{ borderRadius: "2px" }}
           >
-            <p className="text-2xl font-bold text-white">{value}</p>
-            <p className="mt-1 text-xs font-medium text-slate-400">{label}</p>
-            {sub && <p className="text-xs text-slate-600">{sub}</p>}
+            <p className="text-2xl font-bold text-[#1A3C2B]">{value}</p>
+            <p className="mt-1 text-xs font-medium text-[rgba(58,58,56,0.55)]">{label}</p>
+            {sub && <p className="text-xs text-[rgba(58,58,56,0.4)]">{sub}</p>}
           </Link>
         ))}
       </div>
 
       {/* Quick actions */}
       <div className="mb-8">
-        <h2 className="mb-3 text-sm font-semibold uppercase tracking-widest text-slate-400">
+        <h2
+          className="mb-3 text-xs font-semibold uppercase tracking-widest text-[rgba(58,58,56,0.45)]"
+          style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
+        >
           Quick Actions
         </h2>
         <div className="flex flex-wrap gap-3">
@@ -67,7 +71,8 @@ export default async function DashboardPage() {
             <Link
               key={href}
               href={href}
-              className="inline-flex items-center gap-2 rounded-md border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-medium text-slate-300 transition-colors hover:border-teal-500/50 hover:text-teal-400"
+              className="inline-flex items-center gap-2 border border-[rgba(58,58,56,0.18)] bg-white px-4 py-2 text-sm font-medium text-[rgba(58,58,56,0.65)] transition-colors hover:border-[#1A3C2B] hover:text-[#1A3C2B]"
+              style={{ borderRadius: "2px" }}
             >
               <Icon className="h-4 w-4" />
               {label}
@@ -79,22 +84,26 @@ export default async function DashboardPage() {
       {/* Recent posts */}
       {recentPosts.length > 0 && (
         <div>
-          <h2 className="mb-3 text-sm font-semibold uppercase tracking-widest text-slate-400">
+          <h2
+            className="mb-3 text-xs font-semibold uppercase tracking-widest text-[rgba(58,58,56,0.45)]"
+            style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
+          >
             Recent Posts
           </h2>
-          <div className="overflow-hidden rounded-lg border border-slate-800">
-            <ul className="divide-y divide-slate-800">
+          <div className="overflow-hidden border border-[rgba(58,58,56,0.12)]" style={{ borderRadius: "2px" }}>
+            <ul className="divide-y divide-[rgba(58,58,56,0.08)]">
               {recentPosts.map((post) => (
                 <li key={post.id}>
                   <Link
                     href={`/admin/blog/${post.id}/edit`}
-                    className="flex items-center justify-between px-4 py-3 transition-colors hover:bg-slate-800/50"
+                    className="flex items-center justify-between bg-white px-4 py-3 transition-colors hover:bg-[rgba(58,58,56,0.03)]"
                   >
-                    <span className="text-sm text-slate-300">{post.title}</span>
+                    <span className="text-sm text-[#1A3C2B]">{post.title}</span>
                     <span
                       className={`text-xs ${
-                        post.published ? "text-teal-400" : "text-slate-500"
+                        post.published ? "text-[#FF8C69]" : "text-[rgba(58,58,56,0.4)]"
                       }`}
+                      style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
                     >
                       {post.published ? "Published" : "Draft"}
                     </span>
