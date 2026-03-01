@@ -36,7 +36,7 @@ export function DuolingoSection() {
               &ldquo;AI usage is now a baseline expectation&rdquo;
             </p>
             <p className="text-xs text-ink/50">
-              Landed as forward-thinking. Framed as empowering teams. Revenue growing while headcount shrank reinforced credibility.
+              Landed as forward-thinking. Framed as empowering teams. Strong revenue growth reinforced credibility.
             </p>
           </div>
           <div className="border border-coral/30 p-5">
@@ -62,7 +62,7 @@ export function DuolingoSection() {
             The backlash intensified when von Ahn wrote the company would &ldquo;take occasional small hits on quality&rdquo; and &ldquo;move with urgency&rdquo; rather than wait for perfect technology [17]. Duolingo responded by rolling out 148 AI-generated courses to demonstrate commitment, which only deepened skepticism [20].
           </p>
           <p>
-            Von Ahn eventually walked it back. He told The New York Times in August 2025: <em>&ldquo;I did not give enough context. Internally, this was not controversial.&rdquo;</em> [21] He also told the Financial Times that every tech company was taking the same approach, they just weren&apos;t being as open about it [21].
+            Von Ahn eventually walked it back. He told The New York Times in August 2025: <em>&ldquo;I did not give enough context. Internally, this was not controversial.&rdquo;</em> [21] He also said that every tech company was taking the same approach, they just weren&apos;t being as open about it [21].
           </p>
           <p>
             The lesson isn&apos;t that the policy was wrong. It was functionally identical to Shopify&apos;s. The lesson is that communication matters, and every tech company is navigating this same tension between AI efficiency and human value. If you&apos;re interviewing at <em>any</em> mid-to-large tech company in 2026, assume AI fluency is being evaluated, even if no one says it out loud.

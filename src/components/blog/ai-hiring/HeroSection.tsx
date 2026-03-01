@@ -6,9 +6,9 @@ import { ChevronDown } from "lucide-react";
 
 const STATS = [
   "43% of organizations now use AI in hiring",
-  "1 in 3 companies say AI will fully run hiring by 2027",
+  "1 in 3 companies say AI will fully run hiring by 2026",
   "81% of Big Tech interviewers suspected AI cheating",
-  "Mercor went from $0 to $10B valuation in under a year",
+  "Mercor went from $2B to $10B valuation in eight months",
 ];
 
 export function HeroSection() {

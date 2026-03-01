@@ -18,7 +18,7 @@ export function ShopifySection() {
             Shopify has been one of the clearest voices in tech on making AI a core part of how the company operates. In April 2025, CEO Tobi L&uuml;tke shared an internal memo that laid it out directly: AI isn&apos;t an optional add-on at Shopify. It&apos;s foundational to how teams build [8]. The company has shipped AI-powered products at remarkable speed, including Sidekick (a merchant-facing AI chatbot), Shopify Magic (AI-generated product descriptions), and an OpenAI-powered translation bot inside its internal chat tool Athena [10].
           </p>
           <p>
-            Revenue grew 25% to $1.51 billion in Q1, reflecting how well AI-augmented workflows have been working across the company [10]. Shopify&apos;s bet is that treating AI as a genuine collaborator, not a novelty, produces better products faster.
+            Revenue grew 27% to $2.36 billion in Q1 2025, reflecting how well AI-augmented workflows have been working across the company [10]. Shopify&apos;s bet is that treating AI as a genuine collaborator, not a novelty, produces better products faster.
           </p>
         </div>
       </ScrollReveal>
@@ -31,18 +31,18 @@ export function ShopifySection() {
               className="text-3xl font-bold text-mint"
               style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
             >
-              +<AnimatedCounter end={25} suffix="%" />
+              +<AnimatedCounter end={27} suffix="%" />
             </p>
-            <p className="text-xs text-ink/60 mt-1">Revenue growth Q1</p>
+            <p className="text-xs text-ink/60 mt-1">Revenue growth Q1 2025</p>
           </div>
           <div className="border border-mint/30 bg-mint/5 p-6 text-center">
             <p
               className="text-3xl font-bold text-mint"
               style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
             >
-              $<AnimatedCounter end={1.51} suffix="B" decimals={2} />
+              $<AnimatedCounter end={2.36} suffix="B" decimals={2} />
             </p>
-            <p className="text-xs text-ink/60 mt-1">Q1 Revenue</p>
+            <p className="text-xs text-ink/60 mt-1">Q1 2025 Revenue</p>
           </div>
         </div>
       </ScrollReveal>

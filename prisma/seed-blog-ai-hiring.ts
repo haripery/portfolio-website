@@ -13,15 +13,15 @@ const prisma = new PrismaClient({ adapter });
 const SLUG = "ai-hiring-revolution-2026";
 
 const CONTENT = `
-<p>The tech interview is being redesigned in real time. In 2026, 43% of organizations use AI in their hiring process — nearly double the 26% just a year before. One in three companies say AI will fully run their hiring process by 2027. But the most interesting shift isn't about automation replacing humans. It's about what companies are choosing to test for when AI can solve a LeetCode problem in seconds.</p>
+<p>The tech interview is being redesigned in real time. In 2026, 43% of organizations use AI in their hiring process — nearly double the 26% just a year before. One in three companies say AI will fully run their hiring process by 2026. But the most interesting shift isn't about automation replacing humans. It's about what companies are choosing to test for when AI can solve a LeetCode problem in seconds.</p>
 
 <p>Some companies are banning AI from interviews. Others are requiring it. The ones worth watching are rethinking what an interview even means. Here's how companies like Canva, Shopify, Mercor, and Duolingo are handling this — and what it signals about where hiring is headed.</p>
 
 <h2>Canva: "Use AI in Our Interviews. We Insist."</h2>
 <p>In June 2025, Canva's head of platforms Simon Newton published a blog post that turned heads across the industry. All Backend, Frontend, and Machine Learning engineering candidates at Canva are now expected to use AI coding tools during technical interviews.</p>
 
-<h2>Shopify: "Prove AI Can't Do the Job Before You Hire Anyone"</h2>
-<p>Shopify's transformation starts before the interview. In April 2025, CEO Tobi Lütke shared an internal memo titled "AI usage is now a baseline expectation." Before requesting new headcount, every team must first demonstrate why AI can't do the work.</p>
+<h2>Shopify: AI-First From Day One</h2>
+<p>Shopify has been one of the clearest voices in tech on making AI a core part of how the company operates. In April 2025, CEO Tobi Lütke shared an internal memo: AI usage is now a baseline expectation at Shopify.</p>
 
 <h2>Mercor: When the Interviewer Is the AI</h2>
 <p>Mercor takes the concept further than any traditional company — the interviewer itself is AI. Candidates complete a roughly 20-minute structured video interview where an AI generates questions, transcribes responses, and evaluates performance.</p>

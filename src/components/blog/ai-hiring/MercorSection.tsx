@@ -53,7 +53,7 @@ export function MercorSection() {
             Mercor&apos;s model is a one-and-done proposition for candidates: complete one AI interview per domain, and that recording becomes discoverable by multiple employers. The platform analyzes r&eacute;sum&eacute;s, GitHub profiles, interview transcripts, and publicly available data to build a comprehensive candidate profile [13]. Employers search using natural language, something like &ldquo;React engineers with Node.js&rdquo; or &ldquo;Patent lawyers in Brazil,&rdquo; and Mercor&apos;s semantic engine returns ranked matches [13].
           </p>
           <p>
-            The platform emphasizes that interview data isn&apos;t used to train third-party AI models and that users can request deletion [16]. Practice interviews are available and aren&apos;t shared with employers [13].
+            The platform emphasizes that interview data isn&apos;t used to train third-party AI models and that users can request deletion [16]. Candidates can retake interviews up to three times, and earlier attempts are not shared with employers [13].
           </p>
           <p>
             Mercor signals where hiring may be heading: away from repeated interview marathons with individual companies and toward portable, verified skill profiles that follow the candidate.
