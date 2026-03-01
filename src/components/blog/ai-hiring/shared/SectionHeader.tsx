@@ -8,7 +8,7 @@ export function SectionHeader({
   subtitle,
   id,
 }: {
-  number: string;
+  number?: string;
   title: string;
   subtitle?: string;
   id: string;
@@ -16,12 +16,14 @@ export function SectionHeader({
   return (
     <ScrollReveal>
       <div id={id} className="mb-10 scroll-mt-24">
-        <p
-          className="mb-2 text-xs uppercase tracking-widest text-coral"
-          style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
-        >
-          {number}
-        </p>
+        {number && (
+          <p
+            className="mb-2 text-xs uppercase tracking-widest text-coral"
+            style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
+          >
+            {number}
+          </p>
+        )}
         <h2
           className="text-2xl font-bold tracking-tight text-forest md:text-3xl"
           style={{

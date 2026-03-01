@@ -5,10 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
 const STATS = [
-  "97.8% of Fortune 500 use AI to screen your résumé",
-  "75% of résumés rejected before a human sees them",
-  "222 applications per job opening",
-  "0.1% cold application success rate",
+  "43% of organizations now use AI in hiring",
+  "1 in 3 companies say AI will fully run hiring by 2027",
+  "81% of Big Tech interviewers suspected AI cheating",
+  "Mercor went from $0 to $10B valuation in under a year",
 ];
 
 export function HeroSection() {
@@ -24,7 +24,7 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[70vh] flex-col items-center justify-center px-4 py-20 text-center scroll-mt-24"
+      className="relative flex min-h-[60vh] flex-col items-center justify-center px-4 py-20 text-center scroll-mt-24"
     >
       {/* Subtle animated grid background */}
       <div
@@ -56,15 +56,15 @@ export function HeroSection() {
 
       {/* Title */}
       <h2
-        className="mb-4 text-4xl font-bold tracking-tight text-forest md:text-5xl lg:text-6xl"
+        className="mb-4 text-3xl font-bold tracking-tight text-forest sm:text-4xl md:text-5xl"
         style={{ fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" }}
       >
-        The AI Hiring Revolution
+        AI Is the Next Interview
       </h2>
 
       {/* Subtitle */}
-      <p className="mb-2 max-w-2xl text-base text-ink/60 leading-relaxed md:text-lg">
-        A data-driven survival guide for CS students entering the 2026 job market
+      <p className="mb-2 max-w-xl text-base text-ink/60 leading-relaxed md:text-lg">
+        How Shopify, Canva & others are rewriting the hiring playbook
       </p>
 
       {/* Badges */}
@@ -73,13 +73,7 @@ export function HeroSection() {
           className="inline-block border border-ink/15 px-3 py-1 text-xs text-ink/50"
           style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
         >
-          18 min read
-        </span>
-        <span
-          className="inline-block border border-ink/15 px-3 py-1 text-xs text-ink/50"
-          style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
-        >
-          47 data points
+          12 min read
         </span>
       </div>
 

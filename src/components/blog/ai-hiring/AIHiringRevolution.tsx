@@ -5,37 +5,32 @@ import { ReadingProgress } from "./shared/ReadingProgress";
 import { TableOfContents } from "./shared/TableOfContents";
 import { HeroSection } from "./HeroSection";
 
-// Dynamic imports for heavy sections to improve initial load
-const AIPipelineSection = dynamic(
-  () => import("./AIPipelineSection").then((m) => ({ default: m.AIPipelineSection })),
+const CanvaSection = dynamic(
+  () => import("./CanvaSection").then((m) => ({ default: m.CanvaSection })),
   { ssr: false }
 );
-const DoomLoopSection = dynamic(
-  () => import("./DoomLoopSection").then((m) => ({ default: m.DoomLoopSection })),
+const ShopifySection = dynamic(
+  () => import("./ShopifySection").then((m) => ({ default: m.ShopifySection })),
   { ssr: false }
 );
-const TrustCrisisSection = dynamic(
-  () => import("./TrustCrisisSection").then((m) => ({ default: m.TrustCrisisSection })),
+const MercorSection = dynamic(
+  () => import("./MercorSection").then((m) => ({ default: m.MercorSection })),
   { ssr: false }
 );
-const PlatformsSection = dynamic(
-  () => import("./PlatformsSection").then((m) => ({ default: m.PlatformsSection })),
+const DuolingoSection = dynamic(
+  () => import("./DuolingoSection").then((m) => ({ default: m.DuolingoSection })),
   { ssr: false }
 );
-const EmergingRolesSection = dynamic(
-  () => import("./EmergingRolesSection").then((m) => ({ default: m.EmergingRolesSection })),
+const BanningAISection = dynamic(
+  () => import("./BanningAISection").then((m) => ({ default: m.BanningAISection })),
   { ssr: false }
 );
-const SkillsSection = dynamic(
-  () => import("./SkillsSection").then((m) => ({ default: m.SkillsSection })),
+const WhatThisMeansSection = dynamic(
+  () => import("./WhatThisMeansSection").then((m) => ({ default: m.WhatThisMeansSection })),
   { ssr: false }
 );
-const PlaybookSection = dynamic(
-  () => import("./PlaybookSection").then((m) => ({ default: m.PlaybookSection })),
-  { ssr: false }
-);
-const ConclusionSection = dynamic(
-  () => import("./ConclusionSection").then((m) => ({ default: m.ConclusionSection })),
+const SourcesSection = dynamic(
+  () => import("./SourcesSection").then((m) => ({ default: m.SourcesSection })),
   { ssr: false }
 );
 
@@ -46,14 +41,13 @@ export function AIHiringRevolution() {
       <TableOfContents />
       <div className="max-w-none">
         <HeroSection />
-        <AIPipelineSection />
-        <DoomLoopSection />
-        <TrustCrisisSection />
-        <PlatformsSection />
-        <EmergingRolesSection />
-        <SkillsSection />
-        <PlaybookSection />
-        <ConclusionSection />
+        <CanvaSection />
+        <ShopifySection />
+        <MercorSection />
+        <DuolingoSection />
+        <BanningAISection />
+        <WhatThisMeansSection />
+        <SourcesSection />
       </div>
     </>
   );
