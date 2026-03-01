@@ -12,25 +12,27 @@ export function SourcesSection() {
       <ScrollReveal>
         <div className="space-y-2">
           {sources.map((source) => (
-            <p key={source.id} className="text-xs text-ink/50 leading-relaxed">
+            <p key={source.id} className="text-xs text-ink/50 leading-relaxed flex gap-2">
               <span
-                className="inline-block w-6 text-ink/30"
+                className="shrink-0 text-ink/30"
                 style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
               >
                 [{source.id}]
               </span>
-              {source.url ? (
-                <a
-                  href={source.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-coral/70 hover:text-coral transition-colors"
-                >
-                  {source.text}
-                </a>
-              ) : (
-                source.text
-              )}
+              <span>
+                {source.url ? (
+                  <a
+                    href={source.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-coral/70 hover:text-coral transition-colors"
+                  >
+                    {source.text}
+                  </a>
+                ) : (
+                  source.text
+                )}
+              </span>
             </p>
           ))}
         </div>
