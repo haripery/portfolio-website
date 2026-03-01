@@ -25,6 +25,17 @@ export function HeroSection() {
       id="hero"
       className="relative flex flex-col items-center justify-center px-4 py-10 text-center scroll-mt-24"
     >
+      {/* Subtle animated grid background */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage:
+            "linear-gradient(var(--ink) 1px, transparent 1px), linear-gradient(90deg, var(--ink) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+          animation: "ai-hiring-grid 4s linear infinite",
+        }}
+      />
+
       {/* Stat ticker */}
       <div className="relative h-8 w-full max-w-xl overflow-hidden">
         <AnimatePresence mode="wait">
