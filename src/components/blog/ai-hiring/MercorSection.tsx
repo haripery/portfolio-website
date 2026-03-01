@@ -15,7 +15,7 @@ export function MercorSection() {
       <ScrollReveal>
         <div className="prose prose-site max-w-none">
           <p>
-            Mercor takes the concept further than any traditional company. The interviewer itself is AI. Candidates complete a roughly 20-minute structured video interview where an AI generates questions based on their r&eacute;sum&eacute; and job description, transcribes responses in real time, and evaluates performance [13].
+            Mercor takes the concept further than any traditional company. The interviewer itself is AI. Candidates complete a roughly 20-minute structured video interview where an AI generates questions based on their r&eacute;sum&eacute; and job description, transcribes responses in real time, and evaluates performance <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[13]</a>.
           </p>
         </div>
       </ScrollReveal>
@@ -47,13 +47,13 @@ export function MercorSection() {
       <ScrollReveal>
         <div className="prose prose-site max-w-none">
           <p>
-            The growth numbers reflect how fast this model is gaining traction. Mercor raised $100 million at a $2 billion valuation in February 2025 [14], then hit a $10 billion valuation with a $350 million Series C just eight months later [15]. It reached $100 million in annual recurring revenue in approximately 11 months [15]. Its clients include OpenAI and Anthropic [15], the companies <em>building</em> the AI that&apos;s transforming hiring are themselves using AI-first hiring.
+            The growth numbers reflect how fast this model is gaining traction. Mercor raised $100 million at a $2 billion valuation in February 2025 <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[14]</a>, then hit a $10 billion valuation with a $350 million Series C just eight months later <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[15]</a>. It reached $100 million in annual recurring revenue in approximately 11 months <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[15]</a>. Its clients include OpenAI and Anthropic <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[15]</a>, the companies <em>building</em> the AI that&apos;s transforming hiring are themselves using AI-first hiring.
           </p>
           <p>
-            Mercor&apos;s model is a one-and-done proposition for candidates: complete one AI interview per domain, and that recording becomes discoverable by multiple employers. The platform analyzes r&eacute;sum&eacute;s, GitHub profiles, interview transcripts, and publicly available data to build a comprehensive candidate profile [13]. Employers search using natural language, something like &ldquo;React engineers with Node.js&rdquo; or &ldquo;Patent lawyers in Brazil,&rdquo; and Mercor&apos;s semantic engine returns ranked matches [13].
+            Mercor&apos;s model is a one-and-done proposition for candidates: complete one AI interview per domain, and that recording becomes discoverable by multiple employers. The platform analyzes r&eacute;sum&eacute;s, GitHub profiles, interview transcripts, and publicly available data to build a comprehensive candidate profile <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[13]</a>. Employers search using natural language, something like &ldquo;React engineers with Node.js&rdquo; or &ldquo;Patent lawyers in Brazil,&rdquo; and Mercor&apos;s semantic engine returns ranked matches <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[13]</a>.
           </p>
           <p>
-            The platform emphasizes that interview data isn&apos;t used to train third-party AI models and that users can request deletion [16]. Candidates can retake interviews up to three times, and earlier attempts are not shared with employers [13].
+            The platform emphasizes that interview data isn&apos;t used to train third-party AI models and that users can request deletion <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[16]</a>. Candidates can retake interviews up to three times, and earlier attempts are not shared with employers <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[13]</a>.
           </p>
           <p>
             Mercor signals where hiring may be heading: away from repeated interview marathons with individual companies and toward portable, verified skill profiles that follow the candidate.

@@ -16,7 +16,7 @@ export function CanvaSection() {
       <ScrollReveal>
         <div className="prose prose-site max-w-none">
           <p>
-            In June 2025, Canva&apos;s head of platforms Simon Newton published a blog post that turned heads across the industry. The title was unambiguous: <em>&ldquo;Yes, you can use AI in our interviews. In fact, we insist.&rdquo;</em> [3]
+            In June 2025, Canva&apos;s head of platforms Simon Newton published a blog post that turned heads across the industry. The title was unambiguous: <em>&ldquo;Yes, you can use AI in our interviews. In fact, we insist.&rdquo;</em> <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[3]</a>
           </p>
           <p>
             All Backend, Frontend, and Machine Learning engineering candidates at Canva are now <strong>expected</strong> to use AI coding tools during technical interviews. Not allowed. Not tolerated. Expected.
@@ -28,10 +28,10 @@ export function CanvaSection() {
         <div className="prose prose-site max-w-none mt-8">
           <h3>Why They Did It</h3>
           <p>
-            Nearly half of Canva&apos;s frontend and backend engineers already use AI coding assistants daily [3]. The old interview format asked candidates to solve algorithm and data structure problems from scratch, which no longer reflected how engineers actually work at Canva. Newton wrote that asking candidates to solve problems without AI meant the company wasn&apos;t evaluating how they&apos;d actually perform on the job [3].
+            Nearly half of Canva&apos;s frontend and backend engineers already use AI coding assistants daily <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[3]</a>. The old interview format asked candidates to solve algorithm and data structure problems from scratch, which no longer reflected how engineers actually work at Canva. Newton wrote that asking candidates to solve problems without AI meant the company wasn&apos;t evaluating how they&apos;d actually perform on the job <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[3]</a>.
           </p>
           <p>
-            There was also the cheating problem. Candidates were already covertly using AI during interviews through tools specifically designed to avoid detection. Rather than escalating into an arms race of policing, Canva chose transparency: bring AI into the open and evaluate how well candidates <em>collaborate</em> with it [3].
+            There was also the cheating problem. Candidates were already covertly using AI during interviews through tools specifically designed to avoid detection. Rather than escalating into an arms race of policing, Canva chose transparency: bring AI into the open and evaluate how well candidates <em>collaborate</em> with it <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[3]</a>.
           </p>
         </div>
       </ScrollReveal>
@@ -88,16 +88,16 @@ export function CanvaSection() {
         <div className="prose prose-site max-w-none">
           <h3>What They Learned</h3>
           <p>
-            The early results surfaced a clear pattern. Candidates with minimal AI experience didn&apos;t fail because they couldn&apos;t code. They failed because they lacked the judgment to guide AI effectively or recognize when its suggestions were suboptimal [3]. The most successful candidates used AI strategically for well-defined subtasks while maintaining control of the overall architecture, critically reviewed and improved AI-generated output, and demonstrated strong debugging skills when AI solutions had issues [3].
+            The early results surfaced a clear pattern. Candidates with minimal AI experience didn&apos;t fail because they couldn&apos;t code. They failed because they lacked the judgment to guide AI effectively or recognize when its suggestions were suboptimal <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[3]</a>. The most successful candidates used AI strategically for well-defined subtasks while maintaining control of the overall architecture, critically reviewed and improved AI-generated output, and demonstrated strong debugging skills when AI solutions had issues <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[3]</a>.
           </p>
           <p>
-            Canva&apos;s initial experiments also confirmed what many suspected: AI tools can trivially solve traditional coding interview questions. Newton wrote that when the company tested its old Computer Science Fundamentals questions with AI tools, they produced correct, well-documented solutions in seconds, often without any follow-up prompts [3].
+            Canva&apos;s initial experiments also confirmed what many suspected: AI tools can trivially solve traditional coding interview questions. Newton wrote that when the company tested its old Computer Science Fundamentals questions with AI tools, they produced correct, well-documented solutions in seconds, often without any follow-up prompts <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[3]</a>.
           </p>
           <p>
-            Internal reaction was initially skeptical. Engineers worried about &ldquo;vibe coding sessions&rdquo; replacing rigorous fundamentals [6]. But Canva maintained that computer science depth is still evaluated, just in a different context. Candidates must take full ownership of all code produced, whether they wrote it or AI did [3].
+            Internal reaction was initially skeptical. Engineers worried about &ldquo;vibe coding sessions&rdquo; replacing rigorous fundamentals <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[6]</a>. But Canva maintained that computer science depth is still evaluated, just in a different context. Candidates must take full ownership of all code produced, whether they wrote it or AI did <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[3]</a>.
           </p>
           <p>
-            Canva&apos;s own research found that 65% of Australian job applicants were already using AI on r&eacute;sum&eacute;s, and 92% of Australian hiring managers were using AI in the process [7]. Their conclusion: the tools are everywhere, so the real skill worth testing is wielding them with judgment.
+            Canva&apos;s own research found that 65% of Australian job applicants were already using AI on r&eacute;sum&eacute;s, and 92% of Australian hiring managers were using AI in the process <a href="#sources" className="!text-coral/50 hover:!text-coral !no-underline">[7]</a>. Their conclusion: the tools are everywhere, so the real skill worth testing is wielding them with judgment.
           </p>
         </div>
       </ScrollReveal>
