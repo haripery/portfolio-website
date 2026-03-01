@@ -32,8 +32,6 @@ export const canvaInterviewRounds = [
 
 // Shopify key metrics
 export const shopifyMetrics = [
-  { label: "Workforce cut 2022", value: "10%", trend: "down" as const },
-  { label: "Workforce cut 2023", value: "20%", trend: "down" as const },
   { label: "Revenue growth Q1", value: "+25%", trend: "up" as const },
   { label: "Q1 Revenue", value: "$1.51B", trend: "up" as const },
 ];

@@ -2,7 +2,7 @@
 
 import { SectionHeader } from "./shared/SectionHeader";
 import { ScrollReveal } from "./shared/ScrollReveal";
-import { StatCard } from "./shared/StatCard";
+import { AnimatedCounter } from "./shared/AnimatedCounter";
 
 export function ShopifySection() {
   return (
@@ -23,56 +23,38 @@ export function ShopifySection() {
         </div>
       </ScrollReveal>
 
-      {/* Key metrics */}
+      {/* Revenue highlight */}
       <ScrollReveal>
-        <div className="my-10 grid grid-cols-2 gap-4 md:grid-cols-4">
-          <div className="border border-coral/30 bg-coral/5 p-5">
+        <div className="my-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="border border-mint/30 bg-mint/5 p-6 text-center">
             <p
-              className="text-2xl font-bold text-coral"
+              className="text-3xl font-bold text-mint"
               style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
             >
-              -10%
+              +<AnimatedCounter end={25} suffix="%" />
             </p>
-            <p className="text-xs text-ink/60">Workforce cut 2022</p>
+            <p className="text-xs text-ink/60 mt-1">Revenue growth Q1</p>
           </div>
-          <div className="border border-coral/30 bg-coral/5 p-5">
+          <div className="border border-mint/30 bg-mint/5 p-6 text-center">
             <p
-              className="text-2xl font-bold text-coral"
+              className="text-3xl font-bold text-mint"
               style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
             >
-              -20%
+              $<AnimatedCounter end={1.51} suffix="B" decimals={2} />
             </p>
-            <p className="text-xs text-ink/60">Workforce cut 2023</p>
-          </div>
-          <div className="border border-mint/30 bg-mint/5 p-5">
-            <p
-              className="text-2xl font-bold text-mint"
-              style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
-            >
-              +25%
-            </p>
-            <p className="text-xs text-ink/60">Revenue growth Q1</p>
-          </div>
-          <div className="border border-mint/30 bg-mint/5 p-5">
-            <p
-              className="text-2xl font-bold text-mint"
-              style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
-            >
-              $1.51B
-            </p>
-            <p className="text-xs text-ink/60">Q1 Revenue</p>
+            <p className="text-xs text-ink/60 mt-1">Q1 Revenue</p>
           </div>
         </div>
       </ScrollReveal>
 
       <ScrollReveal>
         <div className="prose prose-site max-w-none">
-          <h3>AI Woven Into Culture, Not Just Tools</h3>
+          <h3>AI as a Pair Programming Partner</h3>
           <p>
-            This isn&apos;t a suggestion. AI usage is now factored into Shopify&apos;s performance and peer review process. Every employee, including L&uuml;tke and the executive team, is evaluated on how effectively they leverage AI [8]. The memo made clear that &ldquo;reflexive AI usage&rdquo; is now the baseline expectation for everyone at the company [9].
+            AI usage is now factored into Shopify&apos;s performance and peer review process. Every employee, including L&uuml;tke and the executive team, is evaluated on how effectively they leverage AI [8]. The memo made clear that &ldquo;reflexive AI usage&rdquo; is now the baseline expectation for everyone at the company [9].
           </p>
           <p>
-            The context makes the policy even more striking. Shopify cut its workforce by 10% in 2022 and 20% in 2023, reducing headcount to around 11,600 [10]. Yet revenue grew 25% to $1.51 billion in Q1 during the same period [10]. The company launched Sidekick (a merchant-facing AI chatbot), Shopify Magic (AI-generated product descriptions), an OpenAI-powered translation bot inside its internal chat tool Athena, and automated email response systems [10]. Fewer people, better AI tooling, more output.
+            Internally, AI pair programming has become the default way engineers work at Shopify. The company launched Sidekick (a merchant-facing AI chatbot), Shopify Magic (AI-generated product descriptions), an OpenAI-powered translation bot inside its internal chat tool Athena, and automated email response systems [10]. Revenue grew 25% to $1.51 billion in Q1 as AI-augmented workflows became the norm across teams [10].
           </p>
         </div>
       </ScrollReveal>
@@ -81,7 +63,10 @@ export function ShopifySection() {
         <div className="prose prose-site max-w-none mt-8">
           <h3>What the Interview Looks Like</h3>
           <p>
-            Shopify&apos;s engineering interview process includes three main stages: an online assessment (typically 3 questions covering algorithm problems and language-specific challenges), a technical round focused on system design where AI use is allowed and encouraged, and what Shopify calls the &ldquo;Life Story&rdquo; interview, a deep behavioral conversation about who you are, how you think, and what drives you [11][12].
+            Shopify&apos;s engineering interview reflects this AI-first culture. The process includes three main stages: an online assessment (typically 3 questions covering algorithm problems and language-specific challenges), a technical round focused on system design where AI use is allowed and encouraged, and what Shopify calls the &ldquo;Life Story&rdquo; interview [11][12].
+          </p>
+          <p>
+            The technical round is essentially a pair programming session. Candidates are expected to use AI tools the way they would on the job. The evaluation isn&apos;t about whether you can solve the problem from scratch. It&apos;s about how you decompose it, how you collaborate with AI to work through it, and whether you can reason about the output critically. Shopify wants to see how you actually build, not how you perform under artificial constraints.
           </p>
           <p>
             The Life Story round is distinctly Shopify. The company says &ldquo;we hire people, not resumes&rdquo; [12] and sends candidates specific articles and documentation to prepare for this round. It evaluates growth, resilience, decision-making under pressure, and alignment with Shopify&apos;s merchant-first mission [11]. No AI tool can fake a genuine narrative about your failures and what you learned from them.
