@@ -47,7 +47,7 @@ async function main() {
     await prisma.blogPost.update({
       where: { slug: SLUG },
       data: {
-        title: "AI Is the Next Interview: How Shopify, Canva & Others Are Rewriting the Hiring Playbook",
+        title: "AI Is Rewriting the Interview: How Shopify, Canva & Others Are Changing Hiring Forever",
         excerpt:
           "Some companies are banning AI from interviews. Others are requiring it. The ones worth watching are rethinking what an interview even means.",
         content: CONTENT,
@@ -60,7 +60,7 @@ async function main() {
 
   const post = await prisma.blogPost.create({
     data: {
-      title: "AI Is the Next Interview: How Shopify, Canva & Others Are Rewriting the Hiring Playbook",
+      title: "AI Is Rewriting the Interview: How Shopify, Canva & Others Are Changing Hiring Forever",
       slug: SLUG,
       excerpt:
         "Some companies are banning AI from interviews. Others are requiring it. The ones worth watching are rethinking what an interview even means.",
