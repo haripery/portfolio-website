@@ -13,6 +13,8 @@ import { CommentSection } from "@/components/public/CommentSection";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { ShareButtons } from "@/components/public/ShareButtons";
 import { SupportBanner } from "@/components/public/SupportBanner";
+import { MermaidRenderer } from "@/components/public/MermaidRenderer";
+import { AIHiringRevolution } from "@/components/blog/ai-hiring/AIHiringRevolution";
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
@@ -182,12 +184,18 @@ export default async function BlogPostPage({
           />
         )}
 
-        {/* Post content — rendered Tiptap HTML */}
-        <div
-          className="prose prose-site max-w-none overflow-x-hidden"
-          dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
-        />
+        {/* Post content — rendered Tiptap HTML (or custom component for special posts) */}
+        {slug === "ai-hiring-revolution-2026" ? (
+          <AIHiringRevolution />
+        ) : (
+          <div
+            className="prose prose-site max-w-none overflow-x-hidden"
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
+          />
+        )}
 
+        {/* Render Mermaid diagrams in code blocks */}
+        <MermaidRenderer />
         {/* Load Twitter widgets.js to render embedded tweets — key forces remount on navigation */}
         <TwitterEmbed key={post.slug} />
         <BlogPostTracker

@@ -224,3 +224,47 @@
 .prose.prose-site :is(h1, h2, h3, h4, h5, h6) a:hover {
   color: var(--coral);
 }
+
+/* ─── AI Hiring Revolution blog post animations ─── */
+@keyframes ai-hiring-ticker {
+  0%, 20% { opacity: 1; transform: translateY(0); }
+  25%, 45% { opacity: 0; transform: translateY(-20px); }
+  50%, 70% { opacity: 0; transform: translateY(20px); }
+  75%, 100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ai-hiring-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@keyframes ai-hiring-scroll-hint {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+
+@keyframes ai-hiring-grid {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 40px; }
+}
+
+@keyframes ai-hiring-glow {
+  0%, 100% { box-shadow: 0 0 8px color-mix(in srgb, var(--coral) 30%, transparent); }
+  50% { box-shadow: 0 0 20px color-mix(in srgb, var(--coral) 50%, transparent); }
+}
+
+@keyframes ai-hiring-scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* Mermaid diagram containers */
+.prose.prose-site .mermaid-diagram {
+  margin: 2rem 0;
+  overflow-x: auto;
+  text-align: center;
+}
+.prose.prose-site .mermaid-diagram svg {
+  max-width: 100%;
+  height: auto;
+}
