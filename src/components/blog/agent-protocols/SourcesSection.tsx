@@ -48,6 +48,26 @@ const SOURCES = [
     description: "25% drop in frontend job posts - LeadDev / TalentNeuron",
     url: "https://leaddev.com/ai/does-ai-spell-death-front-end-engineering",
   },
+  {
+    label: "DirectGPT: Direct Manipulation for LLMs (CHI 2024)",
+    description: "50% faster, 25% higher success with AI + direct manipulation",
+    url: "https://dl.acm.org/doi/10.1145/3613904.3642587",
+  },
+  {
+    label: "Addy Osmani – The 70% Problem",
+    description: "AI code gets you 70%; architecture is the remaining 30%",
+    url: "https://addyosmani.com/blog/the-70-percent-problem/",
+  },
+  {
+    label: "Thoughtworks Technology Radar Vol. 31",
+    description: "AI-assisted software development – Nov 2025",
+    url: "https://www.thoughtworks.com/radar",
+  },
+  {
+    label: "Josh Comeau – The End of Front-End Development",
+    description: "Why frontend is less automatable than you think",
+    url: "https://www.joshwcomeau.com/blog/the-end-of-frontend-development/",
+  },
 ];
 
 export function SourcesSection() {

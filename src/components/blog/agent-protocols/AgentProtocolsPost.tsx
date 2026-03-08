@@ -29,6 +29,22 @@ const ArchitectureSection = dynamic(
   { ssr: false }
 );
 
+const WhyThisMattersSection = dynamic(
+  () =>
+    import("./WhyThisMattersSection").then((m) => ({
+      default: m.WhyThisMattersSection,
+    })),
+  { ssr: false }
+);
+
+const CareerImpactSection = dynamic(
+  () =>
+    import("./CareerImpactSection").then((m) => ({
+      default: m.CareerImpactSection,
+    })),
+  { ssr: false }
+);
+
 const SourcesSection = dynamic(
   () =>
     import("./SourcesSection").then((m) => ({
@@ -44,9 +60,11 @@ export function AgentProtocolsPost() {
       <div className="max-w-none">
         <HeroSection />
         <TableOfContents />
+        <WhyThisMattersSection />
         <ProtocolExplainerSection />
         <LiveDemoSection />
         <ArchitectureSection />
+        <CareerImpactSection />
         <SourcesSection />
       </div>
     </>
