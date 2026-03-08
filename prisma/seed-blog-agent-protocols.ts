@@ -15,7 +15,7 @@ const SLUG = "agent-protocols-portfolio";
 const CONTENT = `
 <p>Three new protocols are defining how AI agents communicate with frontends, tools, and each other: AG-UI for agent-to-user streaming, A2A for agent-to-agent coordination, and A2UI for generative UI.</p>
 
-<p>Instead of just explaining them, I built a live demo that uses all three. Three agents collaborate to analyze your browsing context, build a visitor persona, and generate personalized portfolio recommendations — with every protocol event visible in real-time.</p>
+<p>Instead of just explaining them, I built a live demo that uses all three. Three agents collaborate to analyze your browsing context, build a visitor persona, and generate personalized portfolio recommendations -with every protocol event visible in real-time.</p>
 
 <h2>The Protocol Stack</h2>
 <p>AG-UI (by CopilotKit) standardizes agent-to-frontend communication. A2A (by Google) enables multi-agent discovery and coordination. A2UI (by Google) lets agents generate rich, interactive UI components.</p>
@@ -40,7 +40,7 @@ async function main() {
       data: {
         title: "I Built My Portfolio with Three Agent Protocols",
         excerpt:
-          "A live demo of AG-UI, A2A, and A2UI protocols — three agents collaborate to analyze visitors and generate personalized recommendations in real-time.",
+          "A live demo of AG-UI, A2A, and A2UI protocols -three agents collaborate to analyze visitors and generate personalized recommendations in real-time.",
         content: CONTENT,
         readTime: "8 min read",
       },
@@ -54,7 +54,7 @@ async function main() {
       title: "I Built My Portfolio with Three Agent Protocols",
       slug: SLUG,
       excerpt:
-        "A live demo of AG-UI, A2A, and A2UI protocols — three agents collaborate to analyze visitors and generate personalized recommendations in real-time.",
+        "A live demo of AG-UI, A2A, and A2UI protocols -three agents collaborate to analyze visitors and generate personalized recommendations in real-time.",
       content: CONTENT,
       contentJson: "{}",
       category: "AI",

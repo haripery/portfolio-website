@@ -65,7 +65,7 @@ export function PersonaCard({ type, confidence, traits, reasoning, emoji }: Pers
       </div>
 
       {/* Reasoning */}
-      <p className="text-sm text-[var(--ink)]/70 italic">&ldquo;{reasoning}&rdquo;</p>
+      <p className="text-sm text-[var(--ink)]/70 italic">"{reasoning}"</p>
     </motion.div>
   );
 }

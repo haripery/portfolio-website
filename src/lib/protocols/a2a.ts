@@ -128,7 +128,7 @@ export class AgentRegistry {
 export const TRACKER_AGENT_CARD: AgentCard = {
   name: "Tracker Agent",
   description:
-    "Collects and normalizes visitor signals — referrer, device, browsing patterns — into structured context.",
+    "Collects and normalizes visitor signals -referrer, device, browsing patterns -into structured context.",
   version: "1.0.0",
   capabilities: ["signal-collection", "context-enrichment"],
 };
@@ -152,7 +152,7 @@ export const ADVISOR_AGENT_CARD: AgentCard = {
 export const COORDINATOR_AGENT_CARD: AgentCard = {
   name: "Coordinator",
   description:
-    "Orchestrates the visitor intelligence pipeline — routing tasks between Tracker, Profiler, and Advisor agents.",
+    "Orchestrates the visitor intelligence pipeline -routing tasks between Tracker, Profiler, and Advisor agents.",
   version: "1.0.0",
   capabilities: ["orchestration", "task-routing"],
 };

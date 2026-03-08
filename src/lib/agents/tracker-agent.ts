@@ -2,7 +2,7 @@
  * Tracker Agent
  *
  * Collects and normalizes visitor signals into structured context.
- * Pure logic — no LLM calls.
+ * Pure logic - no LLM calls.
  */
 
 // ── Visitor Signals (raw from client) ────────────────────────────────────────

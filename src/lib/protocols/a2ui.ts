@@ -1,7 +1,7 @@
 /**
  * A2UI (Agent-to-User Interface Protocol)
  *
- * Defines envelope types for generative UI — agents generating rich,
+ * Defines envelope types for generative UI - agents generating rich,
  * interactive components that render natively in the frontend.
  * Based on Google's A2UI specification (v0.8).
  */

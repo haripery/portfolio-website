@@ -186,7 +186,7 @@ export function ArchitectureSection() {
                     {n}
                   </span>
                   <span>
-                    <strong>{title}</strong> &mdash; {desc}
+                    <strong>{title}</strong> - {desc}
                   </span>
                 </li>
               ))}

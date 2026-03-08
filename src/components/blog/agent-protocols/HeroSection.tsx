@@ -92,7 +92,7 @@ export function HeroSection() {
           </p>
           <p className="text-base text-[var(--ink)]/70 leading-relaxed">
             Below, three agents collaborate to analyze <em>your</em> browsing context,
-            build a visitor persona, and generate personalized portfolio recommendations —
+            build a visitor persona, and generate personalized portfolio recommendations -
             with every protocol event visible in real-time.
           </p>
         </div>

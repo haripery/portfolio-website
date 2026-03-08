@@ -23,7 +23,7 @@ export const PROTOCOL_DESCRIPTIONS = {
     name: "Agent-to-User Interface Protocol",
     creator: "Google",
     description:
-      "Generative UI specification — agents generate rich, interactive components via JSONL streaming with metadata/data/end envelopes.",
+      "Generative UI specification - agents generate rich, interactive components via JSONL streaming with metadata/data/end envelopes.",
     envelopes: ["metadata", "data", "end"],
     specUrl: "https://google.github.io/A2UI",
   },

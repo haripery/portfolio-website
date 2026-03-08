@@ -227,7 +227,7 @@ export async function runVisitorIntelPipeline(
 
           buffer = "";
         } else if (!buffer.includes("{{")) {
-          // No partial marker in buffer — safe to emit text
+          // No partial marker in buffer - safe to emit text
           emitter.textContent(messageId, buffer);
           buffer = "";
         }

@@ -149,7 +149,7 @@ export function LiveDemoSection() {
             Visitor Intelligence Pipeline
           </h2>
           <p className="text-sm text-[var(--ink)]/60 max-w-xl">
-            Click &ldquo;Run Analysis&rdquo; to watch three agents collaborate in real-time.
+            Click "Run Analysis" to watch three agents collaborate in real-time.
             The Tracker collects your signals, the Profiler classifies your persona,
             and the Advisor generates personalized recommendations.
           </p>
