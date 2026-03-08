@@ -13,10 +13,10 @@ function SignalPill({ label, value, delay = 0 }: { label: string; value: string;
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.3, delay }}
-      className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--ink)]/10 bg-[var(--ink)]/[0.02] text-sm"
+      className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-ink/15 bg-card text-sm"
     >
-      <span className="text-[var(--ink)]/40 text-xs">{label}</span>
-      <span className="font-mono text-[var(--ink)]/80 text-xs">{value}</span>
+      <span className="text-ink/40 text-xs">{label}</span>
+      <span className="font-mono text-ink/80 text-xs">{value}</span>
     </motion.div>
   );
 }
@@ -24,7 +24,7 @@ function SignalPill({ label, value, delay = 0 }: { label: string; value: string;
 export function VisitorSignalsDisplay({ signals }: Props) {
   if (!signals) {
     return (
-      <div className="text-sm text-[var(--ink)]/40 italic">Collecting signals...</div>
+      <div className="text-sm text-ink/40 italic">Collecting signals...</div>
     );
   }
 
@@ -40,7 +40,7 @@ export function VisitorSignalsDisplay({ signals }: Props) {
 
   return (
     <div>
-      <h4 className="text-xs font-semibold text-[var(--ink)]/40 uppercase tracking-wider mb-2">
+      <h4 className="text-xs font-semibold text-ink/40 uppercase tracking-wider mb-2">
         What agents can see about you
       </h4>
       <div className="flex flex-wrap gap-2">
@@ -53,7 +53,7 @@ export function VisitorSignalsDisplay({ signals }: Props) {
           />
         ))}
       </div>
-      <p className="text-[10px] text-[var(--ink)]/30 mt-2 italic">
+      <p className="text-[10px] text-ink/30 mt-2 italic">
         No personal data stored. Browsing context only.
       </p>
     </div>

@@ -59,22 +59,22 @@ function EventRow({ event, baseTime }: { event: AGUIEvent; baseTime: number }) {
     <motion.div
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: "auto" }}
-      className="border-b border-[var(--ink)]/5 last:border-0"
+      className="border-b border-ink/10 last:border-0"
     >
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full flex items-center gap-2 px-2 py-1.5 text-left hover:bg-[var(--ink)]/[0.02] transition-colors"
+        className="w-full flex items-center gap-2 px-2 py-1.5 text-left hover:bg-ink/[0.06] transition-colors"
       >
         <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded ${colors} shrink-0`}>
           {event.type}
         </span>
-        <span className="text-[10px] text-[var(--ink)]/40 font-mono shrink-0">
+        <span className="text-[10px] text-ink/40 font-mono shrink-0">
           {formatTimestamp(event.timestamp, baseTime)}
         </span>
-        <span className="text-[10px] text-[var(--ink)]/60 truncate flex-1">
+        <span className="text-[10px] text-ink/60 truncate flex-1">
           {getEventSummary(event)}
         </span>
-        <span className="text-[var(--ink)]/30 text-xs shrink-0">
+        <span className="text-ink/30 text-xs shrink-0">
           {expanded ? "▾" : "▸"}
         </span>
       </button>
@@ -86,7 +86,7 @@ function EventRow({ event, baseTime }: { event: AGUIEvent; baseTime: number }) {
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden"
           >
-            <pre className="text-[10px] font-mono text-[var(--ink)]/50 px-2 pb-2 whitespace-pre-wrap break-all">
+            <pre className="text-[10px] font-mono text-ink/50 px-2 pb-2 whitespace-pre-wrap break-all">
               {JSON.stringify(event, null, 2)}
             </pre>
           </motion.div>
@@ -124,22 +124,22 @@ export function ProtocolInspector({ events }: Props) {
   ];
 
   return (
-    <div className="rounded-lg border border-[var(--ink)]/10 bg-[var(--ink)]/[0.01] overflow-hidden">
+    <div className="rounded-lg border border-ink/15 bg-ink/[0.03] overflow-hidden">
       {/* Tab bar */}
-      <div className="flex border-b border-[var(--ink)]/10">
+      <div className="flex border-b border-ink/15">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`flex-1 px-3 py-2 text-xs font-semibold transition-colors ${
               activeTab === tab.id
-                ? "text-[var(--ink)] border-b-2 border-blue-500 bg-[var(--ink)]/[0.02]"
-                : "text-[var(--ink)]/40 hover:text-[var(--ink)]/60"
+                ? "text-ink border-b-2 border-blue-500 bg-ink/[0.04]"
+                : "text-ink/40 hover:text-ink/60"
             }`}
           >
             {tab.label}
             {tab.count > 0 && (
-              <span className="ml-1.5 px-1.5 py-0.5 rounded-full bg-[var(--ink)]/5 text-[10px] font-mono">
+              <span className="ml-1.5 px-1.5 py-0.5 rounded-full bg-ink/8 text-[10px] font-mono">
                 {tab.count}
               </span>
             )}
@@ -150,7 +150,7 @@ export function ProtocolInspector({ events }: Props) {
       {/* Event list */}
       <div ref={scrollRef} className="max-h-[400px] overflow-y-auto">
         {filteredEvents.length === 0 ? (
-          <div className="p-4 text-center text-xs text-[var(--ink)]/30 italic">
+          <div className="p-4 text-center text-xs text-ink/30 italic">
             {events.length === 0
               ? "Run the analysis to see protocol events..."
               : `No ${activeTab.toUpperCase()} events yet`}
@@ -163,11 +163,11 @@ export function ProtocolInspector({ events }: Props) {
       </div>
 
       {/* Footer */}
-      <div className="border-t border-[var(--ink)]/5 px-2 py-1 flex justify-between">
-        <span className="text-[9px] text-[var(--ink)]/30 font-mono">
+      <div className="border-t border-ink/10 px-2 py-1 flex justify-between">
+        <span className="text-[9px] text-ink/30 font-mono">
           {events.length} total events
         </span>
-        <span className="text-[9px] text-[var(--ink)]/30 font-mono">
+        <span className="text-[9px] text-ink/30 font-mono">
           {activeTab.toUpperCase()} Protocol
         </span>
       </div>

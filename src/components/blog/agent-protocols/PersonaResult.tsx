@@ -26,7 +26,7 @@ export function PersonaResult({ components, textContent, isStreaming }: Props) {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-sm text-[var(--ink)]/80 mb-4 leading-relaxed"
+          className="text-sm text-ink/80 mb-4 leading-relaxed"
         >
           {textContent}
           {isStreaming && (

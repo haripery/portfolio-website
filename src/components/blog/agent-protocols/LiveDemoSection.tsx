@@ -142,13 +142,13 @@ export function LiveDemoSection() {
     <section id="live-demo" className="mb-20">
       <ScrollReveal>
         <div className="mb-6">
-          <span className="text-xs font-mono text-[var(--ink)]/30 tracking-wider uppercase">
+          <span className="text-xs font-mono text-ink/30 tracking-wider uppercase">
             Live Demo
           </span>
-          <h2 className="text-2xl font-bold text-[var(--ink)] mt-1 mb-2">
+          <h2 className="text-2xl font-bold text-ink mt-1 mb-2">
             Visitor Intelligence Pipeline
           </h2>
-          <p className="text-sm text-[var(--ink)]/60 max-w-xl">
+          <p className="text-sm text-ink/60 max-w-xl">
             Click "Run Analysis" to watch three agents collaborate in real-time.
             The Tracker collects your signals, the Profiler classifies your persona,
             and the Advisor generates personalized recommendations.

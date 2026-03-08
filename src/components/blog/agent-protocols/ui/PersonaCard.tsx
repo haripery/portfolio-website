@@ -26,14 +26,14 @@ export function PersonaCard({ type, confidence, traits, reasoning, emoji }: Pers
         <span className="text-3xl">{emoji}</span>
         <div>
           <h4 className={`font-semibold text-lg ${colors.text}`}>{label}</h4>
-          <p className="text-sm text-[var(--ink)]/50">Visitor Persona</p>
+          <p className="text-sm text-ink/50">Visitor Persona</p>
         </div>
       </div>
 
       {/* Confidence bar */}
       <div className="mb-3">
         <div className="flex justify-between text-xs mb-1">
-          <span className="text-[var(--ink)]/60">Confidence</span>
+          <span className="text-ink/60">Confidence</span>
           <span className={`font-mono font-semibold ${colors.text}`}>{confidence}%</span>
         </div>
         <div className="h-2 bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">
@@ -65,7 +65,7 @@ export function PersonaCard({ type, confidence, traits, reasoning, emoji }: Pers
       </div>
 
       {/* Reasoning */}
-      <p className="text-sm text-[var(--ink)]/70 italic">"{reasoning}"</p>
+      <p className="text-sm text-ink/70 italic">"{reasoning}"</p>
     </motion.div>
   );
 }

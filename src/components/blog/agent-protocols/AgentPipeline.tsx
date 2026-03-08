@@ -17,7 +17,7 @@ const AGENTS = [
 export function AgentPipeline({ activeAgent, phase, completedAgents }: Props) {
   return (
     <div className="mb-6">
-      <h4 className="text-xs font-semibold text-[var(--ink)]/40 uppercase tracking-wider mb-3">
+      <h4 className="text-xs font-semibold text-ink/40 uppercase tracking-wider mb-3">
         Agent Pipeline (A2A)
       </h4>
       <div className="flex items-center gap-2">
@@ -31,18 +31,13 @@ export function AgentPipeline({ activeAgent, phase, completedAgents }: Props) {
               <motion.div
                 animate={{
                   scale: isActive ? 1.05 : 1,
-                  borderColor: isActive
-                    ? "rgb(59, 130, 246)"
-                    : isCompleted
-                    ? "rgb(34, 197, 94)"
-                    : "rgba(0,0,0,0.1)",
                 }}
                 className={`relative flex flex-col items-center gap-1 rounded-lg border-2 px-3 py-2 min-w-[100px] transition-colors ${
                   isActive
-                    ? "bg-blue-50 dark:bg-blue-950/30"
+                    ? "border-blue-500 bg-blue-50 dark:bg-blue-950/30"
                     : isCompleted
-                    ? "bg-emerald-50 dark:bg-emerald-950/30"
-                    : "bg-[var(--ink)]/[0.02]"
+                    ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30"
+                    : "border-ink/15 bg-ink/[0.02]"
                 }`}
               >
                 {/* Pulse ring for active agent */}
@@ -59,10 +54,10 @@ export function AgentPipeline({ activeAgent, phase, completedAgents }: Props) {
                 </AnimatePresence>
 
                 <span className="text-xl">{agent.icon}</span>
-                <span className="text-[10px] font-semibold text-[var(--ink)]/70 text-center leading-tight">
+                <span className="text-[10px] font-semibold text-ink/70 text-center leading-tight">
                   {agent.name}
                 </span>
-                <span className="text-[9px] text-[var(--ink)]/40">
+                <span className="text-[9px] text-ink/40">
                   {isActive
                     ? phase ?? "working"
                     : isCompleted
@@ -74,7 +69,7 @@ export function AgentPipeline({ activeAgent, phase, completedAgents }: Props) {
 
                 {/* Status indicator */}
                 <div
-                  className={`absolute -top-1 -right-1 w-3 h-3 rounded-full border-2 border-white dark:border-gray-900 ${
+                  className={`absolute -top-1 -right-1 w-3 h-3 rounded-full border-2 border-card ${
                     isActive
                       ? "bg-blue-500"
                       : isCompleted
@@ -86,15 +81,13 @@ export function AgentPipeline({ activeAgent, phase, completedAgents }: Props) {
 
               {/* Arrow connector */}
               {i < AGENTS.length - 1 && (
-                <motion.div
-                  animate={{
-                    opacity: isCompleted ? 1 : 0.3,
-                    color: isCompleted ? "rgb(34, 197, 94)" : "rgba(0,0,0,0.2)",
-                  }}
-                  className="text-lg font-light"
+                <span
+                  className={`text-lg font-light ${
+                    isCompleted ? "text-emerald-500" : "text-ink/20"
+                  }`}
                 >
                   →
-                </motion.div>
+                </span>
               )}
             </div>
           );

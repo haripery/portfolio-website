@@ -34,10 +34,10 @@ export function SourcesSection() {
   return (
     <section id="sources" className="mb-8">
       <ScrollReveal>
-        <span className="text-xs font-mono text-[var(--ink)]/30 tracking-wider uppercase">
+        <span className="text-xs font-mono text-ink/30 tracking-wider uppercase">
           References
         </span>
-        <h2 className="text-2xl font-bold text-[var(--ink)] mt-1 mb-6">
+        <h2 className="text-2xl font-bold text-ink mt-1 mb-6">
           Sources &amp; Specs
         </h2>
 
@@ -48,16 +48,16 @@ export function SourcesSection() {
               href={source.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-start gap-3 p-4 rounded-lg border border-[var(--ink)]/10 hover:border-[var(--ink)]/20 bg-[var(--ink)]/[0.02] hover:bg-[var(--ink)]/[0.04] transition-all"
+              className="group flex items-start gap-3 p-4 rounded-lg border border-ink/15 hover:border-ink/30 bg-ink/[0.04] hover:bg-ink/[0.06] transition-all"
             >
-              <span className="text-[var(--ink)]/20 group-hover:text-[var(--ink)]/40 font-mono text-xs mt-0.5">
+              <span className="text-ink/20 group-hover:text-ink/40 font-mono text-xs mt-0.5">
                 [{i + 1}]
               </span>
               <div>
-                <span className="text-sm font-semibold text-[var(--ink)] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                <span className="text-sm font-semibold text-ink group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                   {source.label}
                 </span>
-                <p className="text-xs text-[var(--ink)]/50 mt-0.5">
+                <p className="text-xs text-ink/50 mt-0.5">
                   {source.description}
                 </p>
               </div>
