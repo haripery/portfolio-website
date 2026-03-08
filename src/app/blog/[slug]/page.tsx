@@ -15,6 +15,8 @@ import { ShareButtons } from "@/components/public/ShareButtons";
 import { SupportBanner } from "@/components/public/SupportBanner";
 import { MermaidRenderer } from "@/components/public/MermaidRenderer";
 import { AIHiringRevolution } from "@/components/blog/ai-hiring/AIHiringRevolution";
+import { InterviewLoopPost } from "@/components/blog/interview-loop/InterviewLoopPost";
+import { AgentProtocolsPost } from "@/components/blog/agent-protocols/AgentProtocolsPost";
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
@@ -187,6 +189,10 @@ export default async function BlogPostPage({
         {/* Post content — rendered Tiptap HTML (or custom component for special posts) */}
         {slug === "ai-hiring-revolution-2026" ? (
           <AIHiringRevolution />
+        ) : slug === "interview-loop-architecture" ? (
+          <InterviewLoopPost />
+        ) : slug === "agent-protocols-portfolio" ? (
+          <AgentProtocolsPost />
         ) : (
           <div
             className="prose prose-site max-w-none overflow-x-hidden"
