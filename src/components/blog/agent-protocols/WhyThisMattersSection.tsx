@@ -18,7 +18,7 @@ const STACK_LAYERS = [
     number: 4,
     protocol: "A2UI",
     label: "Presentation",
-    description: "What the user sees — agents generate rich, interactive UI",
+    description: "What the user sees: agents generate rich, interactive UI",
     border: "border-purple-200 dark:border-purple-800/50",
     bg: "bg-purple-50/50 dark:bg-purple-950/20",
     text: "text-purple-700 dark:text-purple-300",
@@ -67,8 +67,8 @@ export function WhyThisMattersSection() {
       <ScrollReveal delay={0.1}>
         <div className="max-w-2xl mb-8">
           <p className="text-sm text-ink/60 leading-relaxed mb-4">
-            AI agents are everywhere — coding assistants, workflow automators,
-            customer support bots — but there has been no standard way for them
+            AI agents are everywhere: coding assistants, workflow automators,
+            customer support bots, but there has been no standard way for them
             to communicate with frontends, tools, or each other. Every team
             builds bespoke integrations, and every integration breaks when the
             agent changes.
@@ -84,7 +84,7 @@ export function WhyThisMattersSection() {
           </p>
           <p className="text-sm text-ink/60 leading-relaxed">
             Three protocols emerged in 2024-2025 to standardize this. Together
-            with MCP, they form a complete stack — from how agents access tools
+            with MCP, they form a complete stack, from how agents access tools
             to how they render interactive UI in the browser. Think of it as the
             HTTP/TCP/IP of the agent era.
           </p>
@@ -120,7 +120,7 @@ export function WhyThisMattersSection() {
                     </span>
                   </div>
                   <span className="text-xs text-ink/40 truncate hidden sm:inline">
-                    — {layer.description}
+                    {layer.description}
                   </span>
                 </div>
               </motion.div>

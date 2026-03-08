@@ -17,7 +17,7 @@ export const canvaInterviewRounds = [
     duration: "60 minutes",
     aiAllowed: true,
     description:
-      "Open-ended engineering problems. Candidates share their screen with their preferred AI tools ready. Problems are deliberately ambiguous — designing systems, not implementing algorithms.",
+      "Open-ended engineering problems. Candidates share their screen with their preferred AI tools ready. Problems are deliberately ambiguous: designing systems, not implementing algorithms.",
     tests: "Decomposing ambiguous requirements, architectural trade-offs, critically reviewing AI-generated code, debugging AI output.",
   },
   {

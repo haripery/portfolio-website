@@ -56,12 +56,12 @@ export function CareerImpactSection() {
         <div className="max-w-2xl mb-8">
           <p className="text-sm text-ink/60 leading-relaxed mb-4">
             Frontend engineering is becoming orchestration engineering. AI
-            rapidly produces 70% of the code — the scaffolding, the obvious
-            patterns — but the remaining 30% involving architecture, edge cases,
+            rapidly produces 70% of the code, the scaffolding, the obvious
+            patterns, but the remaining 30% involving architecture, edge cases,
             and integration is where engineers differentiate.
             <Cite n={11} />
             {" "}The Thoughtworks Technology Radar documented this as the shift
-            from &ldquo;vibe coding&rdquo; to context engineering — the
+            from &ldquo;vibe coding&rdquo; to context engineering, the
             systematic practice of structuring information for reliable AI
             output.
             <Cite n={12} />
@@ -69,15 +69,15 @@ export function CareerImpactSection() {
           <p className="text-sm text-ink/60 leading-relaxed mb-4">
             Frontend-only job posts dropped 25% in 2024-2025
             <Cite n={9} />, but full-stack and AI-focused roles are rising.
-            Engineers who understand agent protocols — how to wire agents to
+            Engineers who understand agent protocols, how to wire agents to
             frontends, build generative UI, and design human-in-the-loop
-            workflows — have a concrete differentiator.
+            workflows, have a concrete differentiator.
           </p>
           <p className="text-sm text-ink/60 leading-relaxed">
             The contrarian case: frontend may actually be{" "}
             <em>less</em> vulnerable to AI automation than backend. Visual,
             interactive, accessibility-sensitive work remains stubbornly hard to
-            automate — and if developer productivity rises, companies may hire
+            automate, and if developer productivity rises, companies may hire
             more engineers, not fewer.
             <Cite n={13} />
           </p>
