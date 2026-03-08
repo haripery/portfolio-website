@@ -197,8 +197,8 @@ export function LiveDemoSection() {
         completedAgents={completedAgents}
       />
 
-      {/* Protocol Inspector - centered, max width */}
-      <div className="max-w-2xl mx-auto mb-8">
+      {/* Protocol Inspector */}
+      <div className="mb-8">
         <ProtocolInspector events={events} />
       </div>
 

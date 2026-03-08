@@ -41,9 +41,9 @@ export function AgentProtocolsPost() {
   return (
     <>
       <ReadingProgress />
-      <TableOfContents />
       <div className="max-w-none">
         <HeroSection />
+        <TableOfContents />
         <ProtocolExplainerSection />
         <LiveDemoSection />
         <ArchitectureSection />

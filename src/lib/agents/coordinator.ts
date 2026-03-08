@@ -230,6 +230,10 @@ export async function runVisitorIntelPipeline(
           // No partial marker in buffer - safe to emit text
           emitter.textContent(messageId, buffer);
           buffer = "";
+        } else if (buffer.length > 10000) {
+          // Safety: flush oversized buffer as text (malformed marker)
+          emitter.textContent(messageId, buffer);
+          buffer = "";
         }
         // If buffer contains "{{" but no complete marker, keep buffering
       }

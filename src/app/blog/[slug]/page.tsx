@@ -115,7 +115,7 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingJsonLd) }}
       />
-      <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 md:px-8 lg:px-12 lg:py-16">
+      <div className={`mx-auto px-4 py-12 sm:px-6 md:px-8 lg:px-12 lg:py-16 ${slug === "agent-protocols-portfolio" ? "max-w-4xl" : "max-w-2xl"}`}>
         {/* Top bar */}
         <div className="mb-10 flex items-center justify-between">
           <Link

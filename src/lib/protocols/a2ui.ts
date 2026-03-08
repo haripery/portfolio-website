@@ -83,11 +83,8 @@ export interface SuggestedReadingProps {
 
 // ── Marker Parsing ───────────────────────────────────────────────────────────
 
-/**
- * Regex to detect A2UI markers in streamed text.
- * Format: {{UI:component-type:{...json props...}}}
- */
-const A2UI_MARKER_REGEX = /\{\{UI:([\w-]+):(\{[^}]*(?:\{[^}]*\}[^}]*)*\})\}\}/g;
+const MARKER_PREFIX = "{{UI:";
+const MARKER_SUFFIX = "}}";
 
 export interface ParsedMarker {
   fullMatch: string;
@@ -96,8 +93,9 @@ export interface ParsedMarker {
 }
 
 /**
- * Parse A2UI markers from a text buffer.
- * Returns parsed markers and the cleaned text (markers removed).
+ * Parse A2UI markers from a text buffer using brace-counting.
+ * Handles arbitrary JSON nesting depth (arrays of objects, etc.).
+ * Format: {{UI:component-type:{...json props...}}}
  */
 export function parseA2UIMarkers(text: string): {
   markers: ParsedMarker[];
@@ -105,23 +103,63 @@ export function parseA2UIMarkers(text: string): {
 } {
   const markers: ParsedMarker[] = [];
   let cleanText = text;
+  let searchFrom = 0;
 
-  let match: RegExpExecArray | null;
-  // Reset regex state
-  A2UI_MARKER_REGEX.lastIndex = 0;
+  while (searchFrom < text.length) {
+    const prefixIdx = text.indexOf(MARKER_PREFIX, searchFrom);
+    if (prefixIdx === -1) break;
 
-  while ((match = A2UI_MARKER_REGEX.exec(text)) !== null) {
-    try {
-      const props = JSON.parse(match[2]) as Record<string, unknown>;
-      markers.push({
-        fullMatch: match[0],
-        componentType: match[1],
-        props,
-      });
-      cleanText = cleanText.replace(match[0], "");
-    } catch {
-      // Invalid JSON in marker, skip it
+    // Extract component type (between prefix and next ":")
+    const typeStart = prefixIdx + MARKER_PREFIX.length;
+    const typeEnd = text.indexOf(":", typeStart);
+    if (typeEnd === -1) { searchFrom = typeStart; continue; }
+
+    const componentType = text.slice(typeStart, typeEnd);
+    if (!/^[\w-]+$/.test(componentType)) { searchFrom = typeStart; continue; }
+
+    // Find matching JSON object using brace counting
+    const jsonStart = typeEnd + 1;
+    if (text[jsonStart] !== "{") { searchFrom = jsonStart; continue; }
+
+    let depth = 0;
+    let inString = false;
+    let escaped = false;
+    let jsonEnd = -1;
+
+    for (let i = jsonStart; i < text.length; i++) {
+      const ch = text[i];
+      if (escaped) { escaped = false; continue; }
+      if (ch === "\\") { escaped = true; continue; }
+      if (ch === '"') { inString = !inString; continue; }
+      if (inString) continue;
+      if (ch === "{") depth++;
+      if (ch === "}") {
+        depth--;
+        if (depth === 0) { jsonEnd = i; break; }
+      }
     }
+
+    if (jsonEnd === -1) break; // Incomplete JSON - need more data
+
+    // Check for closing `}}`
+    const afterJson = jsonEnd + 1;
+    if (text.slice(afterJson, afterJson + MARKER_SUFFIX.length) !== MARKER_SUFFIX) {
+      searchFrom = afterJson;
+      continue;
+    }
+
+    const fullMatch = text.slice(prefixIdx, afterJson + MARKER_SUFFIX.length);
+    const jsonStr = text.slice(jsonStart, jsonEnd + 1);
+
+    try {
+      const props = JSON.parse(jsonStr) as Record<string, unknown>;
+      markers.push({ fullMatch, componentType, props });
+      cleanText = cleanText.replace(fullMatch, "");
+    } catch {
+      // Malformed JSON, skip
+    }
+
+    searchFrom = afterJson + MARKER_SUFFIX.length;
   }
 
   return { markers, cleanText };
