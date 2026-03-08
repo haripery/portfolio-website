@@ -1,12 +1,50 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ScrollReveal } from "@/components/blog/ai-hiring/shared/ScrollReveal";
 
+const STATS = [
+  { text: "76% of developers use or plan to use AI tools", source: "Stack Overflow 2024", href: "https://survey.stackoverflow.co/2024/ai" },
+  { text: "97M+ monthly MCP SDK downloads", source: "Anthropic", href: "https://www.anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation" },
+  { text: "20M+ monthly AI SDK downloads", source: "Vercel", href: "https://vercel.com/blog/ai-sdk-6" },
+  { text: "25% drop in frontend-only job posts (2024-2025)", source: "LeadDev / TalentNeuron", href: "https://leaddev.com/ai/does-ai-spell-death-front-end-engineering" },
+];
+
 export function HeroSection() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((i) => (i + 1) % STATS.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section id="hero" className="mb-16 pt-4">
       <ScrollReveal>
+        {/* Stat ticker */}
+        <div className="relative h-6 w-full max-w-xl overflow-hidden mb-6">
+          <AnimatePresence mode="wait">
+            <motion.a
+              key={index}
+              href={STATS[index].href}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.35 }}
+              className="absolute inset-0 text-xs font-medium text-coral hover:text-coral/80 transition-colors"
+              style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
+            >
+              {STATS[index].text}
+              <span className="text-ink/25 ml-2">- {STATS[index].source}</span>
+            </motion.a>
+          </AnimatePresence>
+        </div>
+
         {/* Protocol badges */}
         <div className="flex flex-wrap gap-2 mb-6">
           {["AG-UI", "A2A", "A2UI"].map((protocol, i) => (

@@ -28,6 +28,26 @@ const SOURCES = [
     description: "Agent-to-tool communication by Anthropic",
     url: "https://modelcontextprotocol.io",
   },
+  {
+    label: "Stack Overflow Developer Survey 2024",
+    description: "76% of developers use or plan to use AI tools",
+    url: "https://survey.stackoverflow.co/2024/ai",
+  },
+  {
+    label: "MCP joins the Agentic AI Foundation",
+    description: "97M+ monthly SDK downloads - Anthropic, Dec 2025",
+    url: "https://www.anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation",
+  },
+  {
+    label: "AI SDK 6 - Vercel Blog",
+    description: "20M+ monthly downloads - Vercel, 2025",
+    url: "https://vercel.com/blog/ai-sdk-6",
+  },
+  {
+    label: "Does AI spell the death of front-end engineering?",
+    description: "25% drop in frontend job posts - LeadDev / TalentNeuron",
+    url: "https://leaddev.com/ai/does-ai-spell-death-front-end-engineering",
+  },
 ];
 
 export function SourcesSection() {
