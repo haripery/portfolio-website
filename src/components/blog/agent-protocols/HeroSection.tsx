@@ -71,21 +71,22 @@ export function HeroSection() {
             }}
           />
 
-          <div className="relative flex items-center justify-center gap-4 md:gap-8">
-            {/* Agent nodes */}
+          {/* Node → Node → Node */}
+          <div className="relative flex items-center justify-center gap-3 sm:gap-5 md:gap-6">
             {[
               { icon: "📡", label: "Tracker", protocol: "A2A" },
               { icon: "🧠", label: "Profiler", protocol: "AG-UI" },
               { icon: "💡", label: "Advisor", protocol: "A2UI" },
-            ].map((node, i) => (
-              <div key={node.label} className="flex items-center gap-4 md:gap-8">
+            ].flatMap((node, i, arr) => {
+              const nodeEl = (
                 <motion.div
+                  key={node.label}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.3 + i * 0.15, type: "spring" }}
                   className="flex flex-col items-center gap-1"
                 >
-                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl border-2 border-ink/15 bg-card flex items-center justify-center text-2xl md:text-3xl shadow-sm">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl border-2 border-ink/15 bg-card flex items-center justify-center text-xl sm:text-2xl md:text-3xl shadow-sm">
                     {node.icon}
                   </div>
                   <span className="text-[10px] font-semibold text-ink/60">
@@ -95,27 +96,17 @@ export function HeroSection() {
                     {node.protocol}
                   </span>
                 </motion.div>
-
-                {/* Connector */}
-                {i < 2 && (
-                  <motion.div
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ delay: 0.6 + i * 0.15 }}
-                    className="hidden md:flex items-center"
-                  >
-                    <div className="w-12 h-px bg-ink/15 relative">
-                      <motion.div
-                        animate={{ x: [0, 48, 0] }}
-                        transition={{ duration: 2, repeat: Infinity, delay: i * 0.5 }}
-                        className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-blue-400/50"
-                      />
-                    </div>
-                    <span className="text-ink/20 text-sm">→</span>
-                  </motion.div>
-                )}
-              </div>
-            ))}
+              );
+              if (i < arr.length - 1) {
+                return [
+                  nodeEl,
+                  <span key={`arrow-${i}`} className="text-ink/20 text-sm">
+                    →
+                  </span>,
+                ];
+              }
+              return [nodeEl];
+            })}
           </div>
         </div>
 
