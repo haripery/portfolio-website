@@ -197,19 +197,17 @@ export function LiveDemoSection() {
         completedAgents={completedAgents}
       />
 
-      {/* Results + Inspector side by side */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        <div className="lg:col-span-3">
-          <PersonaResult
-            components={components}
-            textContent={textContent}
-            isStreaming={isStreaming}
-          />
-        </div>
-        <div className="lg:col-span-2">
-          <ProtocolInspector events={events} />
-        </div>
+      {/* Protocol Inspector - centered, max width */}
+      <div className="max-w-2xl mx-auto mb-8">
+        <ProtocolInspector events={events} />
       </div>
+
+      {/* Results */}
+      <PersonaResult
+        components={components}
+        textContent={textContent}
+        isStreaming={isStreaming}
+      />
     </section>
   );
 }
