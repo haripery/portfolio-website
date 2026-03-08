@@ -23,14 +23,10 @@ const personaSchema = z.object({
     .describe("The most likely visitor persona"),
   confidence: z
     .number()
-    .min(0)
-    .max(100)
-    .describe("Confidence percentage (0-100)"),
+    .describe("Confidence percentage from 0 to 100"),
   traits: z
     .array(z.string())
-    .min(2)
-    .max(5)
-    .describe("Key behavioral traits observed"),
+    .describe("2 to 5 key behavioral traits observed"),
   reasoning: z
     .string()
     .describe(
