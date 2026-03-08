@@ -190,23 +190,22 @@ export function LiveDemoSection() {
         </div>
       </div>
 
-      {/* Main layout: Results + Inspector */}
+      {/* Agent Pipeline - full width */}
+      <AgentPipeline
+        activeAgent={activeAgent}
+        phase={phase}
+        completedAgents={completedAgents}
+      />
+
+      {/* Results + Inspector side by side */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        {/* Left: Pipeline + Results (3/5) */}
         <div className="lg:col-span-3">
-          <AgentPipeline
-            activeAgent={activeAgent}
-            phase={phase}
-            completedAgents={completedAgents}
-          />
           <PersonaResult
             components={components}
             textContent={textContent}
             isStreaming={isStreaming}
           />
         </div>
-
-        {/* Right: Protocol Inspector (2/5) */}
         <div className="lg:col-span-2">
           <ProtocolInspector events={events} />
         </div>

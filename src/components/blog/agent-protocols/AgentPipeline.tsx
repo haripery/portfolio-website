@@ -20,7 +20,7 @@ export function AgentPipeline({ activeAgent, phase, completedAgents }: Props) {
       <h4 className="text-xs font-semibold text-ink/40 uppercase tracking-wider mb-3">
         Agent Pipeline (A2A)
       </h4>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         {AGENTS.map((agent, i) => {
           const isActive = activeAgent === agent.name;
           const isCompleted = completedAgents.includes(agent.name);
