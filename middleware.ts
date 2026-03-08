@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import { authConfig } from "@/lib/auth.config";
-import { NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { securityHeaders } from "@/lib/security-headers";
 
 const { auth } = NextAuth(authConfig);
@@ -12,7 +12,8 @@ function applySecurityHeaders(response: NextResponse) {
   return response;
 }
 
-export default auth((req) => {
+// Auth-wrapped middleware for regular page requests
+const authMiddleware = auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth?.user;
   const isAdminRoute = nextUrl.pathname.startsWith("/admin");
@@ -32,6 +33,17 @@ export default auth((req) => {
 
   return applySecurityHeaders(NextResponse.next());
 });
+
+export default function middleware(req: NextRequest) {
+  // Server action requests (POST with Next-Action header) bypass the NextAuth
+  // middleware — the beta auth wrapper can return 405 on Vercel's Edge Runtime.
+  // Server actions handle their own auth where needed.
+  if (req.headers.get("next-action")) {
+    return applySecurityHeaders(NextResponse.next());
+  }
+
+  return (authMiddleware as any)(req);
+}
 
 export const config = {
   matcher: [
