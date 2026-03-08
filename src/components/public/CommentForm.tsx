@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { createComment } from "@/actions/comments";
 import toast from "react-hot-toast";
 import posthog from "posthog-js";
@@ -8,6 +9,7 @@ import posthog from "posthog-js";
 const CHAR_LIMIT = 2000;
 
 export function CommentForm({ blogPostId }: { blogPostId: string }) {
+  const router = useRouter();
   const [body, setBody] = useState("");
   const [isPending, startTransition] = useTransition();
 
@@ -29,6 +31,7 @@ export function CommentForm({ blogPostId }: { blogPostId: string }) {
       if (result.success) {
         setBody("");
         toast.success("Comment posted");
+        router.refresh();
         posthog.capture("comment_submitted", { blog_post_id: blogPostId });
       } else {
         const errorMsg =

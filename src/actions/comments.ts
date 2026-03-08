@@ -60,7 +60,6 @@ export async function createComment(data: unknown) {
     },
   });
 
-  revalidatePath(`/blog/${post.slug}`);
   return { success: true };
 }
 
