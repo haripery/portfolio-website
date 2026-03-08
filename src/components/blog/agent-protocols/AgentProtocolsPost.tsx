@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { ReadingProgress } from "@/components/blog/ai-hiring/shared/ReadingProgress";
-import { TableOfContents } from "@/components/blog/ai-hiring/shared/TableOfContents";
+import { TableOfContents } from "./TableOfContents";
 import { HeroSection } from "./HeroSection";
 
 const ProtocolExplainerSection = dynamic(
