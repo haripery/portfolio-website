@@ -31,13 +31,18 @@ export function AgentPipeline({ activeAgent, phase, completedAgents }: Props) {
               <motion.div
                 animate={{
                   scale: isActive ? 1.05 : 1,
+                  borderColor: isActive
+                    ? "rgb(59, 130, 246)"
+                    : isCompleted
+                    ? "rgb(34, 197, 94)"
+                    : "rgba(0,0,0,0.1)",
                 }}
                 className={`relative flex flex-col items-center gap-1 rounded-lg border-2 px-3 py-2 min-w-[100px] transition-colors ${
                   isActive
-                    ? "border-blue-500 bg-blue-50 dark:bg-blue-950/30"
+                    ? "bg-blue-50 dark:bg-blue-950/30"
                     : isCompleted
-                    ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30"
-                    : "border-ink/15 bg-ink/[0.02]"
+                    ? "bg-emerald-50 dark:bg-emerald-950/30"
+                    : "bg-ink/[0.02]"
                 }`}
               >
                 {/* Pulse ring for active agent */}
@@ -81,13 +86,15 @@ export function AgentPipeline({ activeAgent, phase, completedAgents }: Props) {
 
               {/* Arrow connector */}
               {i < AGENTS.length - 1 && (
-                <span
-                  className={`text-lg font-light ${
-                    isCompleted ? "text-emerald-500" : "text-ink/20"
-                  }`}
+                <motion.div
+                  animate={{
+                    opacity: isCompleted ? 1 : 0.3,
+                    color: isCompleted ? "rgb(34, 197, 94)" : "rgba(0,0,0,0.2)",
+                  }}
+                  className="text-lg font-light"
                 >
                   →
-                </span>
+                </motion.div>
               )}
             </div>
           );

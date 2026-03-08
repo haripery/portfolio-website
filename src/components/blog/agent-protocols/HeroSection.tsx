@@ -77,8 +77,7 @@ export function HeroSection() {
               { icon: "📡", label: "Tracker", protocol: "A2A" },
               { icon: "🧠", label: "Profiler", protocol: "AG-UI" },
               { icon: "💡", label: "Advisor", protocol: "A2UI" },
-            ].flatMap((node, i, arr) => {
-              const nodeEl = (
+            ].map((node, i) => (
                 <motion.div
                   key={node.label}
                   initial={{ scale: 0 }}
@@ -96,17 +95,7 @@ export function HeroSection() {
                     {node.protocol}
                   </span>
                 </motion.div>
-              );
-              if (i < arr.length - 1) {
-                return [
-                  nodeEl,
-                  <span key={`arrow-${i}`} className="text-ink/20 text-sm">
-                    →
-                  </span>,
-                ];
-              }
-              return [nodeEl];
-            })}
+            ))}
           </div>
         </div>
 
