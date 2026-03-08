@@ -10,7 +10,7 @@ export function HeroSection() {
           <p className="text-base leading-relaxed text-ink/65">
             I mentor engineers on{" "}
             <a
-              href="https://adplist.org"
+              href="https://adplist.org/mentors/hariprasath-periyasamy-hari"
               target="_blank"
               rel="noopener noreferrer"
               className="text-coral transition-colors hover:text-coral/80"

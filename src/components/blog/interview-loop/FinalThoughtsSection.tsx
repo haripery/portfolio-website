@@ -42,7 +42,7 @@ export function FinalThoughtsSection() {
             <p className="text-sm leading-relaxed text-ink/65">
               If you&apos;re preparing and want to talk through your strategy,{" "}
               <a
-                href="https://adplist.org"
+                href="https://adplist.org/mentors/hariprasath-periyasamy-hari"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-coral transition-colors hover:text-coral/80"
