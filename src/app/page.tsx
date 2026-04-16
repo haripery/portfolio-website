@@ -73,7 +73,7 @@ export default async function Home() {
               { n: "02", label: "Experience", href: "#experience" },
               { n: "03", label: "Projects", href: "#projects" },
               { n: "04", label: "Writing", href: "#blog" },
-              { n: "05", label: "Community", href: "#community" },
+              { n: "05", label: "Community", href: "/community" },
             ].map(({ n, label, href }) => (
               <li key={href}>
                 <a

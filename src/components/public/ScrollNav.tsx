@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 import posthog from "posthog-js";
 
-const SECTIONS = [
+const SECTIONS: { id: string; label: string; n: string; href?: string }[] = [
   { id: "about", label: "About", n: "01" },
   { id: "experience", label: "Experience", n: "02" },
   { id: "projects", label: "Projects", n: "03" },
   { id: "blog", label: "Writing", n: "04" },
-  { id: "community", label: "Community", n: "05" },
+  { id: "community", label: "Community", n: "05", href: "/community" },
 ];
 
 export function ScrollNav() {
@@ -38,10 +38,10 @@ export function ScrollNav() {
   return (
     <nav aria-label="On this page" className="hidden lg:block">
       <ul className="mt-2 space-y-0.5">
-        {SECTIONS.map(({ id, label, n }) => (
+        {SECTIONS.map(({ id, label, n, href }) => (
           <li key={id}>
             <a
-              href={`#${id}`}
+              href={href ?? `#${id}`}
               onClick={() =>
                 posthog.capture("section_navigated", { section: label })
               }
