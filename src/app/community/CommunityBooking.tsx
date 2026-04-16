@@ -12,7 +12,9 @@ export function CommunityBooking() {
         width="100%"
         height={496}
         loading="lazy"
+        scrolling="no"
         className="border-0"
+        style={{ overflow: "hidden" }}
       />
     </div>
   );

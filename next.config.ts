@@ -15,10 +15,6 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "pub-*.r2.dev",
       },
-      {
-        protocol: "https",
-        hostname: "adplist-users-production.s3.us-east-1.amazonaws.com",
-      },
     ],
   },
   serverExternalPackages: ["bcryptjs", "pg", "@prisma/adapter-pg"],

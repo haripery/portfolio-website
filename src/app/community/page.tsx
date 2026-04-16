@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowLeft, Users, Lightbulb, Trophy, ArrowRight, Mail } from "lucide-react";
+import { ArrowLeft, Users, Lightbulb, Trophy } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { CommunityBooking } from "./CommunityBooking";
+import { CommunityMailto } from "./CommunityMailto";
 
 export const metadata: Metadata = {
   title: "Community -- Hariprasath Periyasamy",
@@ -80,17 +80,6 @@ export default function CommunityPage() {
           ))}
         </div>
 
-        {/* ADPList Impact Badge */}
-        <div className="mt-8">
-          <Image
-            src="https://adplist-users-production.s3.us-east-1.amazonaws.com/93bbf0f3c82d137ad508caddfa0aac88/swags/00fbf6d7-79ff-555e-bd85-0bfa2d186f3e.webp"
-            alt="ADPList Mentoring Impact Badge"
-            width={380}
-            height={350}
-            className="rounded-[14px]"
-          />
-        </div>
-
         {/* ── Student Mentoring ── */}
         <section id="mentoring" className="mt-16 scroll-mt-20">
           <div className="flex items-center gap-3">
@@ -154,13 +143,7 @@ export default function CommunityPage() {
           </p>
 
           <div className="mt-4">
-            <a
-              href="mailto:hariprasath.periyasamy@gmail.com?subject=Workshop%20Inquiry"
-              className="group inline-flex items-center gap-2 border border-forest px-4 py-2 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:bg-forest hover:text-paper focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 focus:ring-offset-paper"
-            >
-              <Mail className="h-3 w-3" />
-              Book a Workshop
-            </a>
+            <CommunityMailto subject="Workshop Inquiry" label="Book a Workshop" />
           </div>
         </section>
 
@@ -192,13 +175,7 @@ export default function CommunityPage() {
           </ul>
 
           <div className="mt-4">
-            <a
-              href="mailto:hariprasath.periyasamy@gmail.com?subject=Hackathon%20Judging%20Invitation"
-              className="group inline-flex items-center gap-2 border border-forest px-4 py-2 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:bg-forest hover:text-paper focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 focus:ring-offset-paper"
-            >
-              <Mail className="h-3 w-3" />
-              Invite Me to Judge
-            </a>
+            <CommunityMailto subject="Hackathon Judging Invitation" label="Invite Me to Judge" />
           </div>
         </section>
 
@@ -208,13 +185,7 @@ export default function CommunityPage() {
             Have something else in mind? I&apos;m always open to interesting conversations.
           </p>
           <div className="mt-4">
-            <a
-              href="mailto:hariprasath.periyasamy@gmail.com"
-              className="group inline-flex items-center gap-2 border border-forest px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:bg-forest hover:text-paper focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 focus:ring-offset-paper"
-            >
-              Get in Touch
-              <ArrowRight className="h-3 w-3" />
-            </a>
+            <CommunityMailto label="Get in Touch" />
           </div>
         </div>
       </div>
