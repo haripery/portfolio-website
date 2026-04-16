@@ -8,6 +8,7 @@ const SECTIONS = [
   { id: "experience", label: "Experience", n: "02" },
   { id: "projects", label: "Projects", n: "03" },
   { id: "blog", label: "Writing", n: "04" },
+  { id: "community", label: "Community", n: "05" },
 ];
 
 export function ScrollNav() {

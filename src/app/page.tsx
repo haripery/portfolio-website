@@ -4,6 +4,7 @@ import { ExperienceCard } from "@/components/public/ExperienceCard";
 import { ProjectCard } from "@/components/public/ProjectCard";
 import { TagPill } from "@/components/public/TagPill";
 import { Footer } from "@/components/public/Footer";
+import { CommunitySection } from "@/components/public/CommunitySection";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { getProfile } from "@/actions/profile";
 import { getExperiences } from "@/actions/experience";
@@ -72,6 +73,7 @@ export default async function Home() {
               { n: "02", label: "Experience", href: "#experience" },
               { n: "03", label: "Projects", href: "#projects" },
               { n: "04", label: "Writing", href: "#blog" },
+              { n: "05", label: "Community", href: "#community" },
             ].map(({ n, label, href }) => (
               <li key={href}>
                 <a
@@ -316,6 +318,12 @@ export default async function Home() {
                   <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                 </TrackedLink>
               </div>
+            </section>
+
+            {/* Community */}
+            <section id="community" className="mb-20 scroll-mt-20">
+              <SectionLabel number="05" label="Community" />
+              <CommunitySection />
             </section>
 
             <Footer text={settings?.footerText} />
