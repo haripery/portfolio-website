@@ -69,7 +69,7 @@ export function LoginForm() {
           autoComplete="email"
           className={inputClass}
           style={{ borderRadius: "2px" }}
-          placeholder="admin@nearthesingularity.com"
+          placeholder="admin@irah.dev"
         />
       </div>
 

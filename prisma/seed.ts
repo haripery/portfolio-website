@@ -40,13 +40,13 @@ async function main() {
       tagline:
         "I build accessible, high-performance products for the web — and explore what it means to build near the singularity.",
       bio: "<p>I'm a software engineer based somewhere at the intersection of code, curiosity, and caffeine. I specialize in building great digital experiences — the kind that feel fast, accessible, and just <em>right</em>.</p><p>When I'm not pushing pixels, I'm writing about what I learn, mentoring developers, and exploring where AI is taking us all.</p>",
-      email: "hello@nearthesingularity.com",
+      email: "hari@irah.dev",
       socials: {
         create: [
           { platform: "github", url: "https://github.com/yourusername", label: "GitHub", sortOrder: 1 },
           { platform: "linkedin", url: "https://linkedin.com/in/yourusername", label: "LinkedIn", sortOrder: 2 },
-          { platform: "twitter", url: "https://twitter.com/yourusername", label: "Twitter", sortOrder: 3 },
-          { platform: "email", url: "hello@nearthesingularity.com", label: "Email", sortOrder: 4 },
+          { platform: "twitter", url: "https://x.com/nearthesingular", label: "Twitter", sortOrder: 3 },
+          { platform: "email", url: "hari@irah.dev", label: "Email", sortOrder: 4 },
         ],
       },
     },

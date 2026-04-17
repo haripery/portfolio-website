@@ -150,7 +150,7 @@ export function ProfileForm({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full border border-ink/20 bg-card px-3 py-2 text-sm text-forest placeholder:text-ink/35 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest"
-            placeholder="hello@nearthesingularity.com"
+            placeholder="hari@irah.dev"
           />
         </div>
 
