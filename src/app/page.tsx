@@ -4,6 +4,7 @@ import { ExperienceCard } from "@/components/public/ExperienceCard";
 import { ProjectCard } from "@/components/public/ProjectCard";
 import { TagPill } from "@/components/public/TagPill";
 import { Footer } from "@/components/public/Footer";
+import { FlipName } from "@/components/public/FlipName";
 import { CommunitySection } from "@/components/public/CommunitySection";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { getProfile } from "@/actions/profile";
@@ -130,7 +131,7 @@ export default async function Home() {
                 className="font-display text-4xl font-bold tracking-tight text-forest sm:text-5xl"
                 style={{ fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" }}
               >
-                {profile?.name ?? "Your Name"}
+                <FlipName name={profile?.name ?? "Your Name"} />
               </h1>
 
               {/* Role — medium weight */}

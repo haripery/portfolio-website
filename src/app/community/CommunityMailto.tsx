@@ -10,8 +10,8 @@ export function CommunityMailto({
   label: string;
 }) {
   const href = subject
-    ? `mailto:hariprasath.periyasamy@gmail.com?subject=${encodeURIComponent(subject)}`
-    : "mailto:hariprasath.periyasamy@gmail.com";
+    ? `mailto:hari@irah.dev?subject=${encodeURIComponent(subject)}`
+    : "mailto:hari@irah.dev";
 
   return (
     <a

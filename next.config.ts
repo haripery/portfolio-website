@@ -19,6 +19,22 @@ const nextConfig: NextConfig = {
   },
   serverExternalPackages: ["bcryptjs", "pg", "@prisma/adapter-pg"],
   skipTrailingSlashRedirect: true,
+  async redirects() {
+    return [
+      {
+        source: "/",
+        has: [{ type: "host", value: "nearthesingularity.com" }],
+        destination: "/blog",
+        permanent: false,
+      },
+      {
+        source: "/",
+        has: [{ type: "host", value: "www.nearthesingularity.com" }],
+        destination: "/blog",
+        permanent: false,
+      },
+    ];
+  },
   async rewrites() {
     return [
       {
