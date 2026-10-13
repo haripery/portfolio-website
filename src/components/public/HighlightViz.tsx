@@ -140,8 +140,10 @@ function Stream({ value, label }: { value: number; label: string }) {
 function Steps({ steps }: { steps: string[] }) {
   const tick = useTicker(1100);
   const active = tick % steps.length;
+  const columns =
+    steps.length >= 5 ? "sm:grid-cols-5" : steps.length === 4 ? "sm:grid-cols-4" : "sm:grid-cols-3";
   return (
-    <ol className="grid max-w-2xl gap-2 sm:grid-cols-4">
+    <ol className={`grid max-w-2xl gap-2 ${columns}`}>
       {steps.map((step, index) => (
         <li
           key={step}
@@ -195,6 +197,92 @@ function Stat({ value, label }: { value: string; label: string }) {
   );
 }
 
+/** tags:A|B|C — a set of things, landing one by one with a moving highlight */
+function Tags({ items }: { items: string[] }) {
+  const tick = useTicker(1300);
+  const active = tick % items.length;
+  return (
+    <ul className="flex max-w-2xl flex-wrap gap-2">
+      {items.map((item, index) => (
+        <motion.li
+          key={item}
+          initial={{ opacity: 0, scale: 0.85, y: 8 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ delay: 0.15 + index * 0.1, duration: 0.3 }}
+          className={`border px-3 py-2 text-sm font-semibold text-forest transition-colors duration-500 ${
+            index === active ? "border-gold bg-gold/30" : "border-ink/15"
+          }`}
+          style={{ borderRadius: 2 }}
+        >
+          {item}
+        </motion.li>
+      ))}
+    </ul>
+  );
+}
+
+/** devices:Phone|Tablet|Desktop — outlined screens with a tap moving across them */
+function Devices({ labels }: { labels: string[] }) {
+  const tick = useTicker(1200);
+  const active = tick % labels.length;
+  const shapes = ["h-16 w-9", "h-16 w-12", "h-14 w-24", "h-14 w-24"];
+  return (
+    <ul className="flex flex-wrap items-end gap-6">
+      {labels.map((label, index) => (
+        <motion.li
+          key={label}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 + index * 0.12 }}
+          className="text-center"
+        >
+          <div
+            className={`relative mx-auto border-2 transition-colors duration-300 ${shapes[index] ?? shapes[2]} ${
+              index === active ? "border-gold" : "border-forest"
+            }`}
+            style={{ borderRadius: 4 }}
+          >
+            <span
+              className={`absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold transition-opacity duration-300 ${
+                index === active ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          </div>
+          <span className="mt-2 block text-[10px] uppercase tracking-widest text-ink/60" style={MONO}>
+            {label}
+          </span>
+        </motion.li>
+      ))}
+    </ul>
+  );
+}
+
+/** anomaly:label — a steady stream with one spike picked out as it passes */
+function Anomaly({ label }: { label: string }) {
+  const tick = useTicker(200);
+  const count = 44;
+  const spike = count - 1 - (tick % (count + 8));
+  return (
+    <div>
+      <div className="flex h-16 max-w-md items-end gap-[3px]" aria-hidden="true">
+        {Array.from({ length: count }, (_, index) => {
+          const seed = index + tick;
+          const isSpike = index === spike;
+          const height = isSpike ? 100 : 18 + ((seed * 29 + ((seed * seed) % 7) * 4) % 32);
+          return (
+            <div
+              key={index}
+              className={`flex-1 transition-[height] duration-150 ${isSpike ? "bg-coral" : "bg-forest/70"}`}
+              style={{ height: `${height}%` }}
+            />
+          );
+        })}
+      </div>
+      <Caption>{label}</Caption>
+    </div>
+  );
+}
+
 export function HighlightViz({ spec }: { spec: string }) {
   const [kind, ...args] = spec.split(":");
   switch (kind) {
@@ -208,6 +296,12 @@ export function HighlightViz({ spec }: { spec: string }) {
       return <Steps steps={args.join(":").split("|")} />;
     case "crowd":
       return <Crowd value={args[0] ?? ""} label={args[1] ?? ""} />;
+    case "tags":
+      return <Tags items={args.join(":").split("|")} />;
+    case "devices":
+      return <Devices labels={args.join(":").split("|")} />;
+    case "anomaly":
+      return <Anomaly label={args.join(":")} />;
     case "stat":
       return <Stat value={args[0] ?? ""} label={args[1] ?? ""} />;
     default:

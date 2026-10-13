@@ -244,6 +244,7 @@ const HIGHLIGHTS: Record<
         kind: "Engineering quality",
         title: "Standards, architecture proposals and the design system",
         icon: "ruler",
+        viz: "tags:UI readiness framework|Distributed tracing|Shared design system|Reusable components",
         detail: [
           "Authored engineering standards and architecture proposals, including a UI readiness framework and a distributed tracing initiative, to raise quality across teams.",
           "Strengthened the shared design system so product copy and visual changes ship without a package release, and built components for reuse by sister teams.",
@@ -258,6 +259,7 @@ const HIGHLIGHTS: Record<
         kind: "Leadership",
         title: "Led engineering for the Ads 3P team",
         icon: "megaphone",
+        viz: "tags:Real-time bidding|Merchant dashboards|Email and SMS automations",
         detail: [
           "Led engineering for the Ads 3P team (real-time bidding, merchant dashboards, email/SMS automations), combining hands-on leadership with mentoring on frontend architecture, code quality, and delivery velocity.",
         ],
@@ -275,6 +277,7 @@ const HIGHLIGHTS: Record<
         kind: "Data integrity",
         title: "Event tracking across Web and Native",
         icon: "activity",
+        viz: "steps:Web and Native events|Reliable real-time signals|Meta Pixel and Google Tag Manager",
         detail: [
           "Built a high-integrity event tracking solution across Web and Native platforms, ensuring reliable real-time signals for Meta Pixel and Google Tag Manager to improve merchant conversion tracking accuracy.",
         ],
@@ -283,6 +286,7 @@ const HIGHLIGHTS: Record<
         kind: "Reliability",
         title: "On-call and engineering culture",
         icon: "shield",
+        viz: "tags:System health|Security hardening|Code reviews|Knowledge sharing",
         detail: [
           "Contributed to the on-call rotation (weekly quarterly shifts), driving system health, security hardening, and engineering culture through structured code reviews and knowledge-sharing sessions.",
         ],
@@ -296,6 +300,7 @@ const HIGHLIGHTS: Record<
         kind: "Amazon Ads",
         title: "Designed and shipped Ads Data Manager",
         icon: "database",
+        viz: "steps:Onboard advertiser data|Activate it|Change the UI without a client deploy",
         detail: [
           "Designed and shipped Ads Data Manager, a cloud-based data onboarding and activation SPA using React, TypeScript, and GraphQL, delivering production-ready digital workflows for enterprise advertisers.",
           "Developed a Server-Driven UI architecture that delivered UI configurations from the backend, enabling real-time interface updates without client deployments and supporting A/B experimentation at scale.",
@@ -324,6 +329,7 @@ const HIGHLIGHTS: Record<
         kind: "AWS CloudWatch",
         title: "AI-powered anomaly detection dashboards",
         icon: "brain",
+        viz: "anomaly:Log pattern anomalies, picked out for non-technical users",
         detail: [
           "Engineered AI-powered anomaly detection dashboards that transformed complex ML outputs into intuitive visualizations and interactive tables, enabling non-technical users to identify log pattern anomalies.",
           "Implemented an extensive telemetry system capturing client-side latency, API errors, and behavioral metrics to enable deep performance analysis and data-driven product decisions.",
@@ -356,6 +362,7 @@ const HIGHLIGHTS: Record<
         kind: "Design systems",
         title: "A design system built on Atomic Design",
         icon: "component",
+        viz: "steps:Atoms|Molecules|Organisms|Templates|Pages",
         detail: [
           "Established a comprehensive design system using Atomic Design principles, enabling faster prototyping and consistent user experiences across the product suite.",
           "Led development of high-performance data analytics dashboards with a focus on rapid prototyping, iterative delivery, and cross-functional collaboration with product and design stakeholders.",
@@ -370,6 +377,7 @@ const HIGHLIGHTS: Record<
         kind: "Design systems",
         title: "Company-wide Web UI template library",
         icon: "component",
+        viz: "crowd:Company-wide:every feature team built on one Web UI library",
         detail: [
           "Designed, developed, and maintained a Web UI Template library for xApps (online CAD applications), creating reusable components consumed by all feature teams company-wide.",
         ],
@@ -378,6 +386,7 @@ const HIGHLIGHTS: Record<
         kind: "Platforms",
         title: "Mobile and touch workflows",
         icon: "smartphone",
+        viz: "devices:Phone|Tablet|Desktop",
         detail: [
           "Ensured full cross-platform compatibility for mobile and touch device workflows, delivering seamless user experiences across devices.",
         ],
@@ -386,6 +395,7 @@ const HIGHLIGHTS: Record<
         kind: "Performance",
         title: "Network and runtime performance",
         icon: "zap",
+        viz: "tags:Resource hinting|Tree shaking|Compression|Caching|Web Workers|LocalStorage",
         detail: [
           "Optimized network performance through resource hinting, tree shaking, compression, and caching; enhanced runtime efficiency with Web Workers and LocalStorage strategies.",
         ],
@@ -399,6 +409,7 @@ const HIGHLIGHTS: Record<
         kind: "Banking",
         title: "Lloyds Bank Commercial Banking Online",
         icon: "landmark",
+        viz: "tags:Responsive|Cross-browser|Accessibility-compliant",
         detail: [
           "Enhanced digital banking payment platforms, including Lloyds Bank Commercial Banking Online, with responsive, cross-browser, and accessibility-compliant interfaces for major financial services clients.",
         ],
