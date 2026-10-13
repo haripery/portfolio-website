@@ -38,6 +38,9 @@ const MONO = { fontFamily: "var(--font-jetbrains-mono), monospace" };
 const DISPLAY = { fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" };
 
 const FULL_NAME = "Hariprasath Periyasamy";
+// The portfolio lives on irah.dev. NEXT_PUBLIC_APP_URL is the blog's domain,
+// where "/" redirects to /blog, so share links must not be built from it.
+const PORTFOLIO_URL = "https://www.irah.dev";
 
 // What a shared link to the home page shows: title, description and (from
 // opengraph-image.tsx) the card image.
@@ -49,6 +52,7 @@ export async function generateMetadata(): Promise<Metadata> {
     profile?.tagline ||
     "Frontend, all the way down. AI and full stack, all the way across.";
   return {
+    metadataBase: new URL(PORTFOLIO_URL),
     title: { absolute: title },
     description,
     alternates: { canonical: "/" },
@@ -75,13 +79,12 @@ export default async function Home() {
   ]);
   const recentPosts = posts.slice(0, 3);
 
-  const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
   const personJsonLd = profile
     ? {
         "@context": "https://schema.org",
         "@type": "Person",
         name: profile.name,
-        url: BASE_URL,
+        url: PORTFOLIO_URL,
         jobTitle: profile.role,
         description: profile.tagline,
         image: profile.photoUrl || undefined,
