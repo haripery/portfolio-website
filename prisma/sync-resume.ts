@@ -6,6 +6,8 @@
  *   npx tsx prisma/sync-resume.ts --apply --prune   # also delete unmatched experiences
  *
  * This file is the source of truth for résumé content. Edit it, re-run it.
+ * The production home page has not been refreshing its cache on its own, so
+ * redeploy after applying if the change does not show up.
  * It never touches blog posts, comments, users, settings or socials.
  */
 import { config } from "dotenv";
@@ -393,7 +395,10 @@ async function main() {
     { timeout: 30_000 }
   );
 
-  console.log(`\n✅ Applied ${pending} field change(s). The home page picks them up within 60 seconds.`);
+  console.log(`\n✅ Applied ${pending} field change(s).`);
+  console.log(
+    "If irah.dev still shows the old content after a couple of minutes, redeploy (push a commit or use Redeploy in Vercel)."
+  );
 }
 
 main()
