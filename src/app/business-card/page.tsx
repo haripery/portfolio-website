@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default async function BusinessCardPage() {
   const profile = await getProfile();
 
-  const role = "Applied AI Fullstack Engineer";
+  const role = "Principal Engineer";
   const email = "hari@irah.dev";
   const linkedin = "linkedin.com/in/hariperiyasamy";
   const blog = "nearthesingularity.com/blog";

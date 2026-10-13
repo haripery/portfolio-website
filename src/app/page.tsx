@@ -1,6 +1,7 @@
 import { ScrollNav } from "@/components/public/ScrollNav";
 import { SocialIcons } from "@/components/public/SocialIcons";
-import { ExperienceCard } from "@/components/public/ExperienceCard";
+import { ExperienceSection } from "@/components/public/ExperienceSection";
+import { ImpactSection } from "@/components/public/ImpactSection";
 import { ProjectCard } from "@/components/public/ProjectCard";
 import { TagPill } from "@/components/public/TagPill";
 import { Footer } from "@/components/public/Footer";
@@ -32,6 +33,19 @@ export default async function Home() {
   ]);
 
   const recentPosts = posts.slice(0, 3);
+
+  // Impact only appears once at least one experience has metrics
+  const hasImpact = experiences.some((exp) => exp.metrics.length > 0);
+  const navSections = [
+    { label: "About", href: "#about" },
+    ...(hasImpact ? [{ label: "Impact", href: "#impact" }] : []),
+    { label: "Experience", href: "#experience" },
+    { label: "Projects", href: "#projects" },
+    { label: "Writing", href: "#blog" },
+    { label: "Community", href: "/community" },
+  ].map((section, i) => ({ ...section, n: String(i + 1).padStart(2, "0") }));
+  const sectionNumber = (label: string) =>
+    navSections.find((section) => section.label === label)?.n ?? "";
 
   const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
   const personJsonLd = profile
@@ -68,14 +82,8 @@ export default async function Home() {
           </Link>
 
           {/* Numbered nav links */}
-          <ul className="hidden items-center gap-8 md:flex">
-            {[
-              { n: "01", label: "About", href: "#about" },
-              { n: "02", label: "Experience", href: "#experience" },
-              { n: "03", label: "Projects", href: "#projects" },
-              { n: "04", label: "Writing", href: "#blog" },
-              { n: "05", label: "Community", href: "/community" },
-            ].map(({ n, label, href }) => (
+          <ul className="hidden items-center gap-6 md:flex lg:gap-8">
+            {navSections.map(({ n, label, href }) => (
               <li key={href}>
                 <a
                   href={href}
@@ -154,7 +162,7 @@ export default async function Home() {
 
               {/* Scroll nav */}
               <div className="mt-10">
-                <ScrollNav />
+                <ScrollNav showImpact={hasImpact} />
               </div>
             </div>
 
@@ -171,7 +179,7 @@ export default async function Home() {
 
             {/* About */}
             <section id="about" className="mb-20 scroll-mt-20">
-              <SectionLabel number="01" label="About" />
+              <SectionLabel number={sectionNumber("About")} label="About" />
 
               {profile?.bio ? (
                 <div
@@ -184,8 +192,8 @@ export default async function Home() {
                 </p>
               )}
 
-              {profile?.resumeUrl && (
-                <div className="mt-6">
+              <div className="mt-6 flex flex-wrap gap-x-8 gap-y-3">
+                {profile?.resumeUrl && (
                   <TrackedAnchor
                     event="resume_downloaded"
                     properties={{ source: "about_section" }}
@@ -197,22 +205,33 @@ export default async function Home() {
                     View Full Résumé
                     <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                   </TrackedAnchor>
-                </div>
-              )}
+                )}
+                <TrackedAnchor
+                  event="resume_interactive_opened"
+                  properties={{ source: "about_section" }}
+                  href="/resume"
+                  className="group inline-flex items-center gap-2 border-b border-forest pb-0.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:border-coral hover:text-coral"
+                >
+                  Interactive Résumé
+                  <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+                </TrackedAnchor>
+              </div>
             </section>
+
+            {/* Impact */}
+            {hasImpact && (
+              <section id="impact" className="mb-20 scroll-mt-20">
+                <SectionLabel number={sectionNumber("Impact")} label="Impact" />
+                <ImpactSection experiences={experiences} />
+              </section>
+            )}
 
             {/* Experience */}
             <section id="experience" className="mb-20 scroll-mt-20">
-              <SectionLabel number="02" label="Experience" />
+              <SectionLabel number={sectionNumber("Experience")} label="Experience" />
 
               {experiences.length > 0 ? (
-                <ol className="mt-2 divide-y divide-ink/10">
-                  {experiences.map((exp) => (
-                    <li key={exp.id} className="py-1">
-                      <ExperienceCard exp={exp} />
-                    </li>
-                  ))}
-                </ol>
+                <ExperienceSection experiences={experiences} />
               ) : (
                 <p className="mt-6 text-sm text-ink/40">No experience entries yet.</p>
               )}
@@ -232,7 +251,7 @@ export default async function Home() {
 
             {/* Projects */}
             <section id="projects" className="mb-20 scroll-mt-20">
-              <SectionLabel number="03" label="Projects" />
+              <SectionLabel number={sectionNumber("Projects")} label="Projects" />
 
               {projects.length > 0 ? (
                 <ol className="mt-2 divide-y divide-ink/10">
@@ -261,7 +280,7 @@ export default async function Home() {
 
             {/* Writing / Blog */}
             <section id="blog" className="mb-20 scroll-mt-20">
-              <SectionLabel number="04" label="Writing" />
+              <SectionLabel number={sectionNumber("Writing")} label="Writing" />
 
               {recentPosts.length > 0 ? (
                 <ol className="mt-4 space-y-0 divide-y divide-ink/10">
@@ -323,7 +342,7 @@ export default async function Home() {
 
             {/* Community */}
             <section id="community" className="mb-20 scroll-mt-20">
-              <SectionLabel number="05" label="Community" />
+              <SectionLabel number={sectionNumber("Community")} label="Community" />
               <CommunitySection />
             </section>
 

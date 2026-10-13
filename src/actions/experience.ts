@@ -11,6 +11,7 @@ export async function getExperiences() {
       include: {
         tags: true,
         links: true,
+        metrics: { orderBy: { sortOrder: "asc" } },
       },
       orderBy: { sortOrder: "asc" },
     });
@@ -28,13 +29,14 @@ export async function createExperience(data: unknown) {
     return { success: false, error: parsed.error.flatten() };
   }
 
-  const { tags, links, ...experienceData } = parsed.data;
+  const { tags, links, metrics, ...experienceData } = parsed.data;
 
   const experience = await prisma.experience.create({
     data: {
       ...experienceData,
       tags: { create: tags.map((label) => ({ label })) },
       links: { create: links },
+      metrics: { create: metrics.map((m, i) => ({ ...m, sortOrder: i })) },
     },
   });
 
@@ -51,17 +53,19 @@ export async function updateExperience(id: string, data: unknown) {
     return { success: false, error: parsed.error.flatten() };
   }
 
-  const { tags, links, ...experienceData } = parsed.data;
+  const { tags, links, metrics, ...experienceData } = parsed.data;
 
   await prisma.$transaction([
     prisma.experienceTag.deleteMany({ where: { experienceId: id } }),
     prisma.experienceLink.deleteMany({ where: { experienceId: id } }),
+    prisma.experienceMetric.deleteMany({ where: { experienceId: id } }),
     prisma.experience.update({
       where: { id },
       data: {
         ...experienceData,
         tags: { create: tags.map((label) => ({ label })) },
         links: { create: links },
+        metrics: { create: metrics.map((m, i) => ({ ...m, sortOrder: i })) },
       },
     }),
   ]);

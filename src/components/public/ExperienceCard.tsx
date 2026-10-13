@@ -6,9 +6,22 @@ import { ArrowUpRight } from "lucide-react";
 import posthog from "posthog-js";
 import { sanitizeHtml } from "@/lib/sanitize";
 
-export function ExperienceCard({ exp }: { exp: ExperienceWithRelations }) {
+export function ExperienceCard({
+  exp,
+  highlighted = false,
+  dimmed = false,
+}: {
+  exp: ExperienceWithRelations;
+  highlighted?: boolean;
+  dimmed?: boolean;
+}) {
   return (
-    <div className="group relative p-4 transition-colors duration-200 hover:bg-forest/4">
+    <div
+      id={`exp-${exp.id}`}
+      className={`exp-card group relative scroll-mt-20 p-4 transition-[background-color,opacity,box-shadow] duration-200 hover:bg-forest/4 ${
+        highlighted ? "bg-gold/10 shadow-[inset_2px_0_0_var(--gold)]" : ""
+      } ${dimmed ? "opacity-40" : ""}`}
+    >
       <div className="grid gap-4 sm:grid-cols-8">
         <div className="sm:col-span-2">
           <p

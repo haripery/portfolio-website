@@ -33,6 +33,14 @@ export const experienceSchema = z.object({
       })
     )
     .default([]),
+  metrics: z
+    .array(
+      z.object({
+        value: z.string().min(1).max(24),
+        label: z.string().min(1).max(80),
+      })
+    )
+    .default([]),
 });
 
 export const projectSchema = z.object({

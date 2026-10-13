@@ -268,3 +268,18 @@
   max-width: 100%;
   height: auto;
 }
+
+/* Experience card: brief highlight when arriving from an Impact metric */
+@keyframes exp-arrive {
+  0% { background-color: color-mix(in srgb, var(--gold) 40%, transparent); }
+  100% { background-color: transparent; }
+}
+.exp-card:target {
+  animation: exp-arrive 2s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .exp-card:target {
+    animation: none;
+    outline: 1px solid var(--gold);
+  }
+}

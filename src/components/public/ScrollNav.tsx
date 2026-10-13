@@ -3,16 +3,20 @@
 import { useEffect, useState } from "react";
 import posthog from "posthog-js";
 
-const SECTIONS: { id: string; label: string; n: string; href?: string }[] = [
-  { id: "about", label: "About", n: "01" },
-  { id: "experience", label: "Experience", n: "02" },
-  { id: "projects", label: "Projects", n: "03" },
-  { id: "blog", label: "Writing", n: "04" },
-  { id: "community", label: "Community", n: "05", href: "/community" },
+const SECTIONS: { id: string; label: string; href?: string }[] = [
+  { id: "about", label: "About" },
+  { id: "impact", label: "Impact" },
+  { id: "experience", label: "Experience" },
+  { id: "projects", label: "Projects" },
+  { id: "blog", label: "Writing" },
+  { id: "community", label: "Community", href: "/community" },
 ];
 
-export function ScrollNav() {
+export function ScrollNav({ showImpact = true }: { showImpact?: boolean }) {
   const [active, setActive] = useState("about");
+  const sections = SECTIONS.filter((s) => showImpact || s.id !== "impact").map(
+    (s, i) => ({ ...s, n: String(i + 1).padStart(2, "0") })
+  );
 
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
@@ -38,7 +42,7 @@ export function ScrollNav() {
   return (
     <nav aria-label="On this page" className="hidden lg:block">
       <ul className="mt-2 space-y-0.5">
-        {SECTIONS.map(({ id, label, n, href }) => (
+        {sections.map(({ id, label, n, href }) => (
           <li key={id}>
             <a
               href={href ?? `#${id}`}

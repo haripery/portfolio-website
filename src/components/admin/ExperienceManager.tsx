@@ -9,7 +9,7 @@ import {
 import { TagInput } from "./TagInput";
 import { ConfirmDialog } from "./ConfirmDialog";
 import toast from "react-hot-toast";
-import { Plus, Edit, Trash2, X, Check } from "lucide-react";
+import { Plus, Edit, Trash2, X, Check, ArrowUp, ArrowDown } from "lucide-react";
 import type { ExperienceWithRelations } from "@/types";
 
 type ExperienceFormData = {
@@ -21,6 +21,7 @@ type ExperienceFormData = {
   sortOrder: number;
   tags: string[];
   links: { label: string; url: string }[];
+  metrics: { value: string; label: string }[];
 };
 
 const EMPTY_FORM: ExperienceFormData = {
@@ -32,6 +33,7 @@ const EMPTY_FORM: ExperienceFormData = {
   sortOrder: 0,
   tags: [],
   links: [],
+  metrics: [],
 };
 
 function ExperienceForm({
@@ -54,6 +56,25 @@ function ExperienceForm({
         idx === i ? { ...l, [field]: value } : l
       ),
     }));
+  }
+
+  function updateMetric(i: number, field: "value" | "label", value: string) {
+    setData((prev) => ({
+      ...prev,
+      metrics: prev.metrics.map((m, idx) =>
+        idx === i ? { ...m, [field]: value } : m
+      ),
+    }));
+  }
+
+  function moveMetric(i: number, dir: -1 | 1) {
+    setData((prev) => {
+      const j = i + dir;
+      if (j < 0 || j >= prev.metrics.length) return prev;
+      const metrics = [...prev.metrics];
+      [metrics[i], metrics[j]] = [metrics[j], metrics[i]];
+      return { ...prev, metrics };
+    });
   }
 
   return (
@@ -157,6 +178,74 @@ function ExperienceForm({
                   links: p.links.filter((_, idx) => idx !== i),
                 }))
               }
+              className="text-ink/40 hover:text-red-500"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {/* Impact metrics */}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <label className="text-xs font-medium text-ink/55">Impact metrics</label>
+          <button
+            type="button"
+            onClick={() =>
+              setData((p) => ({
+                ...p,
+                metrics: [...p.metrics, { value: "", label: "" }],
+              }))
+            }
+            className="text-xs text-coral hover:text-coral/80"
+          >
+            + Add metric
+          </button>
+        </div>
+        {data.metrics.map((metric, i) => (
+          <div key={i} className="flex gap-2">
+            <input
+              value={metric.value}
+              onChange={(e) => updateMetric(i, "value", e.target.value)}
+              className="w-32 border border-ink/20 bg-card px-2 py-1 text-sm text-forest focus:border-forest focus:outline-none"
+              placeholder="60%"
+              maxLength={24}
+            />
+            <input
+              value={metric.label}
+              onChange={(e) => updateMetric(i, "label", e.target.value)}
+              className="flex-1 border border-ink/20 bg-card px-2 py-1 text-sm text-forest focus:border-forest focus:outline-none"
+              placeholder="fewer backend API calls"
+              maxLength={80}
+            />
+            <button
+              type="button"
+              onClick={() => moveMetric(i, -1)}
+              disabled={i === 0}
+              aria-label="Move metric up"
+              className="text-ink/40 hover:text-forest disabled:opacity-30"
+            >
+              <ArrowUp className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => moveMetric(i, 1)}
+              disabled={i === data.metrics.length - 1}
+              aria-label="Move metric down"
+              className="text-ink/40 hover:text-forest disabled:opacity-30"
+            >
+              <ArrowDown className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                setData((p) => ({
+                  ...p,
+                  metrics: p.metrics.filter((_, idx) => idx !== i),
+                }))
+              }
+              aria-label="Remove metric"
               className="text-ink/40 hover:text-red-500"
             >
               <X className="h-4 w-4" />
@@ -277,6 +366,7 @@ export function ExperienceManager({
                 sortOrder: exp.sortOrder,
                 tags: exp.tags.map((t) => t.label),
                 links: exp.links.map((l) => ({ label: l.label, url: l.url })),
+                metrics: exp.metrics.map((m) => ({ value: m.value, label: m.label })),
               }}
               onSave={(data) => handleUpdate(exp.id, data)}
               onCancel={() => setEditingId(null)}

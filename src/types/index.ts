@@ -4,6 +4,7 @@ import type {
   Experience,
   ExperienceTag,
   ExperienceLink,
+  ExperienceMetric,
   Project,
   ProjectTag,
   BlogPost,
@@ -18,6 +19,7 @@ export type ProfileWithSocials = Profile & { socials: Social[] };
 export type ExperienceWithRelations = Experience & {
   tags: ExperienceTag[];
   links: ExperienceLink[];
+  metrics: ExperienceMetric[];
 };
 
 export type ProjectWithTags = Project & { tags: ProjectTag[] };

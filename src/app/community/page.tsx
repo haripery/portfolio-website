@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 const CREDENTIALS = [
   "10+ Years in Tech",
-  "Shopify / Amazon / AWS",
+  "Autodesk / Shopify / AWS",
   "ADPList Top 10 Mentor",
   "Northeastern MS",
 ];
@@ -96,7 +96,7 @@ export default function CommunityPage() {
             {[
               "One-on-one or small-group mentoring for CS and web development students",
               "Career guidance: resume reviews, mock interviews, navigating the tech job market",
-              "Demystifying what it's like to work at companies like Amazon, Shopify, and AWS",
+              "Demystifying what it's like to work at companies like Autodesk, Shopify, and AWS",
               "Available for ongoing mentoring or one-off sessions",
             ].map((item) => (
               <li
