@@ -150,7 +150,7 @@ export function TShape({
         </div>
 
         <div className="min-w-0">
-          {identity}
+          <div>{identity}</div>
           <motion.h2
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
