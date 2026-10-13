@@ -31,6 +31,9 @@ const PRUNE = process.argv.includes("--prune");
 
 const PROFILE = {
   role: "Principal Engineer",
+  // Shown under the home page headline
+  summary:
+    "Ten-plus years building customer-facing web applications across enterprise SaaS, cloud observability, ad tech and banking. Now focused on applied AI: governed, human-in-the-loop agents and the interfaces people use to trust them.",
   tagline:
     "I build AI-native products and governed, human-in-the-loop agents — and explore what it means to build near the singularity.",
   bio: [
@@ -204,7 +207,15 @@ const HIGHLIGHTS: Record<
   {
     headline: string;
     /** icon: a key from src/components/public/highlightIcons.tsx; viz: a spec read by HighlightViz */
-    items: { kind: string; title: string; icon?: string; viz?: string; detail: string[] }[];
+    /** areas: which parts of the T it belongs to — "frontend", "ai", "fullstack", comma-separated */
+    items: {
+      kind: string;
+      title: string;
+      icon?: string;
+      viz?: string;
+      areas?: string;
+      detail: string[];
+    }[];
   }
 > = {
   Autodesk: {
@@ -214,6 +225,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "For customers",
         title: "Personalized, AI-assisted account and billing website",
+        areas: "frontend,ai",
         icon: "users",
         viz: "crowd:Thousands:of customers use it every day",
         detail: [
@@ -223,6 +235,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "For internal teams and stakeholders",
         title: "AI triage bot for on-call",
+        areas: "ai,fullstack",
         icon: "bot",
         viz: "steps:An alert fires|Read-only queries|Layer and owner|A person decides",
         detail: [
@@ -233,6 +246,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Across teams",
         title: "AI adoption forum and a shared MCP tool stack",
+        areas: "ai",
         icon: "network",
         viz: "stat:3 teams:in the AI adoption forum",
         detail: [
@@ -243,6 +257,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Engineering quality",
         title: "Standards, architecture proposals and the design system",
+        areas: "frontend",
         icon: "ruler",
         viz: "tags:UI readiness framework|Distributed tracing|Shared design system|Reusable components",
         detail: [
@@ -258,6 +273,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Leadership",
         title: "Led engineering for the Ads 3P team",
+        areas: "frontend,fullstack",
         icon: "megaphone",
         viz: "tags:Real-time bidding|Merchant dashboards|Email and SMS automations",
         detail: [
@@ -267,6 +283,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Performance",
         title: "Dynamic Creative Optimization within 150ms",
+        areas: "fullstack,frontend",
         icon: "zap",
         viz: "stat:≤150ms:to serve an ad creative",
         detail: [
@@ -276,6 +293,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Data integrity",
         title: "Event tracking across Web and Native",
+        areas: "frontend,fullstack",
         icon: "activity",
         viz: "steps:Web and Native events|Reliable real-time signals|Meta Pixel and Google Tag Manager",
         detail: [
@@ -285,6 +303,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Reliability",
         title: "On-call and engineering culture",
+        areas: "fullstack",
         icon: "shield",
         viz: "tags:System health|Security hardening|Code reviews|Knowledge sharing",
         detail: [
@@ -299,6 +318,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Amazon Ads",
         title: "Designed and shipped Ads Data Manager",
+        areas: "frontend,fullstack",
         icon: "database",
         viz: "steps:Onboard advertiser data|Activate it|Change the UI without a client deploy",
         detail: [
@@ -309,6 +329,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Performance",
         title: "60% fewer API calls, 850ms down to 320ms",
+        areas: "fullstack,frontend",
         icon: "gauge",
         viz: "drop:850:320:ms:average response time under peak traffic",
         detail: [
@@ -319,6 +340,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "AWS CloudWatch",
         title: "LiveTail: 10,000+ log events a second",
+        areas: "frontend,fullstack",
         icon: "radio",
         viz: "stream:10000:log events a second, streamed live",
         detail: [
@@ -328,6 +350,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "AWS CloudWatch",
         title: "AI-powered anomaly detection dashboards",
+        areas: "ai,frontend",
         icon: "brain",
         viz: "anomaly:Log pattern anomalies, picked out for non-technical users",
         detail: [
@@ -343,6 +366,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Performance",
         title: "45% shorter dashboard load times",
+        areas: "frontend",
         icon: "gauge",
         viz: "percent:45:shorter dashboard load times",
         detail: [
@@ -352,6 +376,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Performance",
         title: "25% less memory in data visualizations",
+        areas: "frontend",
         icon: "memory",
         viz: "percent:25:less memory in data visualizations",
         detail: [
@@ -361,6 +386,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Design systems",
         title: "A design system built on Atomic Design",
+        areas: "frontend",
         icon: "component",
         viz: "steps:Atoms|Molecules|Organisms|Templates|Pages",
         detail: [
@@ -376,6 +402,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Design systems",
         title: "Company-wide Web UI template library",
+        areas: "frontend",
         icon: "component",
         viz: "crowd:Company-wide:every feature team built on one Web UI library",
         detail: [
@@ -385,6 +412,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Platforms",
         title: "Mobile and touch workflows",
+        areas: "frontend",
         icon: "smartphone",
         viz: "devices:Phone|Tablet|Desktop",
         detail: [
@@ -394,6 +422,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Performance",
         title: "Network and runtime performance",
+        areas: "frontend",
         icon: "zap",
         viz: "tags:Resource hinting|Tree shaking|Compression|Caching|Web Workers|LocalStorage",
         detail: [
@@ -408,6 +437,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Banking",
         title: "Lloyds Bank Commercial Banking Online",
+        areas: "frontend",
         icon: "landmark",
         viz: "tags:Responsive|Cross-browser|Accessibility-compliant",
         detail: [
@@ -417,6 +447,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Quality",
         title: "Test automation framework",
+        areas: "fullstack",
         icon: "flask",
         viz: "percent:25:less manual testing",
         detail: [
@@ -530,6 +561,7 @@ async function main() {
         detail: h.detail.join("\n\n"),
         icon: h.icon ?? "",
         viz: h.viz ?? "",
+        areas: h.areas ?? "",
       })),
     };
     const current = row
@@ -550,6 +582,7 @@ async function main() {
             detail: h.detail,
             icon: h.icon,
             viz: h.viz,
+            areas: h.areas,
           })),
         }
       : {};

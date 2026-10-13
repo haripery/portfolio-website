@@ -8,8 +8,15 @@ import { getExperiences } from "@/actions/experience";
 import { getSettings } from "@/actions/settings";
 import { TrackedAnchor } from "@/components/public/TrackedLink";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+
+// Proof points under the home page summary
+const FACTS = [
+  "10+ years",
+  "Autodesk · Shopify · AWS",
+  "Led teams and engineering standards",
+  "ADPList Top 10 mentor",
+];
 
 // ISR: revalidate every 60 seconds
 export const revalidate = 60;
@@ -92,46 +99,29 @@ export default async function Home() {
       </nav>
 
       <div className="mx-auto max-w-screen-xl px-6 pt-16 md:px-12 lg:px-24">
-        {/* ── IDENTITY ── */}
-        <header className="flex flex-wrap items-end justify-between gap-x-10 gap-y-6 pb-8 pt-12 sm:pt-16">
-          <div className="flex items-center gap-5">
-            {profile?.photoUrl && (
-              <div className="h-16 w-16 flex-shrink-0 overflow-hidden border border-ink/30">
-                <Image
-                  src={profile.photoUrl}
-                  alt={profile.name}
-                  width={64}
-                  height={64}
-                  className="h-full w-full object-cover grayscale transition-all duration-500 hover:grayscale-0"
-                />
-              </div>
-            )}
-            <div>
-              <h1
-                className="font-display text-3xl font-bold tracking-tight text-forest sm:text-4xl"
-                style={{ fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" }}
-              >
-                <FlipName name={profile?.name ?? "Your Name"} />
-              </h1>
-              <p className="mt-1 text-base font-medium tracking-tight text-ink/70">
-                {profile?.role ?? "Software Engineer"}
-              </p>
-            </div>
-          </div>
-
-          <div className="max-w-md">
-            <p className="text-sm leading-relaxed text-ink/60">{profile?.tagline ?? ""}</p>
-            {profile?.socials && profile.socials.length > 0 && (
-              <div className="mt-4">
-                <SocialIcons socials={profile.socials} />
-              </div>
-            )}
-          </div>
-        </header>
-
-        <main className="border-t border-ink/15 pb-20 pt-6">
+        <main className="pb-20 pt-10 sm:pt-14">
           {experiences.length > 0 ? (
-            <CareerMap experiences={experiences} />
+            <CareerMap
+              experiences={experiences}
+              name={profile?.name ?? "Home"}
+              summary={profile?.summary ?? ""}
+              facts={FACTS}
+              identity={
+                <h1
+                  className="flex flex-wrap items-center gap-x-2 text-[11px] uppercase tracking-widest text-ink/60"
+                  style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
+                >
+                  <FlipName name={profile?.name ?? "Your Name"} />
+                  <span aria-hidden="true">·</span>
+                  <span>{profile?.role ?? "Software Engineer"}</span>
+                </h1>
+              }
+              socials={
+                profile?.socials && profile.socials.length > 0 ? (
+                  <SocialIcons socials={profile.socials} />
+                ) : undefined
+              }
+            />
           ) : (
             <p className="mt-6 text-sm text-ink/40">No experience entries yet.</p>
           )}

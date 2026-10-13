@@ -27,6 +27,7 @@ model Profile {
   role      String   @default("")
   tagline   String   @default("")
   bio       String   @default("") @db.Text
+  summary   String   @default("") @db.Text
   email     String   @default("")
   photoUrl  String   @default("")
   resumeUrl String   @default("")
@@ -98,6 +99,7 @@ model ExperienceHighlight {
   detail       String     @db.Text
   icon         String     @default("")
   viz          String     @default("")
+  areas        String     @default("")
   sortOrder    Int        @default(0)
   experienceId String
   experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)

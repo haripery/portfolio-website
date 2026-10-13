@@ -1,17 +1,18 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
-import { LayoutGroup, MotionConfig, motion } from "framer-motion";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { AnimatePresence, LayoutGroup, MotionConfig, motion } from "framer-motion";
 import posthog from "posthog-js";
 import type { ExperienceWithRelations } from "@/types";
 import { HighlightViz } from "./HighlightViz";
-import { TShape } from "./TShape";
+import { AREAS, TShape, type Area } from "./TShape";
 import { HighlightIcon } from "./highlightIcons";
 import { ArrowLeft, ArrowRight, ZoomIn } from "lucide-react";
 
 const MONO = { fontFamily: "var(--font-jetbrains-mono), monospace" };
 const DISPLAY = { fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" };
 const NAV_EVENT = "careermap:navigate";
+const AREA_KEYS = Object.keys(AREAS) as Area[];
 
 function slugify(value: string) {
   return value
@@ -38,7 +39,7 @@ const getServerSearch = () => "";
 
 function CardIcon({ name }: { name: string }) {
   return (
-    <span className="flex h-10 w-10 items-center justify-center border border-forest/30 bg-forest/7 text-forest">
+    <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center border border-forest/30 bg-forest/7 text-forest">
       <HighlightIcon name={name} className="h-5 w-5" />
     </span>
   );
@@ -46,10 +47,23 @@ function CardIcon({ name }: { name: string }) {
 
 export function CareerMap({
   experiences,
+  name,
+  identity,
+  summary,
+  facts,
+  socials,
 }: {
   experiences: ExperienceWithRelations[];
+  /** Root breadcrumb label */
+  name: string;
+  /** Name and title line shown above the headline */
+  identity: React.ReactNode;
+  summary: string;
+  facts: string[];
+  socials?: React.ReactNode;
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const [filter, setFilter] = useState<Area | null>(null);
   const search = useSyncExternalStore(subscribe, getSearch, getServerSearch);
   const params = new URLSearchParams(search);
 
@@ -60,6 +74,13 @@ export function CareerMap({
     : -1;
   const highlight = company && highlightIndex >= 0 ? company.highlights[highlightIndex] : null;
 
+  const allHighlights = experiences.flatMap((exp) =>
+    exp.highlights.map((item) => ({ item, company: exp.company }))
+  );
+  const shownHighlights = allHighlights.filter(
+    ({ item }) => filter === null || item.areas.split(",").includes(filter)
+  );
+
   const navigate = useCallback((c?: string, h?: string) => {
     const next = new URLSearchParams();
     if (c) next.set("c", slugify(c));
@@ -69,9 +90,13 @@ export function CareerMap({
     window.dispatchEvent(new Event(NAV_EVENT));
     posthog.capture("career_map_zoomed", { company: c ?? null, highlight: h ?? null });
 
-    // Keep the map in view when a taller level is replaced by a shorter one
-    const top = rootRef.current?.getBoundingClientRect().top ?? 0;
-    if (top < 0) rootRef.current?.scrollIntoView({ block: "start" });
+    // Bring the new level to the top of the view
+    rootRef.current?.scrollIntoView({ block: "start" });
+  }, []);
+
+  const selectArea = useCallback((area: Area | null) => {
+    setFilter((current) => (current === area ? null : area));
+    posthog.capture("career_map_filtered", { area: area ?? "all" });
   }, []);
 
   useEffect(() => {
@@ -91,114 +116,166 @@ export function CareerMap({
     <MotionConfig reducedMotion="user" transition={{ type: "spring", stiffness: 260, damping: 32 }}>
       <LayoutGroup>
         <div ref={rootRef} className="scroll-mt-20">
-          <nav
-            aria-label="Zoom level"
-            className="-ml-2 flex min-h-11 flex-wrap items-center gap-1 text-[11px] uppercase tracking-widest text-ink/55"
-            style={MONO}
-          >
-            {company ? (
+          {/* Breadcrumb — only once zoomed in */}
+          {company && (
+            <nav
+              aria-label="Zoom level"
+              className="-ml-2 flex min-h-11 flex-wrap items-center gap-1 text-[11px] uppercase tracking-widest text-ink/55"
+              style={MONO}
+            >
               <button type="button" onClick={() => navigate()} className={crumb}>
-                Career
+                {name}
               </button>
-            ) : (
-              <span className="px-2 py-3">Career</span>
-            )}
-            {company && (
-              <>
-                <span aria-hidden="true">/</span>
-                {highlight ? (
-                  <button type="button" onClick={() => navigate(company.company)} className={crumb}>
-                    {company.company}
-                  </button>
-                ) : (
-                  <span className="px-2 py-3">{company.company}</span>
-                )}
-              </>
-            )}
-            {highlight && (
-              <>
-                <span aria-hidden="true" className="hidden sm:inline">/</span>
-                <span className="hidden px-2 py-3 normal-case tracking-normal sm:inline">{highlight.title}</span>
-              </>
-            )}
-          </nav>
+              <span aria-hidden="true">/</span>
+              {highlight ? (
+                <button type="button" onClick={() => navigate(company.company)} className={crumb}>
+                  {company.company}
+                </button>
+              ) : (
+                <span className="px-2 py-3">{company.company}</span>
+              )}
+              {highlight && (
+                <>
+                  <span aria-hidden="true" className="hidden sm:inline">/</span>
+                  <span className="hidden px-2 py-3 normal-case tracking-normal sm:inline">{highlight.title}</span>
+                </>
+              )}
+            </nav>
+          )}
 
-          {/* Level 1 — the whole career */}
+          {/* Level 1 — summary, companies, every highlight */}
           {!company && (
             <div>
-              <div className="mt-6">
-                <TShape />
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.6 }}
-                  className="mt-8 flex items-center gap-2 text-[11px] uppercase tracking-widest text-ink/60"
-                  style={MONO}
-                >
-                  <ZoomIn className="h-4 w-4" aria-hidden="true" />
-                  Pick a chapter to zoom in
-                </motion.p>
-              </div>
-              <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <TShape
+                identity={identity}
+                summary={summary}
+                facts={facts}
+                filter={filter}
+                onFilter={selectArea}
+              >
+                {socials && <div className="mt-5">{socials}</div>}
+              </TShape>
+
+              <SectionHeading label="Experience" hint="Pick a company to zoom in, or jump straight to a highlight" />
+              <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {experiences.map((exp, index) => {
                   const lead = index === 0;
-                  const zoomable = exp.highlights.length > 0;
-                  const Tile = zoomable ? motion.button : motion.div;
+                  const soft = lead ? "text-paper/70" : "text-ink/55";
                   return (
-                    <li key={exp.id} className={lead ? "sm:col-span-2 lg:col-span-1" : undefined}>
-                      <Tile
+                    <li key={exp.id}>
+                      <motion.div
                         layoutId={`company-${exp.id}`}
                         initial={{ opacity: 0, y: 14 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.25 + index * 0.07 }}
-                        whileHover={zoomable ? { y: -4 } : undefined}
-                        {...(zoomable
-                          ? { type: "button" as const, onClick: () => navigate(exp.company) }
-                          : {})}
-                        className={`flex h-full min-h-52 w-full flex-col justify-between gap-5 border p-6 text-left transition-colors ${
-                          lead
-                            ? "border-forest bg-forest text-paper"
-                            : "border-ink/15 bg-card text-forest hover:border-gold"
+                        className={`flex h-full flex-col border ${
+                          lead ? "border-forest bg-forest text-paper" : "border-ink/15 bg-card text-forest"
                         }`}
                         style={{ borderRadius: 2 }}
                       >
-                        <span className="block">
-                          <span
-                            className={`block text-[10px] uppercase tracking-widest ${lead ? "text-paper/70" : "text-ink/55"}`}
-                            style={MONO}
-                          >
+                        <button
+                          type="button"
+                          onClick={() => navigate(exp.company)}
+                          className="group block w-full p-6 pb-4 text-left"
+                        >
+                          <span className={`flex items-center justify-between text-[10px] uppercase tracking-widest ${soft}`} style={MONO}>
                             {exp.period}
+                            <ZoomIn className="h-4 w-4 transition-transform group-hover:scale-125" aria-hidden="true" />
                           </span>
-                          <span className="mt-2 block text-2xl font-bold leading-tight" style={DISPLAY}>
+                          <span
+                            className="mt-2 block text-2xl font-bold leading-tight underline decoration-transparent decoration-2 underline-offset-4 transition-colors group-hover:decoration-gold"
+                            style={DISPLAY}
+                          >
                             {exp.company}
                           </span>
-                          <span className={`block text-sm ${lead ? "text-paper/75" : "text-ink/60"}`}>
-                            {exp.title}
-                          </span>
-                        </span>
-                        <span className="block">
+                          <span className={`block text-sm ${lead ? "text-paper/75" : "text-ink/60"}`}>{exp.title}</span>
                           {exp.headline && (
-                            <span className="block text-base font-medium leading-snug">{exp.headline}</span>
+                            <span className="mt-4 block text-base font-medium leading-snug">{exp.headline}</span>
                           )}
-                          {zoomable && (
-                            <span
-                              className={`mt-4 flex items-center justify-between gap-3 text-[10px] uppercase tracking-widest ${lead ? "text-gold" : "text-ink/60"}`}
-                              style={MONO}
-                            >
-                              <span className="flex items-center gap-2" aria-hidden="true">
-                                {exp.highlights.map((item) => (
-                                  <HighlightIcon key={item.id} name={item.icon} className="h-4 w-4" />
-                                ))}
-                              </span>
-                              <span>{exp.highlights.length} highlights +</span>
-                            </span>
-                          )}
-                        </span>
-                      </Tile>
+                        </button>
+                        {exp.highlights.length > 0 && (
+                          <ul className={`mt-auto border-t px-3 py-2 ${lead ? "border-paper/20" : "border-ink/10"}`}>
+                            {exp.highlights.map((item) => (
+                              <li key={item.id}>
+                                <button
+                                  type="button"
+                                  onClick={() => navigate(exp.company, item.title)}
+                                  className={`flex w-full items-center gap-3 px-3 py-2 text-left text-sm transition-colors ${
+                                    lead ? "hover:bg-paper/10" : "hover:bg-forest/7"
+                                  }`}
+                                >
+                                  <HighlightIcon name={item.icon} className={`h-4 w-4 flex-shrink-0 ${lead ? "text-gold" : "text-ink/60"}`} />
+                                  <span className="min-w-0 flex-1 leading-snug">{item.title}</span>
+                                  <ArrowRight className={`h-3.5 w-3.5 flex-shrink-0 ${soft}`} aria-hidden="true" />
+                                </button>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </motion.div>
                     </li>
                   );
                 })}
               </ul>
+
+              {allHighlights.length > 0 && (
+                <>
+                  <SectionHeading label="Highlights" hint="Everything above in one place, by the part of the T it belongs to" />
+                  <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label="Filter highlights">
+                    <FilterChip label="All" count={allHighlights.length} active={filter === null} onClick={() => selectArea(null)} />
+                    {AREA_KEYS.map((area) => (
+                      <FilterChip
+                        key={area}
+                        label={AREAS[area].label}
+                        swatch={AREAS[area].fill}
+                        count={allHighlights.filter(({ item }) => item.areas.split(",").includes(area)).length}
+                        active={filter === area}
+                        onClick={() => selectArea(area)}
+                      />
+                    ))}
+                  </div>
+                  <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    <AnimatePresence mode="popLayout" initial={false}>
+                      {shownHighlights.map(({ item, company: owner }) => (
+                        <motion.li
+                          key={item.id}
+                          layout
+                          initial={{ opacity: 0, scale: 0.94 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.94 }}
+                        >
+                          <motion.button
+                            type="button"
+                            layoutId={`highlight-${item.id}`}
+                            whileHover={{ y: -4 }}
+                            onClick={() => navigate(owner, item.title)}
+                            className="flex h-full w-full items-start gap-4 border border-ink/15 bg-card p-5 text-left transition-colors hover:border-gold"
+                            style={{ borderRadius: 2 }}
+                          >
+                            <CardIcon name={item.icon} />
+                            <span className="block min-w-0">
+                              <span className="block text-[10px] uppercase tracking-widest text-ink/55" style={MONO}>
+                                {owner}
+                              </span>
+                              <span className="mt-1 block text-base font-bold leading-snug text-forest" style={DISPLAY}>
+                                {item.title}
+                              </span>
+                              <span className="mt-2 flex gap-1" aria-hidden="true">
+                                {item.areas
+                                  .split(",")
+                                  .filter((area): area is Area => area in AREAS)
+                                  .map((area) => (
+                                    <span key={area} className={`h-1.5 w-6 ${AREAS[area].fill}`} />
+                                  ))}
+                              </span>
+                            </span>
+                          </motion.button>
+                        </motion.li>
+                      ))}
+                    </AnimatePresence>
+                  </ul>
+                </>
+              )}
             </div>
           )}
 
@@ -299,7 +376,7 @@ export function CareerMap({
                   className="min-h-11 border border-forest px-4 py-3 text-forest transition-colors hover:bg-forest hover:text-paper"
                 >
                   <ArrowLeft className="mr-2 inline h-3.5 w-3.5" aria-hidden="true" />
-                  Zoom out
+                  {company.company}
                 </button>
                 {company.highlights.length > 1 && (
                   <button
@@ -322,5 +399,48 @@ export function CareerMap({
         </div>
       </LayoutGroup>
     </MotionConfig>
+  );
+}
+
+function SectionHeading({ label, hint }: { label: string; hint: string }) {
+  return (
+    <div className="mt-14 flex flex-wrap items-baseline gap-x-4 gap-y-1 border-t border-ink/15 pt-5">
+      <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-forest" style={DISPLAY}>
+        {label}
+      </h2>
+      <p className="text-[11px] text-ink/55" style={MONO}>
+        {hint}
+      </p>
+    </div>
+  );
+}
+
+function FilterChip({
+  label,
+  count,
+  swatch,
+  active,
+  onClick,
+}: {
+  label: string;
+  count: number;
+  swatch?: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      aria-pressed={active}
+      onClick={onClick}
+      className={`flex min-h-9 items-center gap-2 border px-3 py-1.5 text-[11px] uppercase tracking-widest text-forest transition-colors ${
+        active ? "border-forest bg-forest/10" : "border-ink/20 hover:border-forest"
+      }`}
+      style={{ ...MONO, borderRadius: 2 }}
+    >
+      {swatch && <span className={`h-2.5 w-2.5 ${swatch}`} aria-hidden="true" />}
+      {label}
+      <span className="text-ink/50">{count}</span>
+    </button>
   );
 }
