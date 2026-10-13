@@ -23,7 +23,7 @@ export function ImpactSection({
               <li key={metric.id} className="min-w-0">
                 <a href={`#exp-${exp.id}`} className="group block">
                   <span
-                    className="block break-words text-2xl font-bold leading-tight tracking-tight text-forest underline decoration-transparent decoration-2 underline-offset-4 transition-colors group-hover:decoration-gold"
+                    className="block break-words text-xl font-bold sm:text-2xl leading-tight tracking-tight text-forest underline decoration-transparent decoration-2 underline-offset-4 transition-colors group-hover:decoration-gold"
                     style={{ fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" }}
                   >
                     {metric.value}
