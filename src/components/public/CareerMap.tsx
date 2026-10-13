@@ -1,18 +1,17 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { AnimatePresence, LayoutGroup, MotionConfig, motion } from "framer-motion";
+import { LayoutGroup, MotionConfig, motion } from "framer-motion";
 import posthog from "posthog-js";
 import type { ExperienceWithRelations } from "@/types";
 import { HighlightViz } from "./HighlightViz";
 import { AREAS, TShape, type Area } from "./TShape";
 import { HighlightIcon } from "./highlightIcons";
-import { ArrowLeft, ArrowRight, ZoomIn } from "lucide-react";
+import { ArrowLeft, ArrowRight, X, ZoomIn } from "lucide-react";
 
 const MONO = { fontFamily: "var(--font-jetbrains-mono), monospace" };
 const DISPLAY = { fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" };
 const NAV_EVENT = "careermap:navigate";
-const AREA_KEYS = Object.keys(AREAS) as Area[];
 
 function slugify(value: string) {
   return value
@@ -52,6 +51,7 @@ export function CareerMap({
   summary,
   facts,
   socials,
+  children,
 }: {
   experiences: ExperienceWithRelations[];
   /** Root breadcrumb label */
@@ -61,6 +61,8 @@ export function CareerMap({
   summary: string;
   facts: string[];
   socials?: React.ReactNode;
+  /** Sections shown under the companies on the landing level */
+  children?: React.ReactNode;
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [filter, setFilter] = useState<Area | null>(null);
@@ -73,13 +75,6 @@ export function CareerMap({
     ? company.highlights.findIndex((h) => slugify(h.title) === params.get("h"))
     : -1;
   const highlight = company && highlightIndex >= 0 ? company.highlights[highlightIndex] : null;
-
-  const allHighlights = experiences.flatMap((exp) =>
-    exp.highlights.map((item) => ({ item, company: exp.company }))
-  );
-  const shownHighlights = allHighlights.filter(
-    ({ item }) => filter === null || item.areas.split(",").includes(filter)
-  );
 
   const navigate = useCallback((c?: string, h?: string) => {
     const next = new URLSearchParams();
@@ -156,7 +151,20 @@ export function CareerMap({
                 {socials && <div className="mt-5">{socials}</div>}
               </TShape>
 
-              <SectionHeading label="Experience" hint="Pick a company to zoom in, or jump straight to a highlight" />
+              <SectionHeading label="Experience" hint="Pick a company to zoom in, or jump straight to a highlight">
+                {filter && (
+                  <button
+                    type="button"
+                    onClick={() => selectArea(null)}
+                    className="flex items-center gap-2 border border-ink/20 px-2 py-1 text-[11px] uppercase tracking-widest text-forest transition-colors hover:border-forest"
+                    style={{ ...MONO, borderRadius: 2 }}
+                  >
+                    <span className={`h-2.5 w-2.5 ${AREAS[filter].fill}`} aria-hidden="true" />
+                    {AREAS[filter].label} work marked
+                    <X className="h-3 w-3" aria-label="Clear" />
+                  </button>
+                )}
+              </SectionHeading>
               <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {experiences.map((exp, index) => {
                   const lead = index === 0;
@@ -195,21 +203,24 @@ export function CareerMap({
                         </button>
                         {exp.highlights.length > 0 && (
                           <ul className={`mt-auto border-t px-3 py-2 ${lead ? "border-paper/20" : "border-ink/10"}`}>
-                            {exp.highlights.map((item) => (
+                            {exp.highlights.map((item) => {
+                              const match = filter !== null && item.areas.split(",").includes(filter);
+                              return (
                               <li key={item.id}>
                                 <button
                                   type="button"
                                   onClick={() => navigate(exp.company, item.title)}
-                                  className={`flex w-full items-center gap-3 px-3 py-2 text-left text-sm transition-colors ${
+                                  className={`flex w-full items-center gap-3 px-3 py-2 text-left text-sm transition-[background-color,opacity] duration-300 ${
                                     lead ? "hover:bg-paper/10" : "hover:bg-forest/7"
-                                  }`}
+                                  } ${match ? "bg-gold/25 font-semibold" : ""} ${filter !== null && !match ? "opacity-35" : ""}`}
                                 >
                                   <HighlightIcon name={item.icon} className={`h-4 w-4 flex-shrink-0 ${lead ? "text-gold" : "text-ink/60"}`} />
                                   <span className="min-w-0 flex-1 leading-snug">{item.title}</span>
                                   <ArrowRight className={`h-3.5 w-3.5 flex-shrink-0 ${soft}`} aria-hidden="true" />
                                 </button>
                               </li>
-                            ))}
+                              );
+                            })}
                           </ul>
                         )}
                       </motion.div>
@@ -218,64 +229,7 @@ export function CareerMap({
                 })}
               </ul>
 
-              {allHighlights.length > 0 && (
-                <>
-                  <SectionHeading label="Highlights" hint="Everything above in one place, by the part of the T it belongs to" />
-                  <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label="Filter highlights">
-                    <FilterChip label="All" count={allHighlights.length} active={filter === null} onClick={() => selectArea(null)} />
-                    {AREA_KEYS.map((area) => (
-                      <FilterChip
-                        key={area}
-                        label={AREAS[area].label}
-                        swatch={AREAS[area].fill}
-                        count={allHighlights.filter(({ item }) => item.areas.split(",").includes(area)).length}
-                        active={filter === area}
-                        onClick={() => selectArea(area)}
-                      />
-                    ))}
-                  </div>
-                  <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    <AnimatePresence mode="popLayout" initial={false}>
-                      {shownHighlights.map(({ item, company: owner }) => (
-                        <motion.li
-                          key={item.id}
-                          layout
-                          initial={{ opacity: 0, scale: 0.94 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.94 }}
-                        >
-                          <motion.button
-                            type="button"
-                            layoutId={`highlight-${item.id}`}
-                            whileHover={{ y: -4 }}
-                            onClick={() => navigate(owner, item.title)}
-                            className="flex h-full w-full items-start gap-4 border border-ink/15 bg-card p-5 text-left transition-colors hover:border-gold"
-                            style={{ borderRadius: 2 }}
-                          >
-                            <CardIcon name={item.icon} />
-                            <span className="block min-w-0">
-                              <span className="block text-[10px] uppercase tracking-widest text-ink/55" style={MONO}>
-                                {owner}
-                              </span>
-                              <span className="mt-1 block text-base font-bold leading-snug text-forest" style={DISPLAY}>
-                                {item.title}
-                              </span>
-                              <span className="mt-2 flex gap-1" aria-hidden="true">
-                                {item.areas
-                                  .split(",")
-                                  .filter((area): area is Area => area in AREAS)
-                                  .map((area) => (
-                                    <span key={area} className={`h-1.5 w-6 ${AREAS[area].fill}`} />
-                                  ))}
-                              </span>
-                            </span>
-                          </motion.button>
-                        </motion.li>
-                      ))}
-                    </AnimatePresence>
-                  </ul>
-                </>
-              )}
+              {children && <div>{children}</div>}
             </div>
           )}
 
@@ -402,45 +356,26 @@ export function CareerMap({
   );
 }
 
-function SectionHeading({ label, hint }: { label: string; hint: string }) {
+export function SectionHeading({
+  label,
+  hint,
+  children,
+}: {
+  label: string;
+  hint?: string;
+  children?: React.ReactNode;
+}) {
   return (
-    <div className="mt-14 flex flex-wrap items-baseline gap-x-4 gap-y-1 border-t border-ink/15 pt-5">
+    <div className="mt-14 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-ink/15 pt-5">
       <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-forest" style={DISPLAY}>
         {label}
       </h2>
-      <p className="text-[11px] text-ink/55" style={MONO}>
-        {hint}
-      </p>
+      {hint && (
+        <p className="text-[11px] text-ink/55" style={MONO}>
+          {hint}
+        </p>
+      )}
+      {children}
     </div>
-  );
-}
-
-function FilterChip({
-  label,
-  count,
-  swatch,
-  active,
-  onClick,
-}: {
-  label: string;
-  count: number;
-  swatch?: string;
-  active: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      aria-pressed={active}
-      onClick={onClick}
-      className={`flex min-h-9 items-center gap-2 border px-3 py-1.5 text-[11px] uppercase tracking-widest text-forest transition-colors ${
-        active ? "border-forest bg-forest/10" : "border-ink/20 hover:border-forest"
-      }`}
-      style={{ ...MONO, borderRadius: 2 }}
-    >
-      {swatch && <span className={`h-2.5 w-2.5 ${swatch}`} aria-hidden="true" />}
-      {label}
-      <span className="text-ink/50">{count}</span>
-    </button>
   );
 }

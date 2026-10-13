@@ -1,12 +1,14 @@
 import { SocialIcons } from "@/components/public/SocialIcons";
-import { CareerMap } from "@/components/public/CareerMap";
+import { CareerMap, SectionHeading } from "@/components/public/CareerMap";
 import { Footer } from "@/components/public/Footer";
 import { FlipName } from "@/components/public/FlipName";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { getProfile } from "@/actions/profile";
 import { getExperiences } from "@/actions/experience";
 import { getSettings } from "@/actions/settings";
-import { TrackedAnchor } from "@/components/public/TrackedLink";
+import { getBlogPosts } from "@/actions/blog";
+import { formatDate } from "@/lib/utils";
+import { TrackedAnchor, TrackedLink } from "@/components/public/TrackedLink";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -18,15 +20,33 @@ const FACTS = [
   "ADPList Top 10 mentor",
 ];
 
+const EDUCATION = [
+  {
+    title: "Master of Science in Informatics",
+    place: "Northeastern University, Boston, MA",
+    period: "Jan 2017 — Dec 2018",
+  },
+  {
+    title: "ADPList Mentor",
+    place: "Recognized as a Top 10 UX Engineering Mentor",
+    period: "Community",
+  },
+];
+
+const MONO = { fontFamily: "var(--font-jetbrains-mono), monospace" };
+const DISPLAY = { fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" };
+
 // ISR: revalidate every 60 seconds
 export const revalidate = 60;
 
 export default async function Home() {
-  const [profile, experiences, settings] = await Promise.all([
+  const [profile, experiences, posts, settings] = await Promise.all([
     getProfile(),
     getExperiences(),
+    getBlogPosts({ published: true }),
     getSettings(),
   ]);
+  const recentPosts = posts.slice(0, 3);
 
   const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
   const personJsonLd = profile
@@ -65,7 +85,6 @@ export default async function Home() {
           <ul className="hidden items-center gap-6 md:flex lg:gap-8">
             {[
               { label: "Writing", href: "/blog" },
-              { label: "Projects", href: "/archive" },
               { label: "Community", href: "/community" },
             ].map(({ label, href }) => (
               <li key={href}>
@@ -121,7 +140,72 @@ export default async function Home() {
                   <SocialIcons socials={profile.socials} />
                 ) : undefined
               }
-            />
+            >
+              <SectionHeading label="Education" />
+              <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                {EDUCATION.map((entry) => (
+                  <li key={entry.title} className="border border-ink/15 bg-card p-6" style={{ borderRadius: 2 }}>
+                    <p className="text-[10px] uppercase tracking-widest text-ink/55" style={MONO}>
+                      {entry.period}
+                    </p>
+                    <p className="mt-2 text-xl font-bold leading-tight text-forest" style={DISPLAY}>
+                      {entry.title}
+                    </p>
+                    <p className="mt-1 text-sm text-ink/65">{entry.place}</p>
+                  </li>
+                ))}
+              </ul>
+
+              {recentPosts.length > 0 && (
+                <>
+                  <SectionHeading label="Writing">
+                    <TrackedLink
+                      event="view_all_clicked"
+                      properties={{ section: "blog" }}
+                      href="/blog"
+                      className="group ml-auto inline-flex items-center gap-2 text-[11px] uppercase tracking-widest text-forest transition-colors hover:text-coral"
+                      style={MONO}
+                    >
+                      All posts
+                      <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+                    </TrackedLink>
+                  </SectionHeading>
+                  <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    {recentPosts.map((post) => (
+                      <li key={post.id}>
+                        <TrackedLink
+                          event="blog_post_clicked"
+                          properties={{
+                            post_slug: post.slug,
+                            post_title: post.title,
+                            post_category: post.category,
+                            source: "home",
+                          }}
+                          href={`/blog/${post.slug}`}
+                          className="group flex h-full flex-col border border-ink/15 bg-card p-6 transition-colors hover:border-gold"
+                          style={{ borderRadius: 2 }}
+                        >
+                          <span className="text-[10px] uppercase tracking-widest text-ink/55" style={MONO}>
+                            {post.publishedAt ? formatDate(post.publishedAt) : ""}
+                            {" · "}
+                            {post.category.toLowerCase()}
+                          </span>
+                          <span
+                            className="mt-2 text-lg font-bold leading-snug text-forest transition-colors group-hover:text-coral"
+                            style={DISPLAY}
+                          >
+                            {post.title}
+                          </span>
+                          {post.excerpt && (
+                            <span className="mt-2 line-clamp-3 text-sm text-ink/60">{post.excerpt}</span>
+                          )}
+                        </TrackedLink>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </CareerMap>
           ) : (
             <p className="mt-6 text-sm text-ink/40">No experience entries yet.</p>
           )}

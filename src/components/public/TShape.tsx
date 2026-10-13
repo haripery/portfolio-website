@@ -79,8 +79,8 @@ export const AREAS: Record<Area, { label: string; fill: string; line: string; sk
 /**
  * The home page summary: a small T beside the headline. The stem is frontend,
  * the arms are applied AI and full stack. Pointing at a part (or its word)
- * swaps the summary for the skills behind it; clicking it filters the
- * highlights further down the page.
+ * swaps the summary for the skills behind it; clicking it marks the
+ * matching highlights in the company tiles.
  */
 export function TShape({
   identity,
@@ -120,32 +120,32 @@ export function TShape({
 
   return (
     <div onMouseLeave={() => setPreview(null)}>
-      <div className="flex items-start gap-5 sm:gap-7">
-        {/* The T */}
-        <div className="relative mt-1 h-[84px] w-[72px] flex-shrink-0 sm:h-[112px] sm:w-[88px]">
+      <div className="flex items-stretch gap-5 sm:gap-7">
+        {/* The T — sized in em of the headline's type, and as tall as the headline block */}
+        <div className="relative min-h-[2.4em] w-[2.3em] flex-shrink-0 text-2xl sm:text-4xl">
           <motion.button
             {...trigger("ai")}
-            aria-label="Applied AI: show skills, click to filter highlights"
+            aria-label="Applied AI: show skills, click to mark matching work"
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1, opacity: dimmed("ai") ? 0.35 : 1 }}
             transition={{ duration: 0.5, ease: EASE }}
-            className={`absolute left-0 top-0 h-[16px] w-1/2 origin-right ${AREAS.ai.fill} after:absolute after:-inset-x-1 after:-inset-y-2 sm:h-[20px]`}
+            className={`absolute left-0 top-0 h-[0.5em] w-1/2 origin-right ${AREAS.ai.fill} after:absolute after:-inset-x-1 after:-inset-y-2`}
           />
           <motion.button
             {...trigger("fullstack")}
-            aria-label="Full stack: show skills, click to filter highlights"
+            aria-label="Full stack: show skills, click to mark matching work"
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1, opacity: dimmed("fullstack") ? 0.35 : 1 }}
             transition={{ duration: 0.5, ease: EASE }}
-            className={`absolute right-0 top-0 h-[16px] w-1/2 origin-left ${AREAS.fullstack.fill} after:absolute after:-inset-x-1 after:-inset-y-2 sm:h-[20px]`}
+            className={`absolute right-0 top-0 h-[0.5em] w-1/2 origin-left ${AREAS.fullstack.fill} after:absolute after:-inset-x-1 after:-inset-y-2`}
           />
           <motion.button
             {...trigger("frontend")}
-            aria-label="Frontend: show skills, click to filter highlights"
+            aria-label="Frontend: show skills, click to mark matching work"
             initial={{ scaleY: 0 }}
             animate={{ scaleY: 1, opacity: dimmed("frontend") ? 0.35 : 1 }}
             transition={{ duration: 0.7, delay: 0.35, ease: EASE }}
-            className={`absolute left-1/2 top-[16px] h-[68px] w-[18px] -translate-x-1/2 origin-top ${AREAS.frontend.fill} after:absolute after:-inset-x-3 after:inset-y-0 sm:top-[20px] sm:h-[92px] sm:w-[22px]`}
+            className={`absolute bottom-0 left-1/2 top-[0.5em] w-[0.6em] -translate-x-1/2 origin-top ${AREAS.frontend.fill} after:absolute after:-inset-x-3 after:inset-y-0`}
           />
         </div>
 
@@ -178,7 +178,7 @@ export function TShape({
             >
               <p className="flex items-center gap-2 text-[11px] uppercase tracking-widest text-ink/60" style={MONO}>
                 <span className={`h-2.5 w-2.5 ${AREAS[preview].fill}`} aria-hidden="true" />
-                {AREAS[preview].label} · click to filter the highlights below
+                {AREAS[preview].label} · click to mark this work below
               </p>
               <ul className="mt-3 flex flex-wrap gap-2">
                 {AREAS[preview].skills.map((skill, index) => (
