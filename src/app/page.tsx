@@ -156,13 +156,16 @@ export default async function Home() {
               summary={profile?.summary ?? ""}
               facts={FACTS}
               identity={
-                <h1
-                  className="flex flex-wrap items-center gap-x-2 text-[11px] uppercase tracking-widest text-ink/60"
-                  style={{ fontFamily: "var(--font-jetbrains-mono), monospace" }}
-                >
-                  <FlipName name={profile?.name ?? "Your Name"} />
-                  <span aria-hidden="true">·</span>
-                  <span>{profile?.role ?? "Software Engineer"}</span>
+                <h1 className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <span
+                    className="text-2xl font-bold leading-none tracking-tight text-forest sm:text-3xl"
+                    style={DISPLAY}
+                  >
+                    <FlipName name={profile?.name ?? "Your Name"} />
+                  </span>
+                  <span className="text-xs uppercase tracking-widest text-ink/60 sm:text-sm" style={MONO}>
+                    {profile?.role ?? "Software Engineer"}
+                  </span>
                 </h1>
               }
               socials={
