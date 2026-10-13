@@ -31,6 +31,8 @@ const PRUNE = process.argv.includes("--prune");
 
 const PROFILE = {
   role: "Principal Engineer",
+  tagline:
+    "I build AI-native products and governed, human-in-the-loop agents — and explore what it means to build near the singularity.",
   bio: [
     "<p>Principal Engineer with <strong>10+ years</strong> of experience building high-performance, customer-centric web applications across enterprise SaaS, cloud observability, ad tech, and banking.</p>",
     "<p>Deep full-stack expertise in React, TypeScript, Node.js, GraphQL, and AWS, now focused on <strong>applied AI</strong>: governed, human-in-the-loop agents, MCP-based tooling, and AI-native engineering workflows.</p>",
