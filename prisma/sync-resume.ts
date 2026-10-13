@@ -236,7 +236,6 @@ const HIGHLIGHTS: Record<
       {
         kind: "For internal teams and stakeholders",
         title: "AI triage bot for on-call",
-        link: { label: "Case study", url: "https://www.irah.dev/resume#case-study" },
         areas: "ai,fullstack",
         icon: "bot",
         viz: "steps:An alert fires|Read-only queries|Layer and owner|A person decides",
