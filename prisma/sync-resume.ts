@@ -50,7 +50,6 @@ type ExperienceContent = {
   period: string;
   title: string;
   company: string;
-  /** Used only when the existing row has no company URL */
   companyUrl: string;
   description: string;
   tags: string[];
@@ -214,6 +213,8 @@ const HIGHLIGHTS: Record<
       icon?: string;
       viz?: string;
       areas?: string;
+      /** Demo or reference link from the résumé */
+      link?: { label: string; url: string };
       detail: string[];
     }[];
   }
@@ -235,6 +236,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "For internal teams and stakeholders",
         title: "AI triage bot for on-call",
+        link: { label: "Case study", url: "https://www.irah.dev/resume#case-study" },
         areas: "ai,fullstack",
         icon: "bot",
         viz: "steps:An alert fires|Read-only queries|Layer and owner|A person decides",
@@ -318,6 +320,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Amazon Ads",
         title: "Designed and shipped Ads Data Manager",
+        link: { label: "Ads Data Manager announcement", url: "https://advertising.amazon.com/resources/whats-new/ads-data-manager-beta" },
         areas: "frontend,fullstack",
         icon: "database",
         viz: "steps:Onboard advertiser data|Activate it|Change the UI without a client deploy",
@@ -340,6 +343,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "AWS CloudWatch",
         title: "LiveTail: 10,000+ log events a second",
+        link: { label: "AWS blog: Live Tail", url: "https://aws.amazon.com/blogs/mt/announcing-live-tail-feature-for-amazon-cloudwatch-logs/" },
         areas: "frontend,fullstack",
         icon: "radio",
         viz: "stream:10000:log events a second, streamed live",
@@ -350,6 +354,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "AWS CloudWatch",
         title: "AI-powered anomaly detection dashboards",
+        link: { label: "AWS blog: anomaly detection", url: "https://aws.amazon.com/blogs/aws/amazon-cloudwatch-logs-now-offers-automated-pattern-analytics-and-anomaly-detection/" },
         areas: "ai,frontend",
         icon: "brain",
         viz: "anomaly:Log pattern anomalies, picked out for non-technical users",
@@ -386,6 +391,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Design systems",
         title: "A design system built on Atomic Design",
+        link: { label: "Dashboard demo video", url: "https://www.youtube.com/watch?v=A-O_E-NbxN8" },
         areas: "frontend",
         icon: "component",
         viz: "steps:Atoms|Molecules|Organisms|Templates|Pages",
@@ -402,6 +408,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Design systems",
         title: "Company-wide Web UI template library",
+        link: { label: "Demo video", url: "https://www.youtube.com/watch?v=2pTUcYrXV-Y" },
         areas: "frontend",
         icon: "component",
         viz: "crowd:Company-wide:every feature team built on one Web UI library",
@@ -437,6 +444,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Banking",
         title: "Lloyds Bank Commercial Banking Online",
+        link: { label: "Lloyds Commercial Banking Online", url: "https://cbonline.lloydsbank.com/" },
         areas: "frontend",
         icon: "landmark",
         viz: "tags:Responsive|Cross-browser|Accessibility-compliant",
@@ -552,7 +560,6 @@ async function main() {
     const map = HIGHLIGHTS[content.company];
     const wanted = {
       ...fields,
-      companyUrl: row?.companyUrl || content.companyUrl,
       sortOrder,
       headline: map?.headline ?? "",
       highlights: (map?.items ?? []).map((h) => ({
@@ -562,6 +569,8 @@ async function main() {
         icon: h.icon ?? "",
         viz: h.viz ?? "",
         areas: h.areas ?? "",
+        linkLabel: h.link?.label ?? "",
+        linkUrl: h.link?.url ?? "",
       })),
     };
     const current = row
@@ -583,6 +592,8 @@ async function main() {
             icon: h.icon,
             viz: h.viz,
             areas: h.areas,
+            linkLabel: h.linkLabel,
+            linkUrl: h.linkUrl,
           })),
         }
       : {};

@@ -14,7 +14,7 @@ import type { ExperienceWithRelations } from "@/types";
 import { HighlightViz } from "./HighlightViz";
 import { AREAS, TShape, type Area } from "./TShape";
 import { HighlightIcon } from "./highlightIcons";
-import { ArrowLeft, ArrowRight, X, ZoomIn } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, X, ZoomIn } from "lucide-react";
 
 const MONO = { fontFamily: "var(--font-jetbrains-mono), monospace" };
 const DISPLAY = { fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" };
@@ -45,6 +45,41 @@ const getServerSearch = () => "";
 
 // The tiles fade in once per page load, not every time you zoom back out
 let overviewShown = false;
+
+const hostOf = (url: string) => {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+};
+
+/** An outbound link: a company website or a demo */
+function OutLink({
+  href,
+  label,
+  kind,
+  className = "",
+}: {
+  href: string;
+  label: string;
+  kind: "company" | "demo";
+  className?: string;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      onClick={() => posthog.capture("career_map_link_clicked", { kind, label, url: href })}
+      className={`inline-flex min-h-11 items-center gap-1.5 text-[11px] uppercase tracking-widest underline decoration-1 underline-offset-4 transition-colors sm:min-h-0 ${className}`}
+      style={MONO}
+    >
+      {label}
+      <ArrowUpRight className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true" />
+    </a>
+  );
+}
 
 function CardIcon({ name }: { name: string }) {
   return (
@@ -214,20 +249,28 @@ export function CareerMap({
                         }`}
                         style={{ borderRadius: 2 }}
                       >
+                        <div className={`flex items-center justify-between gap-3 px-6 pt-4 text-[10px] uppercase tracking-widest ${soft}`} style={MONO}>
+                          {exp.period}
+                          {exp.companyUrl && (
+                            <OutLink
+                              href={exp.companyUrl}
+                              label={hostOf(exp.companyUrl)}
+                              kind="company"
+                              className={lead ? "hover:text-paper" : "hover:text-forest"}
+                            />
+                          )}
+                        </div>
                         <button
                           type="button"
                           onClick={() => navigate(exp.company)}
-                          className="group block w-full p-6 pb-4 text-left"
+                          className="group block w-full px-6 pb-4 pt-1 text-left"
                         >
-                          <span className={`flex items-center justify-between text-[10px] uppercase tracking-widest ${soft}`} style={MONO}>
-                            {exp.period}
-                            <ZoomIn className="h-4 w-4 transition-transform group-hover:scale-125" aria-hidden="true" />
-                          </span>
                           <span
-                            className="mt-2 block text-2xl font-bold leading-tight underline decoration-transparent decoration-2 underline-offset-4 transition-colors group-hover:decoration-gold"
+                            className="flex items-center justify-between gap-3 text-2xl font-bold leading-tight underline decoration-transparent decoration-2 underline-offset-4 transition-colors group-hover:decoration-gold"
                             style={DISPLAY}
                           >
                             {exp.company}
+                            <ZoomIn className={`h-4 w-4 flex-shrink-0 transition-transform group-hover:scale-125 ${soft}`} aria-hidden="true" />
                           </span>
                           <span className={`block text-sm ${lead ? "text-paper/75" : "text-ink/60"}`}>{exp.title}</span>
                           {exp.headline && (
@@ -252,7 +295,19 @@ export function CareerMap({
                                   } ${match ? "bg-gold/25 font-semibold" : ""} ${filter !== null && !match ? "opacity-35" : ""}`}
                                 >
                                   <HighlightIcon name={item.icon} className={`h-4 w-4 flex-shrink-0 ${lead ? "text-paper/70" : "text-ink/60"}`} />
-                                  <span className="min-w-0 flex-1 leading-snug">{item.title}</span>
+                                  <span className="min-w-0 flex-1 leading-snug">
+                                    {item.title}
+                                    {item.linkUrl && (
+                                      <span
+                                        className={`ml-2 inline-block border px-1.5 align-middle text-[9px] uppercase tracking-widest ${
+                                          lead ? "border-paper/40" : "border-ink/30"
+                                        }`}
+                                        style={MONO}
+                                      >
+                                        Demo
+                                      </span>
+                                    )}
+                                  </span>
                                   <ArrowRight className={`h-3.5 w-3.5 flex-shrink-0 ${soft}`} aria-hidden="true" />
                                 </button>
                               </li>
@@ -288,6 +343,14 @@ export function CareerMap({
                 {company.headline && (
                   <p className="mt-5 max-w-2xl text-lg font-medium leading-snug">{company.headline}</p>
                 )}
+                {company.companyUrl && (
+                  <OutLink
+                    href={company.companyUrl}
+                    label={hostOf(company.companyUrl)}
+                    kind="company"
+                    className="mt-5 text-gold hover:text-paper"
+                  />
+                )}
               </motion.div>
               <ul className="mt-3 grid gap-3 sm:grid-cols-2">
                 {company.highlights.map((item, index) => (
@@ -316,7 +379,7 @@ export function CareerMap({
                       </span>
                       <span className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-ink/60" style={MONO}>
                         <ZoomIn className="h-3.5 w-3.5" aria-hidden="true" />
-                        Details
+                        {item.linkUrl ? "Details and demo" : "Details"}
                       </span>
                     </motion.button>
                   </li>
@@ -359,6 +422,25 @@ export function CareerMap({
                     <p key={paragraph}>{paragraph}</p>
                   ))}
                 </motion.div>
+                {highlight.linkUrl && (
+                  <a
+                    href={highlight.linkUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() =>
+                      posthog.capture("career_map_link_clicked", {
+                        kind: "demo",
+                        label: highlight.linkLabel,
+                        url: highlight.linkUrl,
+                      })
+                    }
+                    className="mt-8 inline-flex min-h-11 items-center gap-2 border border-forest bg-forest px-4 py-3 text-[11px] uppercase tracking-widest text-paper transition-colors hover:bg-forest/85"
+                    style={{ ...MONO, borderRadius: 2 }}
+                  >
+                    {highlight.linkLabel || "Demo"}
+                    <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  </a>
+                )}
               </motion.article>
               <div className="mt-3 flex flex-wrap gap-3 text-[11px] uppercase tracking-widest" style={MONO}>
                 <button
