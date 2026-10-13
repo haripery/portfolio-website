@@ -109,14 +109,28 @@ export function TShape({
   const [preview, setPreview] = useState<Area | null>(null);
   const lit = preview ?? filter;
 
+  // Touch screens have no hover, and a tap there should only open or close
+  // the skills. Marking work in the tiles is a mouse-and-keyboard action,
+  // so a stray tap while scrolling can't leave tiles highlighted.
+  const isTouch = () => window.matchMedia("(hover: none)").matches;
+
   // Shared by the T's parts and the words in the headline
   const trigger = (area: Area) => ({
     type: "button" as const,
     "aria-pressed": filter === area,
-    onMouseEnter: () => setPreview(area),
-    onFocus: () => setPreview(area),
-    onBlur: () => setPreview(null),
-    onClick: () => onFilter(area),
+    onMouseEnter: () => {
+      if (!isTouch()) setPreview(area);
+    },
+    onFocus: () => {
+      if (!isTouch()) setPreview(area);
+    },
+    onBlur: () => {
+      if (!isTouch()) setPreview(null);
+    },
+    onClick: () => {
+      if (isTouch()) setPreview((current) => (current === area ? null : area));
+      else onFilter(area);
+    },
   });
 
   const word = (area: Area, text: string) => (
@@ -187,7 +201,8 @@ export function TShape({
             >
               <p className="flex items-center gap-2 text-[11px] uppercase tracking-widest text-ink/60" style={MONO}>
                 <span className={`h-2.5 w-2.5 ${AREAS[preview].fill}`} aria-hidden="true" />
-                {AREAS[preview].label} · click to mark this work below
+                {AREAS[preview].label}
+                <span className="hidden [@media(hover:hover)]:inline"> · click to mark this work below</span>
               </p>
               <ul className="mt-3 flex flex-wrap gap-2">
                 {AREAS[preview].skills.map((skill, index) => (

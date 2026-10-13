@@ -1,6 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { LayoutGroup, MotionConfig, motion } from "framer-motion";
 import posthog from "posthog-js";
 import type { ExperienceWithRelations } from "@/types";
@@ -35,6 +42,9 @@ function subscribe(onChange: () => void) {
 }
 const getSearch = () => window.location.search;
 const getServerSearch = () => "";
+
+// The tiles fade in once per page load, not every time you zoom back out
+let overviewShown = false;
 
 function CardIcon({ name }: { name: string }) {
   return (
@@ -84,10 +94,33 @@ export function CareerMap({
     window.history.pushState(null, "", query ? `?${query}` : window.location.pathname);
     window.dispatchEvent(new Event(NAV_EVENT));
     posthog.capture("career_map_zoomed", { company: c ?? null, highlight: h ?? null });
-
-    // Bring the new level to the top of the view
-    rootRef.current?.scrollIntoView({ block: "start" });
   }, []);
+
+  // Each zoom level keeps its own scroll position: a level seen before is
+  // restored to where it was left, a new one starts at the top of the map.
+  const positions = useRef(new Map<string, number>());
+  const firstRender = useRef(true);
+  useEffect(() => {
+    const remember = () => positions.current.set(window.location.search, window.scrollY);
+    window.addEventListener("scroll", remember, { passive: true });
+    return () => window.removeEventListener("scroll", remember);
+  }, []);
+  useEffect(() => {
+    overviewShown = true;
+  }, []);
+  useLayoutEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    const saved = positions.current.get(search);
+    // 80px clears the fixed top nav. "instant" because the page scrolls
+    // smoothly by default, and a smooth scroll is dropped when the page
+    // height changes underneath it.
+    const top =
+      saved ?? (rootRef.current?.getBoundingClientRect().top ?? 0) + window.scrollY - 80;
+    window.scrollTo({ top: Math.max(0, top), behavior: "instant" });
+  }, [search]);
 
   const selectArea = useCallback((area: Area | null) => {
     setFilter((current) => (current === area ? null : area));
@@ -173,9 +206,9 @@ export function CareerMap({
                     <li key={exp.id}>
                       <motion.div
                         layoutId={`company-${exp.id}`}
-                        initial={{ opacity: 0, y: 14 }}
+                        initial={overviewShown ? false : { opacity: 0, y: 14 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.25 + index * 0.07 }}
+                        transition={overviewShown ? undefined : { delay: 0.25 + index * 0.07 }}
                         className={`flex h-full flex-col border ${
                           lead ? "border-forest bg-forest text-paper" : "border-ink/15 bg-card text-forest"
                         }`}
@@ -202,7 +235,11 @@ export function CareerMap({
                           )}
                         </button>
                         {exp.highlights.length > 0 && (
-                          <ul className={`mt-auto border-t px-3 py-2 ${lead ? "border-paper/20" : "border-ink/10"}`}>
+                          <ul
+                            className={`mt-auto divide-y border-t ${
+                              lead ? "divide-paper/15 border-paper/20" : "divide-ink/10 border-ink/10"
+                            }`}
+                          >
                             {exp.highlights.map((item) => {
                               const match = filter !== null && item.areas.split(",").includes(filter);
                               return (
@@ -210,11 +247,11 @@ export function CareerMap({
                                 <button
                                   type="button"
                                   onClick={() => navigate(exp.company, item.title)}
-                                  className={`flex w-full items-center gap-3 px-3 py-2 text-left text-sm transition-[background-color,opacity] duration-300 ${
+                                  className={`flex min-h-14 w-full items-center gap-3 px-6 py-3 text-left text-[15px] transition-[background-color,opacity] duration-300 sm:min-h-11 sm:py-2.5 sm:text-sm ${
                                     lead ? "hover:bg-paper/10" : "hover:bg-forest/7"
                                   } ${match ? "bg-gold/25 font-semibold" : ""} ${filter !== null && !match ? "opacity-35" : ""}`}
                                 >
-                                  <HighlightIcon name={item.icon} className={`h-4 w-4 flex-shrink-0 ${lead ? "text-gold" : "text-ink/60"}`} />
+                                  <HighlightIcon name={item.icon} className={`h-4 w-4 flex-shrink-0 ${lead ? "text-paper/70" : "text-ink/60"}`} />
                                   <span className="min-w-0 flex-1 leading-snug">{item.title}</span>
                                   <ArrowRight className={`h-3.5 w-3.5 flex-shrink-0 ${soft}`} aria-hidden="true" />
                                 </button>
