@@ -148,7 +148,7 @@ export function CareerMap({
                 filter={filter}
                 onFilter={selectArea}
               >
-                {socials && <div className="mt-5">{socials}</div>}
+                {socials}
               </TShape>
 
               <SectionHeading label="Experience" hint="Pick a company to zoom in, or jump straight to a highlight">

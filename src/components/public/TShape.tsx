@@ -9,11 +9,18 @@ const EASE = [0.2, 0.7, 0.2, 1] as const;
 
 export type Area = "frontend" | "ai" | "fullstack";
 
-export const AREAS: Record<Area, { label: string; fill: string; line: string; skills: string[] }> = {
+// Each part of the T has one colour, used for its shape, its word in the
+// headline and its skill chips. The text shades are darker in light mode so
+// the words stay readable on the paper background.
+export const AREAS: Record<
+  Area,
+  { label: string; fill: string; line: string; text: string; skills: string[] }
+> = {
   frontend: {
     label: "Frontend",
     fill: "bg-gold",
     line: "border-gold",
+    text: "text-[#8A6A00] dark:text-gold",
     skills: [
       "React 18+",
       "TypeScript",
@@ -38,6 +45,7 @@ export const AREAS: Record<Area, { label: string; fill: string; line: string; sk
     label: "Applied AI",
     fill: "bg-coral",
     line: "border-coral",
+    text: "text-[#C4502F] dark:text-coral",
     skills: [
       "LangGraph",
       "Amazon Bedrock",
@@ -55,8 +63,9 @@ export const AREAS: Record<Area, { label: string; fill: string; line: string; sk
   },
   fullstack: {
     label: "Full stack",
-    fill: "bg-forest",
-    line: "border-forest",
+    fill: "bg-[#2E9E6B] dark:bg-mint",
+    line: "border-[#2E9E6B] dark:border-mint",
+    text: "text-[#1F7A52] dark:text-mint",
     skills: [
       "Node.js",
       "Python",
@@ -111,7 +120,7 @@ export function TShape({
   });
 
   const word = (area: Area, text: string) => (
-    <button {...trigger(area)} className={`border-b-4 text-forest ${AREAS[area].line}`}>
+    <button {...trigger(area)} className={`border-b-4 ${AREAS[area].text} ${AREAS[area].line}`}>
       {text}
     </button>
   );
@@ -122,7 +131,7 @@ export function TShape({
     <div onMouseLeave={() => setPreview(null)}>
       <div className="flex items-stretch gap-5 sm:gap-7">
         {/* The T — sized in em of the headline's type, and as tall as the headline block */}
-        <div className="relative min-h-[2.4em] w-[2.3em] flex-shrink-0 text-2xl sm:text-4xl">
+        <div className="relative min-h-[2.4em] w-[2.3em] flex-shrink-0 text-2xl sm:text-4xl lg:text-5xl">
           <motion.button
             {...trigger("ai")}
             aria-label="Applied AI: show skills, click to mark matching work"
@@ -155,7 +164,7 @@ export function TShape({
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="mt-2 text-2xl font-bold leading-tight tracking-tight text-forest sm:text-4xl"
+            className="mt-2 text-2xl font-bold leading-tight tracking-tight text-forest sm:text-4xl lg:text-5xl"
             style={DISPLAY}
           >
             {word("frontend", "Frontend")}, all the way down.
@@ -166,7 +175,7 @@ export function TShape({
       </div>
 
       {/* One slot: the summary, or the skills behind the part being pointed at */}
-      <div className="mt-6 min-h-28 max-w-3xl" aria-live="polite">
+      <div className="mt-6 min-h-20" aria-live="polite">
         <AnimatePresence mode="wait" initial={false}>
           {preview ? (
             <motion.div
@@ -203,23 +212,25 @@ export function TShape({
               exit={{ opacity: 0, transition: { duration: 0.1 } }}
             >
               {summary && <p className="text-base leading-relaxed text-ink/75 sm:text-lg">{summary}</p>}
-              <ul
-                className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-[11px] uppercase tracking-widest text-ink/60"
-                style={MONO}
-              >
-                {facts.map((fact) => (
-                  <li key={fact} className="flex items-center gap-2">
-                    <span className="h-1 w-1 bg-coral" aria-hidden="true" />
-                    {fact}
-                  </li>
-                ))}
-              </ul>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      {children}
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-x-8 gap-y-4">
+        <ul
+          className="flex flex-wrap gap-x-5 gap-y-1 text-[11px] uppercase tracking-widest text-ink/60"
+          style={MONO}
+        >
+          {facts.map((fact) => (
+            <li key={fact} className="flex items-center gap-2">
+              <span className="h-1 w-1 bg-coral" aria-hidden="true" />
+              {fact}
+            </li>
+          ))}
+        </ul>
+        {children && <div>{children}</div>}
+      </div>
     </div>
   );
 }
