@@ -4,6 +4,10 @@ import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 import { LayoutGroup, MotionConfig, motion } from "framer-motion";
 import posthog from "posthog-js";
 import type { ExperienceWithRelations } from "@/types";
+import { HighlightViz } from "./HighlightViz";
+import { TShape } from "./TShape";
+import { HighlightIcon } from "./highlightIcons";
+import { ArrowLeft, ArrowRight, ZoomIn } from "lucide-react";
 
 const MONO = { fontFamily: "var(--font-jetbrains-mono), monospace" };
 const DISPLAY = { fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" };
@@ -31,6 +35,14 @@ function subscribe(onChange: () => void) {
 }
 const getSearch = () => window.location.search;
 const getServerSearch = () => "";
+
+function CardIcon({ name }: { name: string }) {
+  return (
+    <span className="flex h-10 w-10 items-center justify-center border border-forest/30 bg-forest/7 text-forest">
+      <HighlightIcon name={name} className="h-5 w-5" />
+    </span>
+  );
+}
 
 export function CareerMap({
   experiences,
@@ -114,16 +126,27 @@ export function CareerMap({
           {/* Level 1 — the whole career */}
           {!company && (
             <div>
-              <motion.h2
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="mt-2 text-3xl font-bold leading-tight tracking-tight text-forest sm:text-4xl"
-                style={DISPLAY}
-              >
-                From banking interfaces to governed AI.
-                <br />
-                Pick a chapter to zoom in.
-              </motion.h2>
+              <div className="mt-4 flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between sm:gap-12">
+                <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+                  <h2
+                    className="text-4xl font-bold leading-none tracking-tight text-forest sm:text-5xl"
+                    style={DISPLAY}
+                  >
+                    T-shaped engineer.
+                  </h2>
+                  <p className="mt-4 max-w-md text-lg leading-snug text-ink/75">
+                    Deep in frontend. Broad across full stack and applied AI.
+                  </p>
+                  <p
+                    className="mt-6 flex items-center gap-2 text-[11px] uppercase tracking-widest text-ink/60"
+                    style={MONO}
+                  >
+                    <ZoomIn className="h-4 w-4" aria-hidden="true" />
+                    Pick a chapter to zoom in
+                  </p>
+                </motion.div>
+                <TShape />
+              </div>
               <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {experiences.map((exp, index) => {
                   const lead = index === 0;
@@ -133,6 +156,10 @@ export function CareerMap({
                     <li key={exp.id} className={lead ? "sm:col-span-2 lg:col-span-1" : undefined}>
                       <Tile
                         layoutId={`company-${exp.id}`}
+                        initial={{ opacity: 0, y: 14 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.25 + index * 0.07 }}
+                        whileHover={zoomable ? { y: -4 } : undefined}
                         {...(zoomable
                           ? { type: "button" as const, onClick: () => navigate(exp.company) }
                           : {})}
@@ -163,10 +190,15 @@ export function CareerMap({
                           )}
                           {zoomable && (
                             <span
-                              className={`mt-3 block text-[10px] uppercase tracking-widest ${lead ? "text-gold" : "text-ink/60"}`}
+                              className={`mt-4 flex items-center justify-between gap-3 text-[10px] uppercase tracking-widest ${lead ? "text-gold" : "text-ink/60"}`}
                               style={MONO}
                             >
-                              {exp.highlights.length} highlights · zoom in +
+                              <span className="flex items-center gap-2" aria-hidden="true">
+                                {exp.highlights.map((item) => (
+                                  <HighlightIcon key={item.id} name={item.icon} className="h-4 w-4" />
+                                ))}
+                              </span>
+                              <span>{exp.highlights.length} highlights +</span>
                             </span>
                           )}
                         </span>
@@ -206,13 +238,15 @@ export function CareerMap({
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.08 + index * 0.05 }}
+                      whileHover={{ y: -4 }}
                       onClick={() => navigate(company.company, item.title)}
                       className="flex h-full min-h-36 w-full flex-col justify-between gap-4 border border-ink/15 bg-card p-6 text-left transition-colors hover:border-gold"
                       style={{ borderRadius: 2 }}
                     >
                       <span className="block">
+                        <CardIcon name={item.icon} />
                         {item.kind && (
-                          <span className="block text-[10px] uppercase tracking-widest text-ink/55" style={MONO}>
+                          <span className="mt-4 block text-[10px] uppercase tracking-widest text-ink/55" style={MONO}>
                             {item.kind}
                           </span>
                         )}
@@ -220,8 +254,9 @@ export function CareerMap({
                           {item.title}
                         </span>
                       </span>
-                      <span className="block text-[10px] uppercase tracking-widest text-ink/60" style={MONO}>
-                        Details +
+                      <span className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-ink/60" style={MONO}>
+                        <ZoomIn className="h-3.5 w-3.5" aria-hidden="true" />
+                        Details
                       </span>
                     </motion.button>
                   </li>
@@ -238,7 +273,8 @@ export function CareerMap({
                 className="mt-2 border border-gold bg-card p-6 sm:p-12"
                 style={{ borderRadius: 2 }}
               >
-                <p className="text-[11px] uppercase tracking-widest text-ink/55" style={MONO}>
+                <CardIcon name={highlight.icon} />
+                <p className="mt-5 text-[11px] uppercase tracking-widest text-ink/55" style={MONO}>
                   {company.company}
                   {highlight.kind ? ` · ${highlight.kind}` : ""}
                 </p>
@@ -248,6 +284,11 @@ export function CareerMap({
                 >
                   {highlight.title}
                 </h2>
+                {highlight.viz && (
+                  <div key={highlight.id} className="mt-8 border-y border-ink/12 py-8">
+                    <HighlightViz spec={highlight.viz} />
+                  </div>
+                )}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -265,7 +306,8 @@ export function CareerMap({
                   onClick={() => navigate(company.company)}
                   className="min-h-11 border border-forest px-4 py-3 text-forest transition-colors hover:bg-forest hover:text-paper"
                 >
-                  Zoom out −
+                  <ArrowLeft className="mr-2 inline h-3.5 w-3.5" aria-hidden="true" />
+                  Zoom out
                 </button>
                 {company.highlights.length > 1 && (
                   <button
@@ -278,7 +320,8 @@ export function CareerMap({
                     }
                     className="min-h-11 border border-forest bg-forest px-4 py-3 text-paper transition-colors hover:bg-forest/85"
                   >
-                    Next highlight →
+                    Next highlight
+                    <ArrowRight className="ml-2 inline h-3.5 w-3.5" aria-hidden="true" />
                   </button>
                 )}
               </div>

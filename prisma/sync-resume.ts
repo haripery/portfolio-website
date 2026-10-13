@@ -201,7 +201,11 @@ const EXPERIENCES: ExperienceContent[] = [
 // `detail` are separated by a blank line.
 const HIGHLIGHTS: Record<
   string,
-  { headline: string; items: { kind: string; title: string; detail: string[] }[] }
+  {
+    headline: string;
+    /** icon: a key from src/components/public/highlightIcons.tsx; viz: a spec read by HighlightViz */
+    items: { kind: string; title: string; icon?: string; viz?: string; detail: string[] }[];
+  }
 > = {
   Autodesk: {
     headline:
@@ -210,6 +214,8 @@ const HIGHLIGHTS: Record<
       {
         kind: "For customers",
         title: "Personalized, AI-assisted account and billing website",
+        icon: "users",
+        viz: "crowd:Thousands:of customers use it every day",
         detail: [
           "As lead frontend engineer, own Autodesk’s personalized, AI-driven billing website, used by thousands of customers daily, and led frontend delivery of the flagship Account Subscriptions 3.0 redesign.",
         ],
@@ -217,6 +223,8 @@ const HIGHLIGHTS: Record<
       {
         kind: "For internal teams and stakeholders",
         title: "AI triage bot for on-call",
+        icon: "bot",
+        viz: "steps:An alert fires|Read-only queries|Layer and owner|A person decides",
         detail: [
           "Originated a human-supervised AI on-call triage assistant that finds the failing layer and its owner, and took it through enterprise AI governance, security review, and AWS deployment.",
           "It works read-only through allow-listed integrations, never remediates on its own, and an engineer reviews every action.",
@@ -225,6 +233,8 @@ const HIGHLIGHTS: Record<
       {
         kind: "Across teams",
         title: "AI adoption forum and a shared MCP tool stack",
+        icon: "network",
+        viz: "stat:3 teams:in the AI adoption forum",
         detail: [
           "Launched an AI adoption forum across three teams, turning demos into a prioritized, owned backlog, and standardized a 10-server MCP tool stack and reusable agent skills.",
           "Documented the enterprise approval path for AI services so the next service owner can repeat it, lowering the barrier to shipping governed AI at Autodesk.",
@@ -233,6 +243,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Engineering quality",
         title: "Standards, architecture proposals and the design system",
+        icon: "ruler",
         detail: [
           "Authored engineering standards and architecture proposals, including a UI readiness framework and a distributed tracing initiative, to raise quality across teams.",
           "Strengthened the shared design system so product copy and visual changes ship without a package release, and built components for reuse by sister teams.",
@@ -246,6 +257,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Leadership",
         title: "Led engineering for the Ads 3P team",
+        icon: "megaphone",
         detail: [
           "Led engineering for the Ads 3P team (real-time bidding, merchant dashboards, email/SMS automations), combining hands-on leadership with mentoring on frontend architecture, code quality, and delivery velocity.",
         ],
@@ -253,6 +265,8 @@ const HIGHLIGHTS: Record<
       {
         kind: "Performance",
         title: "Dynamic Creative Optimization within 150ms",
+        icon: "zap",
+        viz: "stat:≤150ms:to serve an ad creative",
         detail: [
           "Developed a Dynamic Creative Optimization (DCO) system spanning frontend and backend layers, serving ad creatives within 150ms response time with full-stack ownership from UI rendering to data layer integration.",
         ],
@@ -260,6 +274,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Data integrity",
         title: "Event tracking across Web and Native",
+        icon: "activity",
         detail: [
           "Built a high-integrity event tracking solution across Web and Native platforms, ensuring reliable real-time signals for Meta Pixel and Google Tag Manager to improve merchant conversion tracking accuracy.",
         ],
@@ -267,6 +282,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Reliability",
         title: "On-call and engineering culture",
+        icon: "shield",
         detail: [
           "Contributed to the on-call rotation (weekly quarterly shifts), driving system health, security hardening, and engineering culture through structured code reviews and knowledge-sharing sessions.",
         ],
@@ -279,6 +295,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Amazon Ads",
         title: "Designed and shipped Ads Data Manager",
+        icon: "database",
         detail: [
           "Designed and shipped Ads Data Manager, a cloud-based data onboarding and activation SPA using React, TypeScript, and GraphQL, delivering production-ready digital workflows for enterprise advertisers.",
           "Developed a Server-Driven UI architecture that delivered UI configurations from the backend, enabling real-time interface updates without client deployments and supporting A/B experimentation at scale.",
@@ -287,6 +304,8 @@ const HIGHLIGHTS: Record<
       {
         kind: "Performance",
         title: "60% fewer API calls, 850ms down to 320ms",
+        icon: "gauge",
+        viz: "drop:850:320:ms:average response time under peak traffic",
         detail: [
           "Achieved a 60% reduction in backend API calls through GraphQL query batching and multi-level caching (client, CDN), reducing average response time from 850ms to 320ms under peak traffic.",
           "Implemented Backend-for-Frontend (BFF) middleware using GraphQL to stitch multiple microservice APIs, optimizing client-server communication and streamlining complex advertiser data flows.",
@@ -295,6 +314,8 @@ const HIGHLIGHTS: Record<
       {
         kind: "AWS CloudWatch",
         title: "LiveTail: 10,000+ log events a second",
+        icon: "radio",
+        viz: "stream:10000:log events a second, streamed live",
         detail: [
           "Built a high-performance CloudWatch LiveTail system using WebSocket architecture and Web Workers, delivering real-time log streaming at 10,000+ events/second while maintaining a responsive UI.",
         ],
@@ -302,6 +323,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "AWS CloudWatch",
         title: "AI-powered anomaly detection dashboards",
+        icon: "brain",
         detail: [
           "Engineered AI-powered anomaly detection dashboards that transformed complex ML outputs into intuitive visualizations and interactive tables, enabling non-technical users to identify log pattern anomalies.",
           "Implemented an extensive telemetry system capturing client-side latency, API errors, and behavioral metrics to enable deep performance analysis and data-driven product decisions.",
@@ -315,6 +337,8 @@ const HIGHLIGHTS: Record<
       {
         kind: "Performance",
         title: "45% shorter dashboard load times",
+        icon: "gauge",
+        viz: "percent:45:shorter dashboard load times",
         detail: [
           "Improved dashboard load times by 45% through tree shaking, lazy loading, and performance monitoring with well-defined SLIs.",
         ],
@@ -322,6 +346,8 @@ const HIGHLIGHTS: Record<
       {
         kind: "Performance",
         title: "25% less memory in data visualizations",
+        icon: "memory",
+        viz: "percent:25:less memory in data visualizations",
         detail: [
           "Detected and resolved JavaScript memory leaks in large-scale data visualization components using Chrome DevTools, reducing memory consumption by 25%.",
         ],
@@ -329,6 +355,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Design systems",
         title: "A design system built on Atomic Design",
+        icon: "component",
         detail: [
           "Established a comprehensive design system using Atomic Design principles, enabling faster prototyping and consistent user experiences across the product suite.",
           "Led development of high-performance data analytics dashboards with a focus on rapid prototyping, iterative delivery, and cross-functional collaboration with product and design stakeholders.",
@@ -342,6 +369,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Design systems",
         title: "Company-wide Web UI template library",
+        icon: "component",
         detail: [
           "Designed, developed, and maintained a Web UI Template library for xApps (online CAD applications), creating reusable components consumed by all feature teams company-wide.",
         ],
@@ -349,6 +377,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Platforms",
         title: "Mobile and touch workflows",
+        icon: "smartphone",
         detail: [
           "Ensured full cross-platform compatibility for mobile and touch device workflows, delivering seamless user experiences across devices.",
         ],
@@ -356,6 +385,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Performance",
         title: "Network and runtime performance",
+        icon: "zap",
         detail: [
           "Optimized network performance through resource hinting, tree shaking, compression, and caching; enhanced runtime efficiency with Web Workers and LocalStorage strategies.",
         ],
@@ -368,6 +398,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Banking",
         title: "Lloyds Bank Commercial Banking Online",
+        icon: "landmark",
         detail: [
           "Enhanced digital banking payment platforms, including Lloyds Bank Commercial Banking Online, with responsive, cross-browser, and accessibility-compliant interfaces for major financial services clients.",
         ],
@@ -375,6 +406,8 @@ const HIGHLIGHTS: Record<
       {
         kind: "Quality",
         title: "Test automation framework",
+        icon: "flask",
+        viz: "percent:25:less manual testing",
         detail: [
           "Designed and implemented a test automation framework across Chrome and Firefox, reducing manual testing efforts by 25% and streamlining QA workflows.",
         ],
@@ -484,6 +517,8 @@ async function main() {
         kind: h.kind,
         title: h.title,
         detail: h.detail.join("\n\n"),
+        icon: h.icon ?? "",
+        viz: h.viz ?? "",
       })),
     };
     const current = row
@@ -498,7 +533,13 @@ async function main() {
           links: row.links.map((l) => ({ label: l.label, url: l.url })),
           metrics: row.metrics.map((m) => ({ value: m.value, label: m.label })),
           headline: row.headline,
-          highlights: row.highlights.map((h) => ({ kind: h.kind, title: h.title, detail: h.detail })),
+          highlights: row.highlights.map((h) => ({
+            kind: h.kind,
+            title: h.title,
+            detail: h.detail,
+            icon: h.icon,
+            viz: h.viz,
+          })),
         }
       : {};
     const changed = row ? diff(current, wanted) : Object.keys(wanted);

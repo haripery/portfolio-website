@@ -96,6 +96,8 @@ model ExperienceHighlight {
   kind         String     @default("")
   title        String
   detail       String     @db.Text
+  icon         String     @default("")
+  viz          String     @default("")
   sortOrder    Int        @default(0)
   experienceId String
   experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
