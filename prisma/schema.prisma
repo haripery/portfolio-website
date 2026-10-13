@@ -49,18 +49,20 @@ model Social {
 // Experience
 // ---------------------------------------------------------------------------
 model Experience {
-  id          String             @id @default(cuid())
+  id          String                @id @default(cuid())
   period      String
   title       String
   company     String
-  companyUrl  String             @default("")
-  description String             @db.Text
-  sortOrder   Int                @default(0)
+  companyUrl  String                @default("")
+  description String                @db.Text
+  headline    String                @default("")
+  sortOrder   Int                   @default(0)
   tags        ExperienceTag[]
   links       ExperienceLink[]
   metrics     ExperienceMetric[]
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
+  highlights  ExperienceHighlight[]
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
 }
 
 model ExperienceMetric {
@@ -87,6 +89,18 @@ model ExperienceLink {
   url          String
   experienceId String
   experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+}
+
+model ExperienceHighlight {
+  id           String     @id @default(cuid())
+  kind         String     @default("")
+  title        String
+  detail       String     @db.Text
+  sortOrder    Int        @default(0)
+  experienceId String
+  experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+
+  @@index([experienceId])
 }
 
 // ---------------------------------------------------------------------------

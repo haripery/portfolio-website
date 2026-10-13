@@ -12,6 +12,7 @@ export async function getExperiences() {
         tags: true,
         links: true,
         metrics: { orderBy: { sortOrder: "asc" } },
+        highlights: { orderBy: { sortOrder: "asc" } },
       },
       orderBy: { sortOrder: "asc" },
     });

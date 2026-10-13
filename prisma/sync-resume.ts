@@ -196,6 +196,193 @@ const EXPERIENCES: ExperienceContent[] = [
   },
 ];
 
+// Home page career map: one headline per company, and the highlights a visitor
+// can zoom into. Keyed by the company name used in EXPERIENCES. Paragraphs in
+// `detail` are separated by a blank line.
+const HIGHLIGHTS: Record<
+  string,
+  { headline: string; items: { kind: string; title: string; detail: string[] }[] }
+> = {
+  Autodesk: {
+    headline:
+      "A personalized, AI-assisted website for customers, and an AI triage bot for the teams behind it.",
+    items: [
+      {
+        kind: "For customers",
+        title: "Personalized, AI-assisted account and billing website",
+        detail: [
+          "As lead frontend engineer, own Autodesk’s personalized, AI-driven billing website, used by thousands of customers daily, and led frontend delivery of the flagship Account Subscriptions 3.0 redesign.",
+        ],
+      },
+      {
+        kind: "For internal teams and stakeholders",
+        title: "AI triage bot for on-call",
+        detail: [
+          "Originated a human-supervised AI on-call triage assistant that finds the failing layer and its owner, and took it through enterprise AI governance, security review, and AWS deployment.",
+          "It works read-only through allow-listed integrations, never remediates on its own, and an engineer reviews every action.",
+        ],
+      },
+      {
+        kind: "Across teams",
+        title: "AI adoption forum and a shared MCP tool stack",
+        detail: [
+          "Launched an AI adoption forum across three teams, turning demos into a prioritized, owned backlog, and standardized a 10-server MCP tool stack and reusable agent skills.",
+          "Documented the enterprise approval path for AI services so the next service owner can repeat it, lowering the barrier to shipping governed AI at Autodesk.",
+        ],
+      },
+      {
+        kind: "Engineering quality",
+        title: "Standards, architecture proposals and the design system",
+        detail: [
+          "Authored engineering standards and architecture proposals, including a UI readiness framework and a distributed tracing initiative, to raise quality across teams.",
+          "Strengthened the shared design system so product copy and visual changes ship without a package release, and built components for reuse by sister teams.",
+        ],
+      },
+    ],
+  },
+  Shopify: {
+    headline: "Led the Ads 3P team and shipped ad creatives in under 150ms.",
+    items: [
+      {
+        kind: "Leadership",
+        title: "Led engineering for the Ads 3P team",
+        detail: [
+          "Led engineering for the Ads 3P team (real-time bidding, merchant dashboards, email/SMS automations), combining hands-on leadership with mentoring on frontend architecture, code quality, and delivery velocity.",
+        ],
+      },
+      {
+        kind: "Performance",
+        title: "Dynamic Creative Optimization within 150ms",
+        detail: [
+          "Developed a Dynamic Creative Optimization (DCO) system spanning frontend and backend layers, serving ad creatives within 150ms response time with full-stack ownership from UI rendering to data layer integration.",
+        ],
+      },
+      {
+        kind: "Data integrity",
+        title: "Event tracking across Web and Native",
+        detail: [
+          "Built a high-integrity event tracking solution across Web and Native platforms, ensuring reliable real-time signals for Meta Pixel and Google Tag Manager to improve merchant conversion tracking accuracy.",
+        ],
+      },
+      {
+        kind: "Reliability",
+        title: "On-call and engineering culture",
+        detail: [
+          "Contributed to the on-call rotation (weekly quarterly shifts), driving system health, security hardening, and engineering culture through structured code reviews and knowledge-sharing sessions.",
+        ],
+      },
+    ],
+  },
+  "Amazon Web Services": {
+    headline: "Ads Data Manager and CloudWatch LiveTail, with 60% fewer API calls.",
+    items: [
+      {
+        kind: "Amazon Ads",
+        title: "Designed and shipped Ads Data Manager",
+        detail: [
+          "Designed and shipped Ads Data Manager, a cloud-based data onboarding and activation SPA using React, TypeScript, and GraphQL, delivering production-ready digital workflows for enterprise advertisers.",
+          "Developed a Server-Driven UI architecture that delivered UI configurations from the backend, enabling real-time interface updates without client deployments and supporting A/B experimentation at scale.",
+        ],
+      },
+      {
+        kind: "Performance",
+        title: "60% fewer API calls, 850ms down to 320ms",
+        detail: [
+          "Achieved a 60% reduction in backend API calls through GraphQL query batching and multi-level caching (client, CDN), reducing average response time from 850ms to 320ms under peak traffic.",
+          "Implemented Backend-for-Frontend (BFF) middleware using GraphQL to stitch multiple microservice APIs, optimizing client-server communication and streamlining complex advertiser data flows.",
+        ],
+      },
+      {
+        kind: "AWS CloudWatch",
+        title: "LiveTail: 10,000+ log events a second",
+        detail: [
+          "Built a high-performance CloudWatch LiveTail system using WebSocket architecture and Web Workers, delivering real-time log streaming at 10,000+ events/second while maintaining a responsive UI.",
+        ],
+      },
+      {
+        kind: "AWS CloudWatch",
+        title: "AI-powered anomaly detection dashboards",
+        detail: [
+          "Engineered AI-powered anomaly detection dashboards that transformed complex ML outputs into intuitive visualizations and interactive tables, enabling non-technical users to identify log pattern anomalies.",
+          "Implemented an extensive telemetry system capturing client-side latency, API errors, and behavioral metrics to enable deep performance analysis and data-driven product decisions.",
+        ],
+      },
+    ],
+  },
+  "Sumo Logic": {
+    headline: "Dashboards that load 45% faster on 25% less memory.",
+    items: [
+      {
+        kind: "Performance",
+        title: "45% shorter dashboard load times",
+        detail: [
+          "Improved dashboard load times by 45% through tree shaking, lazy loading, and performance monitoring with well-defined SLIs.",
+        ],
+      },
+      {
+        kind: "Performance",
+        title: "25% less memory in data visualizations",
+        detail: [
+          "Detected and resolved JavaScript memory leaks in large-scale data visualization components using Chrome DevTools, reducing memory consumption by 25%.",
+        ],
+      },
+      {
+        kind: "Design systems",
+        title: "A design system built on Atomic Design",
+        detail: [
+          "Established a comprehensive design system using Atomic Design principles, enabling faster prototyping and consistent user experiences across the product suite.",
+          "Led development of high-performance data analytics dashboards with a focus on rapid prototyping, iterative delivery, and cross-functional collaboration with product and design stakeholders.",
+        ],
+      },
+    ],
+  },
+  "Dassault Systèmes": {
+    headline: "The Web UI library every feature team built on.",
+    items: [
+      {
+        kind: "Design systems",
+        title: "Company-wide Web UI template library",
+        detail: [
+          "Designed, developed, and maintained a Web UI Template library for xApps (online CAD applications), creating reusable components consumed by all feature teams company-wide.",
+        ],
+      },
+      {
+        kind: "Platforms",
+        title: "Mobile and touch workflows",
+        detail: [
+          "Ensured full cross-platform compatibility for mobile and touch device workflows, delivering seamless user experiences across devices.",
+        ],
+      },
+      {
+        kind: "Performance",
+        title: "Network and runtime performance",
+        detail: [
+          "Optimized network performance through resource hinting, tree shaking, compression, and caching; enhanced runtime efficiency with Web Workers and LocalStorage strategies.",
+        ],
+      },
+    ],
+  },
+  "Cognizant Technology Solutions": {
+    headline: "Banking interfaces for Lloyds, and 25% less manual testing.",
+    items: [
+      {
+        kind: "Banking",
+        title: "Lloyds Bank Commercial Banking Online",
+        detail: [
+          "Enhanced digital banking payment platforms, including Lloyds Bank Commercial Banking Online, with responsive, cross-browser, and accessibility-compliant interfaces for major financial services clients.",
+        ],
+      },
+      {
+        kind: "Quality",
+        title: "Test automation framework",
+        detail: [
+          "Designed and implemented a test automation framework across Chrome and Firefox, reducing manual testing efforts by 25% and streamlining QA workflows.",
+        ],
+      },
+    ],
+  },
+};
+
 // Matched by title.
 const PROJECT = {
   title: "On-Call Triage Assistant",
@@ -261,7 +448,12 @@ async function main() {
   // ── Experiences ──
   console.log("\nExperience");
   const existing = await prisma.experience.findMany({
-    include: { tags: true, links: true, metrics: { orderBy: { sortOrder: "asc" } } },
+    include: {
+      tags: true,
+      links: true,
+      metrics: { orderBy: { sortOrder: "asc" } },
+      highlights: { orderBy: { sortOrder: "asc" } },
+    },
     orderBy: { sortOrder: "asc" },
   });
 
@@ -282,10 +474,17 @@ async function main() {
 
     const { match: _match, ...fields } = content;
     void _match;
+    const map = HIGHLIGHTS[content.company];
     const wanted = {
       ...fields,
       companyUrl: row?.companyUrl || content.companyUrl,
       sortOrder,
+      headline: map?.headline ?? "",
+      highlights: (map?.items ?? []).map((h) => ({
+        kind: h.kind,
+        title: h.title,
+        detail: h.detail.join("\n\n"),
+      })),
     };
     const current = row
       ? {
@@ -298,6 +497,8 @@ async function main() {
           tags: row.tags.map((t) => t.label),
           links: row.links.map((l) => ({ label: l.label, url: l.url })),
           metrics: row.metrics.map((m) => ({ value: m.value, label: m.label })),
+          headline: row.headline,
+          highlights: row.highlights.map((h) => ({ kind: h.kind, title: h.title, detail: h.detail })),
         }
       : {};
     const changed = row ? diff(current, wanted) : Object.keys(wanted);
@@ -359,16 +560,18 @@ async function main() {
 
       for (const { row, wanted, changed } of plans) {
         if (changed.length === 0) continue;
-        const { tags, links, metrics, ...scalars } = wanted;
+        const { tags, links, metrics, highlights, ...scalars } = wanted;
         const children = {
           tags: { create: tags.map((label) => ({ label })) },
           links: { create: links },
           metrics: { create: metrics.map((m, i) => ({ ...m, sortOrder: i })) },
+          highlights: { create: highlights.map((h, i) => ({ ...h, sortOrder: i })) },
         };
         if (row) {
           await tx.experienceTag.deleteMany({ where: { experienceId: row.id } });
           await tx.experienceLink.deleteMany({ where: { experienceId: row.id } });
           await tx.experienceMetric.deleteMany({ where: { experienceId: row.id } });
+          await tx.experienceHighlight.deleteMany({ where: { experienceId: row.id } });
           await tx.experience.update({ where: { id: row.id }, data: { ...scalars, ...children } });
         } else {
           await tx.experience.create({ data: { ...scalars, ...children } });

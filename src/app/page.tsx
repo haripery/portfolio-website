@@ -1,51 +1,25 @@
-import { ScrollNav } from "@/components/public/ScrollNav";
 import { SocialIcons } from "@/components/public/SocialIcons";
-import { ExperienceSection } from "@/components/public/ExperienceSection";
-import { ImpactSection } from "@/components/public/ImpactSection";
-import { ProjectCard } from "@/components/public/ProjectCard";
-import { TagPill } from "@/components/public/TagPill";
+import { CareerMap } from "@/components/public/CareerMap";
 import { Footer } from "@/components/public/Footer";
 import { FlipName } from "@/components/public/FlipName";
-import { CommunitySection } from "@/components/public/CommunitySection";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { getProfile } from "@/actions/profile";
 import { getExperiences } from "@/actions/experience";
-import { getProjects } from "@/actions/projects";
-import { getBlogPosts } from "@/actions/blog";
 import { getSettings } from "@/actions/settings";
-import { TrackedLink, TrackedAnchor } from "@/components/public/TrackedLink";
+import { TrackedAnchor } from "@/components/public/TrackedLink";
 import Link from "next/link";
 import Image from "next/image";
-import { formatDate } from "@/lib/utils";
-import { sanitizeHtml } from "@/lib/sanitize";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 // ISR: revalidate every 60 seconds
 export const revalidate = 60;
 
 export default async function Home() {
-  const [profile, experiences, projects, posts, settings] = await Promise.all([
+  const [profile, experiences, settings] = await Promise.all([
     getProfile(),
     getExperiences(),
-    getProjects({ featured: true }),
-    getBlogPosts({ published: true }),
     getSettings(),
   ]);
-
-  const recentPosts = posts.slice(0, 3);
-
-  // Impact only appears once at least one experience has metrics
-  const hasImpact = experiences.some((exp) => exp.metrics.length > 0);
-  const navSections = [
-    { label: "About", href: "#about" },
-    ...(hasImpact ? [{ label: "Impact", href: "#impact" }] : []),
-    { label: "Experience", href: "#experience" },
-    { label: "Projects", href: "#projects" },
-    { label: "Writing", href: "#blog" },
-    { label: "Community", href: "/community" },
-  ].map((section, i) => ({ ...section, n: String(i + 1).padStart(2, "0") }));
-  const sectionNumber = (label: string) =>
-    navSections.find((section) => section.label === label)?.n ?? "";
 
   const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
   const personJsonLd = profile
@@ -81,17 +55,19 @@ export default async function Home() {
             {profile?.name?.charAt(0) ?? "H"}
           </Link>
 
-          {/* Numbered nav links */}
           <ul className="hidden items-center gap-6 md:flex lg:gap-8">
-            {navSections.map(({ n, label, href }) => (
+            {[
+              { label: "Writing", href: "/blog" },
+              { label: "Projects", href: "/archive" },
+              { label: "Community", href: "/community" },
+            ].map(({ label, href }) => (
               <li key={href}>
-                <a
+                <Link
                   href={href}
-                  className="group flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-ink/55 transition-colors hover:text-forest"
+                  className="font-mono text-xs uppercase tracking-widest text-ink/55 transition-colors hover:text-forest"
                 >
-                  <span className="text-coral">{n}.</span>
                   {label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -116,259 +92,78 @@ export default async function Home() {
       </nav>
 
       <div className="mx-auto max-w-screen-xl px-6 pt-16 md:px-12 lg:px-24">
-        <div className="lg:flex lg:justify-between lg:gap-8">
-
-          {/* ── LEFT PANEL (sticky) ── */}
-          <header className="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:py-24">
+        {/* ── IDENTITY ── */}
+        <header className="flex flex-wrap items-end justify-between gap-x-10 gap-y-6 pb-8 pt-12 sm:pt-16">
+          <div className="flex items-center gap-5">
+            {profile?.photoUrl && (
+              <div className="h-16 w-16 flex-shrink-0 overflow-hidden border border-ink/30">
+                <Image
+                  src={profile.photoUrl}
+                  alt={profile.name}
+                  width={64}
+                  height={64}
+                  className="h-full w-full object-cover grayscale transition-all duration-500 hover:grayscale-0"
+                />
+              </div>
+            )}
             <div>
-              {/* Profile photo — square, forest border */}
-              {profile?.photoUrl && (
-                <div className="mb-8 h-16 w-16 overflow-hidden border border-ink/30">
-                  <Image
-                    src={profile.photoUrl}
-                    alt={profile.name}
-                    width={64}
-                    height={64}
-                    className="h-full w-full object-cover grayscale transition-all duration-500 hover:grayscale-0"
-                  />
-                </div>
-              )}
-
-              {/* Name — Space Grotesk, large, forest */}
               <h1
-                className="font-display text-4xl font-bold tracking-tight text-forest sm:text-5xl"
+                className="font-display text-3xl font-bold tracking-tight text-forest sm:text-4xl"
                 style={{ fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" }}
               >
                 <FlipName name={profile?.name ?? "Your Name"} />
               </h1>
-
-              {/* Role — medium weight */}
-              <h2 className="mt-2 text-base font-medium tracking-tight text-ink/70">
+              <p className="mt-1 text-base font-medium tracking-tight text-ink/70">
                 {profile?.role ?? "Software Engineer"}
-              </h2>
-
-              {/* Tagline */}
-              <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink/60">
-                {profile?.tagline ?? ""}
               </p>
-
-              {/* Status badge */}
-              <div className="mt-6 inline-flex items-center gap-2 border border-ink/15 px-3 py-1.5">
-                <span className="h-2 w-2 bg-mint" />
-                <span className="font-mono text-xs uppercase tracking-widest text-ink/60">
-                  Open to interesting conversations
-                </span>
-              </div>
-
-              {/* Scroll nav */}
-              <div className="mt-10">
-                <ScrollNav showImpact={hasImpact} />
-              </div>
             </div>
+          </div>
 
-            {/* Social links — bottom-pinned */}
-            <div className="mt-8 lg:mt-0">
-              {profile?.socials && profile.socials.length > 0 && (
+          <div className="max-w-md">
+            <p className="text-sm leading-relaxed text-ink/60">{profile?.tagline ?? ""}</p>
+            {profile?.socials && profile.socials.length > 0 && (
+              <div className="mt-4">
                 <SocialIcons socials={profile.socials} />
-              )}
-            </div>
-          </header>
-
-          {/* ── RIGHT PANEL (scrollable) ── */}
-          <main className="pt-24 lg:w-[58%] lg:py-24">
-
-            {/* About */}
-            <section id="about" className="mb-20 scroll-mt-20">
-              <SectionLabel number={sectionNumber("About")} label="About" />
-
-              {profile?.bio ? (
-                <div
-                  className="mt-6 space-y-4 text-sm leading-relaxed text-ink/75 [&_a]:font-medium [&_a]:text-forest [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:text-coral [&_strong]:font-semibold [&_strong]:text-forest"
-                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(profile.bio) }}
-                />
-              ) : (
-                <p className="mt-6 text-sm text-ink/50">
-                  Add your bio in the admin dashboard.
-                </p>
-              )}
-
-              <div className="mt-6 flex flex-wrap gap-x-8 gap-y-3">
-                {profile?.resumeUrl && (
-                  <TrackedAnchor
-                    event="resume_downloaded"
-                    properties={{ source: "about_section" }}
-                    href={profile.resumeUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group inline-flex items-center gap-2 border-b border-forest pb-0.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:border-coral hover:text-coral"
-                  >
-                    View Full Résumé
-                    <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                  </TrackedAnchor>
-                )}
-                <TrackedAnchor
-                  event="resume_interactive_opened"
-                  properties={{ source: "about_section" }}
-                  href="/resume"
-                  className="group inline-flex items-center gap-2 border-b border-forest pb-0.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:border-coral hover:text-coral"
-                >
-                  Interactive Résumé
-                  <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                </TrackedAnchor>
               </div>
-            </section>
-
-            {/* Impact */}
-            {hasImpact && (
-              <section id="impact" className="mb-20 scroll-mt-20">
-                <SectionLabel number={sectionNumber("Impact")} label="Impact" />
-                <ImpactSection experiences={experiences} />
-              </section>
             )}
+          </div>
+        </header>
 
-            {/* Experience */}
-            <section id="experience" className="mb-20 scroll-mt-20">
-              <SectionLabel number={sectionNumber("Experience")} label="Experience" />
+        <main className="border-t border-ink/15 pb-20 pt-6">
+          {experiences.length > 0 ? (
+            <CareerMap experiences={experiences} />
+          ) : (
+            <p className="mt-6 text-sm text-ink/40">No experience entries yet.</p>
+          )}
 
-              {experiences.length > 0 ? (
-                <ExperienceSection experiences={experiences} />
-              ) : (
-                <p className="mt-6 text-sm text-ink/40">No experience entries yet.</p>
-              )}
+          <div className="mt-12 flex flex-wrap gap-x-8 gap-y-3">
+            {profile?.resumeUrl && (
+              <TrackedAnchor
+                event="resume_downloaded"
+                properties={{ source: "home_footer" }}
+                href={profile.resumeUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-2 border-b border-forest pb-0.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:border-coral hover:text-coral"
+              >
+                View Full Résumé
+                <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+              </TrackedAnchor>
+            )}
+            <TrackedAnchor
+              event="resume_interactive_opened"
+              properties={{ source: "home_footer" }}
+              href="/resume"
+              className="group inline-flex items-center gap-2 border-b border-forest pb-0.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:border-coral hover:text-coral"
+            >
+              Interactive Résumé
+              <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+            </TrackedAnchor>
+          </div>
+        </main>
 
-              <div className="mt-8">
-                <TrackedLink
-                  event="view_all_clicked"
-                  properties={{ section: "experience" }}
-                  href="/archive"
-                  className="group inline-flex items-center gap-2 border-b border-forest pb-0.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:border-coral hover:text-coral"
-                >
-                  View Full Archive
-                  <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                </TrackedLink>
-              </div>
-            </section>
-
-            {/* Projects */}
-            <section id="projects" className="mb-20 scroll-mt-20">
-              <SectionLabel number={sectionNumber("Projects")} label="Projects" />
-
-              {projects.length > 0 ? (
-                <ol className="mt-2 divide-y divide-ink/10">
-                  {projects.map((project) => (
-                    <li key={project.id} className="py-1">
-                      <ProjectCard project={project} />
-                    </li>
-                  ))}
-                </ol>
-              ) : (
-                <p className="mt-6 text-sm text-ink/40">No projects yet.</p>
-              )}
-
-              <div className="mt-8">
-                <TrackedLink
-                  event="view_all_clicked"
-                  properties={{ section: "projects" }}
-                  href="/archive"
-                  className="group inline-flex items-center gap-2 border-b border-forest pb-0.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:border-coral hover:text-coral"
-                >
-                  View Full Project Archive
-                  <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                </TrackedLink>
-              </div>
-            </section>
-
-            {/* Writing / Blog */}
-            <section id="blog" className="mb-20 scroll-mt-20">
-              <SectionLabel number={sectionNumber("Writing")} label="Writing" />
-
-              {recentPosts.length > 0 ? (
-                <ol className="mt-4 space-y-0 divide-y divide-ink/10">
-                  {recentPosts.map((post) => (
-                    <li key={post.id}>
-                      <TrackedLink
-                        event="blog_post_clicked"
-                        properties={{
-                          post_slug: post.slug,
-                          post_title: post.title,
-                          post_category: post.category,
-                          source: "home",
-                        }}
-                        href={`/blog/${post.slug}`}
-                        className="group block py-5 transition-colors hover:bg-forest/3"
-                      >
-                        <p className="mb-1.5 font-mono text-[10px] uppercase tracking-widest text-ink/45">
-                          {post.publishedAt ? formatDate(post.publishedAt) : ""}
-                          {" · "}
-                          <span>{post.category.toLowerCase()}</span>
-                        </p>
-                        <h3 className="font-semibold text-forest transition-colors group-hover:text-coral">
-                          {post.title}
-                        </h3>
-                        {post.excerpt && (
-                          <p className="mt-1 text-sm text-ink/55 line-clamp-1">
-                            {post.excerpt}
-                          </p>
-                        )}
-                        {post.tags.length > 0 && (
-                          <ul className="mt-2 flex flex-wrap gap-2">
-                            {post.tags.map((tag) => (
-                              <li key={tag.id}>
-                                <TagPill label={tag.label} />
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </TrackedLink>
-                    </li>
-                  ))}
-                </ol>
-              ) : (
-                <p className="mt-6 text-sm text-ink/40">No posts published yet.</p>
-              )}
-
-              <div className="mt-8">
-                <TrackedLink
-                  event="view_all_clicked"
-                  properties={{ section: "blog" }}
-                  href="/blog"
-                  className="group inline-flex items-center gap-2 border-b border-forest pb-0.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:border-coral hover:text-coral"
-                >
-                  View All Posts
-                  <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                </TrackedLink>
-              </div>
-            </section>
-
-            {/* Community */}
-            <section id="community" className="mb-20 scroll-mt-20">
-              <SectionLabel number={sectionNumber("Community")} label="Community" />
-              <CommunitySection />
-            </section>
-
-            <Footer text={settings?.footerText} />
-          </main>
-        </div>
+        <Footer text={settings?.footerText} />
       </div>
-    </div>
-  );
-}
-
-/* ── Section label with L-corner marker ── */
-function SectionLabel({ number, label }: { number: string; label: string }) {
-  return (
-    <div className="flex items-center gap-3">
-      {/* L-shaped corner marker */}
-      <div className="relative h-5 w-5 flex-shrink-0">
-        <span className="absolute left-0 top-0 h-full w-px bg-forest" />
-        <span className="absolute left-0 top-0 h-px w-full bg-forest" />
-      </div>
-      <span className="font-mono text-[10px] text-coral">{number}.</span>
-      <h2 className="font-display text-xs font-bold uppercase tracking-[0.2em] text-forest"
-        style={{ fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" }}>
-        {label}
-      </h2>
-      <span className="flex-1 border-t border-ink/15" />
     </div>
   );
 }
