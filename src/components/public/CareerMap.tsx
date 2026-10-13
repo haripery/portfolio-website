@@ -86,10 +86,10 @@ export function CareerMap({
           >
             {company ? (
               <button type="button" onClick={() => navigate()} className={crumb}>
-                All companies
+                Career
               </button>
             ) : (
-              <span className="px-2 py-3">All companies</span>
+              <span className="px-2 py-3">Career</span>
             )}
             {company && (
               <>
@@ -111,7 +111,7 @@ export function CareerMap({
             )}
           </nav>
 
-          {/* Level 1 — every company */}
+          {/* Level 1 — the whole career */}
           {!company && (
             <div>
               <motion.h2
@@ -120,9 +120,9 @@ export function CareerMap({
                 className="mt-2 text-3xl font-bold leading-tight tracking-tight text-forest sm:text-4xl"
                 style={DISPLAY}
               >
-                Ten years, {experiences.length} companies.
+                From banking interfaces to governed AI.
                 <br />
-                Pick one to zoom in.
+                Pick a chapter to zoom in.
               </motion.h2>
               <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {experiences.map((exp, index) => {
