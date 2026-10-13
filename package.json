@@ -46,6 +46,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.34.3",
+    "html-to-image": "^1.11.13",
     "isomorphic-dompurify": "^2.30.0",
     "lowlight": "^3.3.0",
     "lucide-react": "^0.575.0",
