@@ -9,6 +9,7 @@ import { getSettings } from "@/actions/settings";
 import { getBlogPosts } from "@/actions/blog";
 import { formatDate } from "@/lib/utils";
 import { TrackedAnchor, TrackedLink } from "@/components/public/TrackedLink";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -35,6 +36,32 @@ const EDUCATION = [
 
 const MONO = { fontFamily: "var(--font-jetbrains-mono), monospace" };
 const DISPLAY = { fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" };
+
+const FULL_NAME = "Hariprasath Periyasamy";
+
+// What a shared link to the home page shows: title, description and (from
+// opengraph-image.tsx) the card image.
+export async function generateMetadata(): Promise<Metadata> {
+  const profile = await getProfile();
+  const title = `${FULL_NAME} · ${profile?.role ?? "Engineer"}`;
+  const description =
+    profile?.summary ||
+    profile?.tagline ||
+    "Frontend, all the way down. AI and full stack, all the way across.";
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical: "/" },
+    openGraph: {
+      type: "profile",
+      url: "/",
+      siteName: "irah.dev",
+      title,
+      description,
+    },
+    twitter: { card: "summary_large_image", title, description },
+  };
+}
 
 // ISR: revalidate every 60 seconds
 export const revalidate = 60;
