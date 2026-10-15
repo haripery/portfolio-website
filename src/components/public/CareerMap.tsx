@@ -81,6 +81,34 @@ function OutLink({
   );
 }
 
+const AREA_KEYS = Object.keys(AREAS) as Area[];
+const parseLens = (value: string | null): Area | null =>
+  value && AREA_KEYS.includes(value as Area) ? (value as Area) : null;
+
+// Highlight slugs from before their titles changed, so older links still open
+const LEGACY_HIGHLIGHT_SLUGS: Record<string, string> = {
+  "ai-triage-bot-for-on-call": "AI on-call triage assistant",
+  "ai-adoption-forum-and-a-shared-mcp-tool-stack":
+    "AI adoption forum, a shared MCP stack and a documented approval path",
+  "60-fewer-api-calls-850ms-down-to-320ms": "GraphQL batching and caching: 60% fewer calls, 850→320ms",
+};
+
+// Zoom level alone (company + highlight), ignoring the lens
+const levelOf = (search: string) => {
+  const p = new URLSearchParams(search);
+  return `${p.get("c") ?? ""}/${p.get("h") ?? ""}`;
+};
+
+/** What kind of thing a highlight's link points at, for its badge */
+function linkKind(label: string, url: string) {
+  const l = label.toLowerCase();
+  if (l.includes("case study")) return "Case study";
+  if (l.includes("video") || /youtube\.com|youtu\.be/.test(url)) return "Video";
+  if (l.includes("blog")) return "Blog";
+  if (l.includes("announcement")) return "Launch";
+  return "Link";
+}
+
 function CardIcon({ name }: { name: string }) {
   return (
     <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center border border-forest/30 bg-forest/7 text-forest">
@@ -110,14 +138,31 @@ export function CareerMap({
   children?: React.ReactNode;
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const [filter, setFilter] = useState<Area | null>(null);
   const search = useSyncExternalStore(subscribe, getSearch, getServerSearch);
   const params = new URLSearchParams(search);
+  // The lens (?lens=frontend|ai|fullstack) marks matching work. It lives in
+  // the URL so a sent link can open with, say, the applied-AI work marked.
+  // Once the visitor has chosen or cleared a lens, that choice wins over
+  // whatever an older history entry still carries in its URL.
+  const [chosenLens, setChosenLens] = useState<Area | null | undefined>(undefined);
+  const chosenRef = useRef(chosenLens);
+  const currentLens = useCallback(
+    () =>
+      chosenRef.current === undefined
+        ? parseLens(new URLSearchParams(window.location.search).get("lens"))
+        : chosenRef.current,
+    []
+  );
+  const urlLens = parseLens(params.get("lens"));
+  const filter = chosenLens === undefined ? urlLens : chosenLens;
+  const levelKey = levelOf(search);
 
   const company =
     experiences.find((exp) => slugify(exp.company) === params.get("c")) ?? null;
+  const hParam = params.get("h");
+  const hSlug = hParam && LEGACY_HIGHLIGHT_SLUGS[hParam] ? slugify(LEGACY_HIGHLIGHT_SLUGS[hParam]) : hParam;
   const highlightIndex = company
-    ? company.highlights.findIndex((h) => slugify(h.title) === params.get("h"))
+    ? company.highlights.findIndex((h) => slugify(h.title) === hSlug)
     : -1;
   const highlight = company && highlightIndex >= 0 ? company.highlights[highlightIndex] : null;
 
@@ -125,18 +170,20 @@ export function CareerMap({
     const next = new URLSearchParams();
     if (c) next.set("c", slugify(c));
     if (c && h) next.set("h", slugify(h));
+    const lens = currentLens();
+    if (lens) next.set("lens", lens);
     const query = next.toString();
     window.history.pushState(null, "", query ? `?${query}` : window.location.pathname);
     window.dispatchEvent(new Event(NAV_EVENT));
     posthog.capture("career_map_zoomed", { company: c ?? null, highlight: h ?? null });
-  }, []);
+  }, [currentLens]);
 
   // Each zoom level keeps its own scroll position: a level seen before is
   // restored to where it was left, a new one starts at the top of the map.
   const positions = useRef(new Map<string, number>());
   const firstRender = useRef(true);
   useEffect(() => {
-    const remember = () => positions.current.set(window.location.search, window.scrollY);
+    const remember = () => positions.current.set(levelOf(window.location.search), window.scrollY);
     window.addEventListener("scroll", remember, { passive: true });
     return () => window.removeEventListener("scroll", remember);
   }, []);
@@ -148,19 +195,28 @@ export function CareerMap({
       firstRender.current = false;
       return;
     }
-    const saved = positions.current.get(search);
+    const saved = positions.current.get(levelKey);
     // 80px clears the fixed top nav. "instant" because the page scrolls
     // smoothly by default, and a smooth scroll is dropped when the page
     // height changes underneath it.
     const top =
       saved ?? (rootRef.current?.getBoundingClientRect().top ?? 0) + window.scrollY - 80;
     window.scrollTo({ top: Math.max(0, top), behavior: "instant" });
-  }, [search]);
+    // Only a change of zoom level should move the page; the lens should not.
+  }, [levelKey]);
 
-  const selectArea = useCallback((area: Area | null) => {
-    setFilter((current) => (current === area ? null : area));
-    posthog.capture("career_map_filtered", { area: area ?? "all" });
-  }, []);
+  const selectArea = (area: Area | null) => {
+    const lens = area === null || currentLens() === area ? null : area;
+    chosenRef.current = lens;
+    setChosenLens(lens);
+    const next = new URLSearchParams(window.location.search);
+    if (lens) next.set("lens", lens);
+    else next.delete("lens");
+    const query = next.toString();
+    window.history.replaceState(null, "", query ? `?${query}` : window.location.pathname);
+    window.dispatchEvent(new Event(NAV_EVENT));
+    posthog.capture("career_map_filtered", { area: area ?? "all", on: lens !== null });
+  };
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -304,7 +360,7 @@ export function CareerMap({
                                         }`}
                                         style={MONO}
                                       >
-                                        Demo
+                                        {linkKind(item.linkLabel, item.linkUrl)}
                                       </span>
                                     )}
                                   </span>
@@ -379,7 +435,7 @@ export function CareerMap({
                       </span>
                       <span className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-ink/60" style={MONO}>
                         <ZoomIn className="h-3.5 w-3.5" aria-hidden="true" />
-                        {item.linkUrl ? "Details and demo" : "Details"}
+                        {item.linkUrl ? `Details · ${linkKind(item.linkLabel, item.linkUrl)}` : "Details"}
                       </span>
                     </motion.button>
                   </li>
@@ -437,7 +493,7 @@ export function CareerMap({
                     className="mt-8 inline-flex min-h-11 items-center gap-2 border border-forest bg-forest px-4 py-3 text-[11px] uppercase tracking-widest text-paper transition-colors hover:bg-forest/85"
                     style={{ ...MONO, borderRadius: 2 }}
                   >
-                    {highlight.linkLabel || "Demo"}
+                    {highlight.linkLabel || "Link"}
                     <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
                   </a>
                 )}

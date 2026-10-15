@@ -221,7 +221,7 @@ const HIGHLIGHTS: Record<
 > = {
   Autodesk: {
     headline:
-      "A personalized, AI-assisted website for customers, and an AI triage bot for the teams behind it.",
+      "A personalized, AI-assisted website for customers, and a read-only, human-supervised on-call triage assistant for the teams behind it.",
     items: [
       {
         kind: "For customers",
@@ -235,21 +235,23 @@ const HIGHLIGHTS: Record<
       },
       {
         kind: "For internal teams and stakeholders",
-        title: "AI triage bot for on-call",
+        title: "AI on-call triage assistant",
+        link: { label: "Case study", url: "https://www.irah.dev/resume#case-study" },
         areas: "ai,fullstack",
         icon: "bot",
-        viz: "steps:An alert fires|Read-only queries|Layer and owner|A person decides",
+        viz: "flow:An alert fires^on a production service|Triage agent^LangGraph · Amazon Bedrock · MCP|Read-only queries^allow-listed integrations into observability and source control, grounded in a knowledge graph|Layer and owner^which layer failed, which team owns it|Engineer reviews^nothing is remediated automatically",
         detail: [
           "Originated a human-supervised AI on-call triage assistant that finds the failing layer and its owner, and took it through enterprise AI governance, security review, and AWS deployment.",
           "It works read-only through allow-listed integrations, never remediates on its own, and an engineer reviews every action.",
+          "Built in Python with LangGraph on Amazon Bedrock and MCP. It queries observability and source-control systems through allow-listed integrations, grounded in a knowledge graph of team knowledge, and an eval harness checks for measurable, grounded answers.",
         ],
       },
       {
         kind: "Across teams",
-        title: "AI adoption forum and a shared MCP tool stack",
+        title: "AI adoption forum, a shared MCP stack and a documented approval path",
         areas: "ai",
         icon: "network",
-        viz: "stat:3 teams:in the AI adoption forum",
+        viz: "tags:AI adoption forum across three teams|Prioritized, owned backlog|10-server MCP tool stack|Reusable agent skills|Documented approval path for AI services",
         detail: [
           "Launched an AI adoption forum across three teams, turning demos into a prioritized, owned backlog, and standardized a 10-server MCP tool stack and reusable agent skills.",
           "Documented the enterprise approval path for AI services so the next service owner can repeat it, lowering the barrier to shipping governed AI at Autodesk.",
@@ -269,8 +271,20 @@ const HIGHLIGHTS: Record<
     ],
   },
   Shopify: {
-    headline: "Led the Ads 3P team and shipped ad creatives in under 150ms.",
+    headline:
+      "Led the Ads 3P team; architecture reviews with Microsoft and Instacart engineering teams; ad creatives in under 150ms.",
     items: [
+      {
+        kind: "External engineering teams",
+        title: "Architecture reviews with Microsoft and Instacart on real-time bidding",
+        areas: "fullstack,frontend",
+        icon: "handshake",
+        viz: "steps:Microsoft and Instacart engineering teams|Architecture reviews on real-time bidding|Better creatives that load faster",
+        detail: [
+          "Ran architecture reviews with Microsoft’s and Instacart’s engineering teams on Shopify’s real-time bidding systems.",
+          "The reviews led to better-designed ad creatives that load faster.",
+        ],
+      },
       {
         kind: "Leadership",
         title: "Led engineering for the Ads 3P team",
@@ -326,11 +340,12 @@ const HIGHLIGHTS: Record<
         detail: [
           "Designed and shipped Ads Data Manager, a cloud-based data onboarding and activation SPA using React, TypeScript, and GraphQL, delivering production-ready digital workflows for enterprise advertisers.",
           "Developed a Server-Driven UI architecture that delivered UI configurations from the backend, enabling real-time interface updates without client deployments and supporting A/B experimentation at scale.",
+          "Led infrastructure provisioning with AWS CDK for secure self-service deployments across multiple accounts and regions, reducing deployment complexity and accelerating release cycles.",
         ],
       },
       {
         kind: "Performance",
-        title: "60% fewer API calls, 850ms down to 320ms",
+        title: "GraphQL batching and caching: 60% fewer calls, 850→320ms",
         areas: "fullstack,frontend",
         icon: "gauge",
         viz: "drop:850:320:ms:average response time under peak traffic",

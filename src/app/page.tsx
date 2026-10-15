@@ -17,9 +17,23 @@ import { ArrowRight } from "lucide-react";
 const FACTS = [
   "10+ years",
   "Autodesk · Shopify · AWS",
+  "Architecture reviews with enterprise engineering teams",
   "Led teams and engineering standards",
   "ADPList Top 10 mentor",
 ];
+
+// Posts chosen for the home page: the developer-facing ones first. Falls
+// back to the newest posts for any slug that isn't published.
+const HOME_POST_SLUGS = [
+  "harness-engineering-with-claude-code",
+  "agent-protocols-portfolio",
+  "interview-loop-architecture",
+];
+const HOME_POST_NOTES: Record<string, string> = {
+  "harness-engineering-with-claude-code": "Guide with an open-source reference implementation",
+  "agent-protocols-portfolio": "Live demo on this site, running on Claude",
+  "interview-loop-architecture": "Built for mentoring sessions",
+};
 
 const EDUCATION = [
   {
@@ -77,7 +91,10 @@ export default async function Home() {
     getBlogPosts({ published: true }),
     getSettings(),
   ]);
-  const recentPosts = posts.slice(0, 3);
+  const chosen = HOME_POST_SLUGS.map((slug) => posts.find((post) => post.slug === slug)).filter(
+    (post): post is (typeof posts)[number] => Boolean(post)
+  );
+  const recentPosts = [...chosen, ...posts.filter((post) => !chosen.includes(post))].slice(0, 3);
 
   const personJsonLd = profile
     ? {
@@ -130,18 +147,14 @@ export default async function Home() {
 
           {/* Resume link + Theme toggle */}
           <div className="flex items-center gap-3">
-            {profile?.resumeUrl && (
-              <TrackedAnchor
-                event="resume_downloaded"
-                properties={{ source: "header" }}
-                href={profile.resumeUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="hidden border border-forest px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:bg-forest hover:text-paper sm:inline-flex"
-              >
-                Résumé
-              </TrackedAnchor>
-            )}
+            <TrackedAnchor
+              event="resume_interactive_opened"
+              properties={{ source: "header" }}
+              href="/resume"
+              className="hidden border border-forest px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:bg-forest hover:text-paper sm:inline-flex"
+            >
+              Résumé
+            </TrackedAnchor>
             <ThemeToggle />
           </div>
         </div>
@@ -232,6 +245,11 @@ export default async function Home() {
                           {post.excerpt && (
                             <span className="mt-2 line-clamp-3 text-sm text-ink/60">{post.excerpt}</span>
                           )}
+                          {HOME_POST_NOTES[post.slug] && (
+                            <span className="mt-3 text-[10px] uppercase tracking-widest text-coral" style={MONO}>
+                              {HOME_POST_NOTES[post.slug]}
+                            </span>
+                          )}
                         </TrackedLink>
                       </li>
                     ))}
@@ -253,19 +271,10 @@ export default async function Home() {
                 rel="noreferrer"
                 className="group inline-flex items-center gap-2 border-b border-forest pb-0.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:border-coral hover:text-coral"
               >
-                View Full Résumé
+                Résumé PDF
                 <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
               </TrackedAnchor>
             )}
-            <TrackedAnchor
-              event="resume_interactive_opened"
-              properties={{ source: "home_footer" }}
-              href="/resume"
-              className="group inline-flex items-center gap-2 border-b border-forest pb-0.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:border-coral hover:text-coral"
-            >
-              Interactive Résumé
-              <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-            </TrackedAnchor>
           </div>
         </main>
 

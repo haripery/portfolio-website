@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { animate, motion, useReducedMotion } from "framer-motion";
+import { ArrowDown, ArrowRight } from "lucide-react";
 
 const MONO = { fontFamily: "var(--font-jetbrains-mono), monospace" };
 const DISPLAY = { fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" };
@@ -283,6 +284,44 @@ function Anomaly({ label }: { label: string }) {
   );
 }
 
+/** flow:Title^detail|Title^detail|… — an architecture flow, read left to right, the active node moving along it */
+function Flow({ nodes }: { nodes: { title: string; sub: string }[] }) {
+  const tick = useTicker(1400);
+  const active = tick % nodes.length;
+  return (
+    <ol className="flex flex-col gap-1 lg:flex-row lg:items-stretch lg:gap-0">
+      {nodes.map((node, index) => (
+        <motion.li
+          key={node.title}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 + index * 0.12, duration: 0.3 }}
+          className="flex flex-col lg:flex-1 lg:flex-row lg:items-stretch"
+        >
+          <div
+            className={`flex-1 border p-3 transition-colors duration-300 ${
+              index === active ? "border-gold bg-gold/30" : "border-ink/15"
+            }`}
+            style={{ borderRadius: 2 }}
+          >
+            <span className="block text-[10px] text-coral" style={MONO}>
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <span className="mt-1 block text-sm font-semibold leading-snug text-forest">{node.title}</span>
+            {node.sub && <span className="mt-1 block text-xs leading-snug text-ink/60">{node.sub}</span>}
+          </div>
+          {index < nodes.length - 1 && (
+            <span className="flex items-center justify-center py-1 text-ink/40 lg:px-1 lg:py-0" aria-hidden="true">
+              <ArrowDown className="h-4 w-4 lg:hidden" />
+              <ArrowRight className="hidden h-4 w-4 lg:block" />
+            </span>
+          )}
+        </motion.li>
+      ))}
+    </ol>
+  );
+}
+
 export function HighlightViz({ spec }: { spec: string }) {
   const [kind, ...args] = spec.split(":");
   switch (kind) {
@@ -292,6 +331,18 @@ export function HighlightViz({ spec }: { spec: string }) {
       return <Percent value={Number(args[0])} label={args[1] ?? ""} />;
     case "stream":
       return <Stream value={Number(args[0])} label={args[1] ?? ""} />;
+    case "flow":
+      return (
+        <Flow
+          nodes={args
+            .join(":")
+            .split("|")
+            .map((part) => {
+              const [title, sub = ""] = part.split("^");
+              return { title, sub };
+            })}
+        />
+      );
     case "steps":
       return <Steps steps={args.join(":").split("|")} />;
     case "crowd":
