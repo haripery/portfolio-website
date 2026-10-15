@@ -33,7 +33,7 @@ const PROFILE = {
   role: "Principal Engineer",
   // Shown under the home page headline
   summary:
-    "Ten-plus years building customer-facing web applications across enterprise SaaS, cloud observability, ad tech and banking. Now focused on applied AI: governed, human-in-the-loop agents and the interfaces people use to trust them.",
+    "Ten-plus years of full-stack engineering, frontend-heavy, building the web applications customers use across enterprise SaaS, cloud observability, ad tech and banking. Now focused on applied AI: governed, human-in-the-loop agents and the interfaces people use to trust them.",
   tagline:
     "I build AI-native products and governed, human-in-the-loop agents — and explore what it means to build near the singularity.",
   bio: [
@@ -206,7 +206,7 @@ const HIGHLIGHTS: Record<
   {
     headline: string;
     /** icon: a key from src/components/public/highlightIcons.tsx; viz: a spec read by HighlightViz */
-    /** areas: which parts of the T it belongs to — "frontend", "ai", "fullstack", comma-separated */
+    /** areas: which parts of the T it belongs to — "fullstack", "ai", "cloud", comma-separated */
     items: {
       kind: string;
       title: string;
@@ -226,7 +226,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "For customers",
         title: "Personalized, AI-assisted account and billing website",
-        areas: "frontend,ai",
+        areas: "fullstack,ai",
         icon: "users",
         viz: "crowd:Thousands:of customers use it every day",
         detail: [
@@ -237,7 +237,7 @@ const HIGHLIGHTS: Record<
         kind: "For internal teams and stakeholders",
         title: "AI on-call triage assistant",
         link: { label: "Case study", url: "https://www.irah.dev/resume#case-study" },
-        areas: "ai,fullstack",
+        areas: "ai,fullstack,cloud",
         icon: "bot",
         viz: "flow:An alert fires^on a production service|Triage agent^LangGraph · Amazon Bedrock · MCP|Read-only queries^allow-listed integrations into observability and source control, grounded in a knowledge graph|Layer and owner^which layer failed, which team owns it|Engineer reviews^nothing is remediated automatically",
         detail: [
@@ -260,7 +260,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Engineering quality",
         title: "Standards, architecture proposals and the design system",
-        areas: "frontend",
+        areas: "fullstack",
         icon: "ruler",
         viz: "tags:UI readiness framework|Distributed tracing|Shared design system|Reusable components",
         detail: [
@@ -277,7 +277,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "External engineering teams",
         title: "Architecture reviews with Microsoft and Instacart on real-time bidding",
-        areas: "fullstack,frontend",
+        areas: "fullstack",
         icon: "handshake",
         viz: "steps:Microsoft and Instacart engineering teams|Architecture reviews on real-time bidding|Better creatives that load faster",
         detail: [
@@ -288,7 +288,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Leadership",
         title: "Led engineering for the Ads 3P team",
-        areas: "frontend,fullstack",
+        areas: "fullstack",
         icon: "megaphone",
         viz: "tags:Real-time bidding|Merchant dashboards|Email and SMS automations",
         detail: [
@@ -298,7 +298,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Performance",
         title: "Dynamic Creative Optimization within 150ms",
-        areas: "fullstack,frontend",
+        areas: "fullstack",
         icon: "zap",
         viz: "stat:≤150ms:to serve an ad creative",
         detail: [
@@ -308,7 +308,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Data integrity",
         title: "Event tracking across Web and Native",
-        areas: "frontend,fullstack",
+        areas: "fullstack",
         icon: "activity",
         viz: "steps:Web and Native events|Reliable real-time signals|Meta Pixel and Google Tag Manager",
         detail: [
@@ -318,7 +318,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Reliability",
         title: "On-call and engineering culture",
-        areas: "fullstack",
+        areas: "cloud",
         icon: "shield",
         viz: "tags:System health|Security hardening|Code reviews|Knowledge sharing",
         detail: [
@@ -334,7 +334,7 @@ const HIGHLIGHTS: Record<
         kind: "Amazon Ads",
         title: "Designed and shipped Ads Data Manager",
         link: { label: "Ads Data Manager announcement", url: "https://advertising.amazon.com/resources/whats-new/ads-data-manager-beta" },
-        areas: "frontend,fullstack",
+        areas: "fullstack,cloud",
         icon: "database",
         viz: "steps:Onboard advertiser data|Activate it|Change the UI without a client deploy",
         detail: [
@@ -346,7 +346,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Performance",
         title: "GraphQL batching and caching: 60% fewer calls, 850→320ms",
-        areas: "fullstack,frontend",
+        areas: "fullstack",
         icon: "gauge",
         viz: "drop:850:320:ms:average response time under peak traffic",
         detail: [
@@ -358,7 +358,7 @@ const HIGHLIGHTS: Record<
         kind: "AWS CloudWatch",
         title: "LiveTail: 10,000+ log events a second",
         link: { label: "AWS blog: Live Tail", url: "https://aws.amazon.com/blogs/mt/announcing-live-tail-feature-for-amazon-cloudwatch-logs/" },
-        areas: "frontend,fullstack",
+        areas: "fullstack,cloud",
         icon: "radio",
         viz: "stream:10000:log events a second, streamed live",
         detail: [
@@ -369,7 +369,7 @@ const HIGHLIGHTS: Record<
         kind: "AWS CloudWatch",
         title: "AI-powered anomaly detection dashboards",
         link: { label: "AWS blog: anomaly detection", url: "https://aws.amazon.com/blogs/aws/amazon-cloudwatch-logs-now-offers-automated-pattern-analytics-and-anomaly-detection/" },
-        areas: "ai,frontend",
+        areas: "ai,cloud",
         icon: "brain",
         viz: "anomaly:Log pattern anomalies, picked out for non-technical users",
         detail: [
@@ -385,7 +385,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Performance",
         title: "45% shorter dashboard load times",
-        areas: "frontend",
+        areas: "fullstack",
         icon: "gauge",
         viz: "percent:45:shorter dashboard load times",
         detail: [
@@ -395,7 +395,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Performance",
         title: "25% less memory in data visualizations",
-        areas: "frontend",
+        areas: "fullstack",
         icon: "memory",
         viz: "percent:25:less memory in data visualizations",
         detail: [
@@ -406,7 +406,7 @@ const HIGHLIGHTS: Record<
         kind: "Design systems",
         title: "A design system built on Atomic Design",
         link: { label: "Dashboard demo video", url: "https://www.youtube.com/watch?v=A-O_E-NbxN8" },
-        areas: "frontend",
+        areas: "fullstack",
         icon: "component",
         viz: "steps:Atoms|Molecules|Organisms|Templates|Pages",
         detail: [
@@ -423,7 +423,7 @@ const HIGHLIGHTS: Record<
         kind: "Design systems",
         title: "Company-wide Web UI template library",
         link: { label: "Demo video", url: "https://www.youtube.com/watch?v=2pTUcYrXV-Y" },
-        areas: "frontend",
+        areas: "fullstack",
         icon: "component",
         viz: "crowd:Company-wide:every feature team built on one Web UI library",
         detail: [
@@ -433,7 +433,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Platforms",
         title: "Mobile and touch workflows",
-        areas: "frontend",
+        areas: "fullstack",
         icon: "smartphone",
         viz: "devices:Phone|Tablet|Desktop",
         detail: [
@@ -443,7 +443,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Performance",
         title: "Network and runtime performance",
-        areas: "frontend",
+        areas: "fullstack",
         icon: "zap",
         viz: "tags:Resource hinting|Tree shaking|Compression|Caching|Web Workers|LocalStorage",
         detail: [
@@ -459,7 +459,7 @@ const HIGHLIGHTS: Record<
         kind: "Banking",
         title: "Lloyds Bank Commercial Banking Online",
         link: { label: "Lloyds Commercial Banking Online", url: "https://cbonline.lloydsbank.com/" },
-        areas: "frontend",
+        areas: "fullstack",
         icon: "landmark",
         viz: "tags:Responsive|Cross-browser|Accessibility-compliant",
         detail: [

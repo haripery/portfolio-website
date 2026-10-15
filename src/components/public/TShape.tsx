@@ -7,42 +7,52 @@ const MONO = { fontFamily: "var(--font-jetbrains-mono), monospace" };
 const DISPLAY = { fontFamily: "var(--font-space-grotesk), system-ui, sans-serif" };
 const EASE = [0.2, 0.7, 0.2, 1] as const;
 
-export type Area = "frontend" | "ai" | "fullstack";
+export type Area = "fullstack" | "ai" | "cloud";
 
 // Each part of the T has one colour, used for its shape, its word in the
 // headline and its skill chips. The text shades are darker in light mode so
 // the words stay readable on the paper background.
 export const AREAS: Record<
   Area,
-  { label: string; fill: string; line: string; text: string; skills: string[] }
+  { label: string; short: string; note?: string; fill: string; line: string; text: string; skills: string[] }
 > = {
-  frontend: {
-    label: "Frontend",
+  fullstack: {
+    label: "Full stack, frontend-heavy",
+    short: "Full stack",
+    note: "Deepest in the browser: rendering, performance, real-time data and accessibility, with the services behind them.",
     fill: "bg-gold",
     line: "border-gold",
     text: "text-[#8A6A00] dark:text-gold",
     skills: [
       "React 18+",
       "TypeScript",
-      "JavaScript (ES6+)",
       "Next.js",
-      "Design Systems",
-      "Accessibility (ARIA, WCAG)",
+      "Web Workers",
+      "WebSockets",
       "Web Vitals",
+      "Accessibility (ARIA, WCAG)",
+      "Design Systems",
       "Redux",
       "React Query",
-      "RxJS",
       "Storybook",
       "Tailwind",
-      "SCSS",
+      "Node.js",
+      "GraphQL",
+      "REST",
+      "Python",
+      "FastAPI",
+      "SQL",
+      "Java",
+      "Spring Boot",
+      "Kafka",
       "Jest",
       "Cypress",
       "Playwright",
-      "React Testing Library",
     ],
   },
   ai: {
     label: "Applied AI",
+    short: "Applied AI",
     fill: "bg-coral",
     line: "border-coral",
     text: "text-[#C4502F] dark:text-coral",
@@ -63,33 +73,29 @@ export const AREAS: Record<
       "A2A",
     ],
   },
-  fullstack: {
-    label: "Full stack",
+  cloud: {
+    label: "Cloud and observability",
+    short: "Cloud",
     fill: "bg-[#2E9E6B] dark:bg-mint",
     line: "border-[#2E9E6B] dark:border-mint",
     text: "text-[#1F7A52] dark:text-mint",
     skills: [
-      "Node.js",
-      "Python",
-      "FastAPI",
-      "GraphQL",
-      "REST",
-      "Java",
-      "Spring Boot",
-      "SQL",
-      "Kafka",
-      "WebSockets",
       "AWS (CDK, CloudWatch, Lambda, S3, EC2)",
+      "Infrastructure as Code",
       "Docker",
       "Kubernetes",
-      "CI/CD",
+      "CI/CD (GitHub Actions, GitLab)",
+      "Splunk",
+      "Dynatrace",
+      "Telemetry and SLIs",
+      "On-call ownership",
     ],
   },
 };
 
 /**
- * The home page summary: a small T beside the headline. The stem is frontend,
- * the arms are applied AI and full stack. Pointing at a part (or its word)
+ * The home page summary: a small T beside the headline. The stem is full
+ * stack (frontend-heavy), the arms are applied AI and cloud. Pointing at a part (or its word)
  * swaps the summary for the skills behind it; clicking it marks the
  * matching highlights in the company tiles.
  */
@@ -157,20 +163,20 @@ export function TShape({
             className={`absolute left-0 top-0 h-[0.5em] w-1/2 origin-right ${AREAS.ai.fill} after:absolute after:-inset-x-1 after:-inset-y-2`}
           />
           <motion.button
-            {...trigger("fullstack")}
-            aria-label="Full stack: show skills, click to mark matching work"
+            {...trigger("cloud")}
+            aria-label="Cloud and observability: show skills, click to mark matching work"
             initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1, opacity: dimmed("fullstack") ? 0.35 : 1 }}
+            animate={{ scaleX: 1, opacity: dimmed("cloud") ? 0.35 : 1 }}
             transition={{ duration: 0.5, ease: EASE }}
-            className={`absolute right-0 top-0 h-[0.5em] w-1/2 origin-left ${AREAS.fullstack.fill} after:absolute after:-inset-x-1 after:-inset-y-2`}
+            className={`absolute right-0 top-0 h-[0.5em] w-1/2 origin-left ${AREAS.cloud.fill} after:absolute after:-inset-x-1 after:-inset-y-2`}
           />
           <motion.button
-            {...trigger("frontend")}
-            aria-label="Frontend: show skills, click to mark matching work"
+            {...trigger("fullstack")}
+            aria-label="Full stack, frontend-heavy: show skills, click to mark matching work"
             initial={{ scaleY: 0 }}
-            animate={{ scaleY: 1, opacity: dimmed("frontend") ? 0.35 : 1 }}
+            animate={{ scaleY: 1, opacity: dimmed("fullstack") ? 0.35 : 1 }}
             transition={{ duration: 0.7, delay: 0.35, ease: EASE }}
-            className={`absolute bottom-0 left-1/2 top-[0.5em] w-[0.6em] -translate-x-1/2 origin-top ${AREAS.frontend.fill} after:absolute after:-inset-x-3 after:inset-y-0`}
+            className={`absolute bottom-0 left-1/2 top-[0.5em] w-[0.6em] -translate-x-1/2 origin-top ${AREAS.fullstack.fill} after:absolute after:-inset-x-3 after:inset-y-0`}
           />
         </div>
 
@@ -183,9 +189,9 @@ export function TShape({
             className="mt-2 text-2xl font-bold leading-tight tracking-tight text-forest sm:text-4xl lg:text-5xl"
             style={DISPLAY}
           >
-            {word("frontend", "Frontend")}, all the way down.
+            {word("fullstack", "Full stack")}, all the way down.
             <br />
-            {word("ai", "AI")} and {word("fullstack", "full stack")}, all the way across.
+            {word("ai", "AI")} and {word("cloud", "cloud")}, all the way across.
           </motion.h2>
         </div>
       </div>
@@ -206,6 +212,9 @@ export function TShape({
                 {AREAS[preview].label}
                 <span className="hidden [@media(hover:hover)]:inline"> · click to mark this work below</span>
               </p>
+              {AREAS[preview].note && (
+                <p className="mt-2 max-w-2xl text-sm text-ink/70">{AREAS[preview].note}</p>
+              )}
               <ul className="mt-3 flex flex-wrap gap-2">
                 {AREAS[preview].skills.map((skill, index) => (
                   <motion.li

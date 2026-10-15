@@ -140,7 +140,7 @@ export function CareerMap({
   const rootRef = useRef<HTMLDivElement>(null);
   const search = useSyncExternalStore(subscribe, getSearch, getServerSearch);
   const params = new URLSearchParams(search);
-  // The lens (?lens=frontend|ai|fullstack) marks matching work. It lives in
+  // The lens (?lens=fullstack|ai|cloud) marks matching work. It lives in
   // the URL so a sent link can open with, say, the applied-AI work marked.
   // Once the visitor has chosen or cleared a lens, that choice wins over
   // whatever an older history entry still carries in its URL.
@@ -284,7 +284,7 @@ export function CareerMap({
                     style={{ ...MONO, borderRadius: 2 }}
                   >
                     <span className={`h-2.5 w-2.5 ${AREAS[filter].fill}`} aria-hidden="true" />
-                    {AREAS[filter].label} work marked
+                    {AREAS[filter].short} work marked
                     <X className="h-3 w-3" aria-label="Clear" />
                   </button>
                 )}

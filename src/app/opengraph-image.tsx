@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 // The card shown when a link to the site is shared (WhatsApp, LinkedIn, Slack, X…)
 export const alt =
-  "Hariprasath Periyasamy, Principal Engineer. Frontend, all the way down. AI and full stack, all the way across.";
+  "Hariprasath Periyasamy, Principal Engineer. Full stack, all the way down. AI and cloud, all the way across.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -29,7 +29,7 @@ async function loadFont(family: string, weight: number, text: string) {
 }
 
 export default async function OpengraphImage() {
-  const headline = "Frontend, all the way down. AI and full stack, all the way across.";
+  const headline = "Full stack, all the way down. AI and cloud, all the way across.";
   const small = "HARIPRASATH PERIYASAMY · PRINCIPAL ENGINEER irah.dev AUTODESK SHOPIFY AWS 10+ YEARS";
 
   const [bold, mono] = await Promise.all([
@@ -73,7 +73,7 @@ export default async function OpengraphImage() {
         </div>
 
         <div style={{ display: "flex", alignItems: "stretch" }}>
-          {/* The T: applied AI and full stack across, frontend down */}
+          {/* The T: applied AI and cloud across, full stack down */}
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 170, marginRight: 56 }}>
             <div style={{ display: "flex", width: 170, height: 38 }}>
               <div style={{ display: "flex", width: 85, height: 38, background: CORAL }} />
@@ -84,16 +84,16 @@ export default async function OpengraphImage() {
 
           <div style={{ display: "flex", flexDirection: "column", fontSize: 61, fontWeight: 700, lineHeight: 1.22 }}>
             <div style={{ display: "flex", alignItems: "baseline" }}>
-              {word("Frontend", GOLD)}
+              {word("Full stack", GOLD)}
               <span>, all the way down.</span>
             </div>
             <div style={{ display: "flex", alignItems: "baseline", marginTop: 14 }}>
               {word("AI", CORAL)}
               <span style={{ margin: "0 18px" }}>and</span>
-              {word("full stack", MINT)}
-              <span>, all the</span>
+              {word("cloud", MINT)}
+              <span>, all the way</span>
             </div>
-            <div style={{ display: "flex", marginTop: 14 }}>way across.</div>
+            <div style={{ display: "flex", marginTop: 14 }}>across.</div>
           </div>
         </div>
 
