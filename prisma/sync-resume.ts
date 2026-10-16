@@ -79,9 +79,7 @@ const EXPERIENCES: ExperienceContent[] = [
         "Strengthened the shared design system so product copy and visual changes ship without a package release, and built components for reuse by sister teams.",
       ]),
     tags: ["Applied AI", "Leadership", "Reliability", "Design Systems", "MCP", "AI Governance"],
-    links: [
-      { label: "Triage assistant case study", url: "https://www.irah.dev/resume#case-study" },
-    ],
+    links: [],
     metrics: [
       { value: "Thousands", label: "of customers use the AI-driven billing website daily" },
       { value: "1,200+", label: "automated tests behind the AI on-call triage assistant" },
