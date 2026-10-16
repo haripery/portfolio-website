@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ChevronDown } from "lucide-react";
 
 export type PageSection = { id: string; label: string };
@@ -10,6 +10,11 @@ const NAV_EVENT = "careermap:navigate";
 // Fixed top bar plus the sections' scroll margin
 const TOP_OFFSET = 100;
 const TOP: PageSection = { id: "top", label: "Top" };
+
+// Gold reads fine as a shape but not as a 1-2px line on paper, so the thin
+// indicators use the darker gold in light mode and true gold in dark mode.
+const LINE = "bg-[#8A6A00] dark:bg-gold";
+const MARK_ON = "border-[#8A6A00] bg-[#8A6A00] dark:border-gold dark:bg-gold";
 
 function jump(id: string) {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -51,12 +56,17 @@ export function useSectionProgress(sections: PageSection[]) {
         return;
       }
       const y = window.scrollY;
-      const end = Math.max(document.documentElement.scrollHeight - window.innerHeight, tops[tops.length - 1].top + 1);
-      const nodes = [0, ...tops.map((t) => t.top), end];
+      const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      const nodes = [0, ...tops.map((t) => t.top), Math.max(maxScroll, tops[tops.length - 1].top + 1)];
+      const last = nodes.length - 2;
       let index = 0;
-      while (index < nodes.length - 2 && y >= nodes[index + 1]) index++;
+      while (index < last && y >= nodes[index + 1]) index++;
+      // A short last section may never reach the top of the viewport; the
+      // bottom of the page counts as being in it
+      const atEnd = y >= maxScroll - 2;
+      if (atEnd) index = last;
       const span = Math.max(1, nodes[index + 1] - nodes[index]);
-      const position = Math.min(nodes.length - 2, index + Math.max(0, Math.min(1, (y - nodes[index]) / span)));
+      const position = atEnd ? last : Math.min(last, index + Math.max(0, Math.min(1, (y - nodes[index]) / span)));
       const active = index === 0 ? null : tops[index - 1].id;
       setProgress({ present: true, inSections: index > 0, active, position, nodeCount: nodes.length - 1 });
     };
@@ -87,7 +97,7 @@ export function SectionStrip({ sections }: { sections: PageSection[] }) {
   return (
     <nav
       aria-label="On this page"
-      className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] uppercase tracking-widest text-ink/60"
+      className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] uppercase tracking-widest text-ink/75"
       style={MONO}
     >
       <ArrowDown className="h-3.5 w-3.5 text-coral" aria-hidden="true" />
@@ -116,13 +126,15 @@ export function SectionSpine({ sections }: { sections: PageSection[] }) {
     <nav
       aria-label="Sections"
       className="fixed top-1/2 z-40 hidden -translate-y-1/2 min-[1440px]:block"
-      style={{ left: "max(32px, calc((100vw - 1280px) / 2 + 32px))" }}
+      // Right edge 16px short of where the content column starts
+      // (the 1280px container is centred and has 96px of padding)
+      style={{ right: "calc(50% + 560px)" }}
     >
       <ol className="relative flex flex-col gap-7">
-        <span aria-hidden="true" className="absolute left-[3px] top-1 h-[calc(100%-0.5rem)] w-px bg-ink/15" />
+        <span aria-hidden="true" className="absolute left-[3px] top-1 h-[calc(100%-0.5rem)] w-px bg-ink/20" />
         <span
           aria-hidden="true"
-          className="absolute left-[3px] top-1 w-px bg-gold transition-[height] duration-150"
+          className={`absolute left-[3px] top-1 w-px transition-[height] duration-150 motion-reduce:transition-none ${LINE}`}
           style={{ height: `calc((100% - 0.5rem) * ${fill / 100})` }}
         />
         {[TOP, ...sections].map((section) => {
@@ -134,14 +146,14 @@ export function SectionSpine({ sections }: { sections: PageSection[] }) {
                 onClick={() => jump(section.id)}
                 aria-current={on ? "location" : undefined}
                 className={`group relative flex items-center gap-3 text-[10px] uppercase tracking-widest transition-colors ${
-                  on ? "text-forest" : "text-ink/45 hover:text-forest"
+                  on ? "text-forest" : "text-ink/75 hover:text-forest"
                 }`}
                 style={MONO}
               >
                 <span
                   aria-hidden="true"
                   className={`h-[7px] w-[7px] border transition-colors ${
-                    on ? "border-gold bg-gold" : "border-ink/40 bg-paper group-hover:border-forest"
+                    on ? MARK_ON : "border-ink/60 bg-paper group-hover:border-forest"
                   }`}
                 />
                 {section.label}
@@ -158,71 +170,83 @@ export function SectionSpine({ sections }: { sections: PageSection[] }) {
 export function SectionBarLabel({ sections }: { sections: PageSection[] }) {
   const { present, inSections, active } = useSectionProgress(sections);
   const [open, setOpen] = useState(false);
+  const trigger = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!open) return;
-    const close = (event: Event) => {
-      if (event instanceof KeyboardEvent && event.key !== "Escape") return;
-      if (event instanceof MouseEvent && (event.target as Element | null)?.closest("[data-section-menu]")) return;
+    const closeAndRefocus = () => {
+      setOpen(false);
+      trigger.current?.focus({ preventScroll: true });
+    };
+    const onMouseDown = (event: MouseEvent) => {
+      if ((event.target as Element | null)?.closest("[data-section-menu]")) return;
       setOpen(false);
     };
-    document.addEventListener("mousedown", close);
-    document.addEventListener("keydown", close);
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeAndRefocus();
+    };
+    // Scrolling away closes it, so it cannot reappear open after the label hides
+    const onScroll = () => setOpen(false);
+    document.addEventListener("mousedown", onMouseDown);
+    document.addEventListener("keydown", onKeyDown);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
-      document.removeEventListener("mousedown", close);
-      document.removeEventListener("keydown", close);
+      document.removeEventListener("mousedown", onMouseDown);
+      document.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("scroll", onScroll);
     };
   }, [open]);
 
   if (!present || !inSections) return null;
   const current = sections.find((section) => section.id === active);
+  const currentLabel = current?.label ?? TOP.label;
 
   return (
     <div className="relative min-[1440px]:hidden" data-section-menu>
       <button
+        ref={trigger}
         type="button"
-        aria-haspopup="menu"
         aria-expanded={open}
+        aria-controls="section-jump-list"
+        aria-label={`Current section: ${currentLabel}. Jump to a section`}
         onClick={() => setOpen((value) => !value)}
-        className="flex min-h-9 items-center gap-2 px-2 text-[10px] uppercase tracking-widest text-ink/60 transition-colors hover:text-forest"
+        className="flex h-8 items-center gap-2 px-2 text-[10px] uppercase tracking-widest text-ink/80 transition-colors hover:text-forest"
         style={MONO}
       >
-        <span aria-hidden="true" className="h-[7px] w-[7px] border border-gold bg-gold" />
-        {current?.label ?? TOP.label}
+        <span aria-hidden="true" className={`h-[7px] w-[7px] border ${MARK_ON}`} />
+        {currentLabel}
         <ChevronDown className={`h-3 w-3 transition-transform ${open ? "rotate-180" : ""}`} aria-hidden="true" />
       </button>
       {open && (
         <ul
-          role="menu"
+          id="section-jump-list"
           className="absolute right-0 top-full mt-2 min-w-[11rem] border border-ink/15 bg-paper p-1"
           style={{ borderRadius: 2 }}
         >
-          {[TOP, ...sections].map((section) => (
-            <li key={section.id} role="none">
-              <button
-                type="button"
-                role="menuitem"
-                onClick={() => {
-                  setOpen(false);
-                  jump(section.id);
-                }}
-                className={`flex w-full items-center gap-3 px-3 py-2.5 text-left text-[11px] uppercase tracking-widest transition-colors hover:bg-forest/7 ${
-                  (section.id === TOP.id ? active === null : active === section.id) ? "text-forest" : "text-ink/60"
-                }`}
-                style={MONO}
-              >
-                <span
-                  aria-hidden="true"
-                  className={`h-[7px] w-[7px] border ${
-                    (section.id === TOP.id ? active === null : active === section.id)
-                      ? "border-gold bg-gold"
-                      : "border-ink/40"
+          {[TOP, ...sections].map((section) => {
+            const on = section.id === TOP.id ? active === null : active === section.id;
+            return (
+              <li key={section.id}>
+                <button
+                  type="button"
+                  aria-current={on ? "location" : undefined}
+                  onClick={() => {
+                    setOpen(false);
+                    jump(section.id);
+                    // Focusing scrolls by default, which would cancel the jump
+                    trigger.current?.focus({ preventScroll: true });
+                  }}
+                  className={`flex w-full items-center gap-3 px-3 py-2.5 text-left text-[11px] uppercase tracking-widest transition-colors hover:bg-forest/7 ${
+                    on ? "text-forest" : "text-ink/75"
                   }`}
-                />
-                {section.label}
-              </button>
-            </li>
-          ))}
+                  style={MONO}
+                >
+                  <span aria-hidden="true" className={`h-[7px] w-[7px] border ${on ? MARK_ON : "border-ink/60"}`} />
+                  {section.label}
+                </button>
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>
@@ -237,7 +261,7 @@ export function SectionBarProgress({ sections }: { sections: PageSection[] }) {
   return (
     <span
       aria-hidden="true"
-      className="absolute bottom-0 left-0 h-0.5 bg-gold transition-[width] duration-150 min-[1440px]:hidden"
+      className={`absolute bottom-0 left-0 h-0.5 transition-[width] duration-150 motion-reduce:transition-none min-[1440px]:hidden ${LINE}`}
       style={{ width: `${fill}%` }}
     />
   );
