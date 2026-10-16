@@ -1,6 +1,6 @@
 import { SocialIcons } from "@/components/public/SocialIcons";
 import { CareerMap, SectionHeading } from "@/components/public/CareerMap";
-import type { PageSection } from "@/components/public/SectionGuide";
+import { SectionBarLabel, SectionBarProgress, type PageSection } from "@/components/public/SectionGuide";
 import { Footer } from "@/components/public/Footer";
 import { FlipName } from "@/components/public/FlipName";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -128,6 +128,7 @@ export default async function Home() {
 
       {/* ── TOP NAV ── */}
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-ink/15 bg-paper/90 backdrop-blur-sm">
+        <SectionBarProgress sections={homeSections} />
         <div className="mx-auto flex max-w-screen-xl items-center justify-between px-6 py-3 md:px-12 lg:px-24">
           {/* Square logo mark */}
           <Link
@@ -153,8 +154,9 @@ export default async function Home() {
             ))}
           </ul>
 
-          {/* Resume link + Theme toggle */}
+          {/* Current section (narrow screens), resume link, theme toggle */}
           <div className="flex items-center gap-3">
+            <SectionBarLabel sections={homeSections} />
             {profile?.resumeUrl && (
               <TrackedAnchor
                 event="resume_downloaded"
