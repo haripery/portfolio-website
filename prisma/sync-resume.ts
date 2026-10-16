@@ -318,7 +318,7 @@ const HIGHLIGHTS: Record<
       {
         kind: "Reliability",
         title: "On-call and engineering culture",
-        areas: "cloud",
+        areas: "fullstack,cloud",
         icon: "shield",
         viz: "tags:System health|Security hardening|Code reviews|Knowledge sharing",
         detail: [
@@ -369,7 +369,7 @@ const HIGHLIGHTS: Record<
         kind: "AWS CloudWatch",
         title: "AI-powered anomaly detection dashboards",
         link: { label: "AWS blog: anomaly detection", url: "https://aws.amazon.com/blogs/aws/amazon-cloudwatch-logs-now-offers-automated-pattern-analytics-and-anomaly-detection/" },
-        areas: "ai,cloud",
+        areas: "ai,fullstack,cloud",
         icon: "brain",
         viz: "anomaly:Log pattern anomalies, picked out for non-technical users",
         detail: [
