@@ -236,7 +236,6 @@ const HIGHLIGHTS: Record<
       {
         kind: "For internal teams and stakeholders",
         title: "AI on-call triage assistant",
-        link: { label: "Case study", url: "https://www.irah.dev/resume#case-study" },
         areas: "ai,fullstack,cloud",
         icon: "bot",
         viz: "flow:An alert fires^on a production service|Triage agent^LangGraph · Amazon Bedrock · MCP|Read-only queries^allow-listed integrations into observability and source control, grounded in a knowledge graph|Layer and owner^which layer failed, which team owns it|Engineer reviews^nothing is remediated automatically",
