@@ -14,6 +14,7 @@ import type { ExperienceWithRelations } from "@/types";
 import { HighlightViz } from "./HighlightViz";
 import { AREAS, TShape, type Area } from "./TShape";
 import { HighlightIcon } from "./highlightIcons";
+import { SectionSpine, SectionStrip, type PageSection } from "./SectionGuide";
 import { ArrowLeft, ArrowRight, ArrowUpRight, X, ZoomIn } from "lucide-react";
 
 const MONO = { fontFamily: "var(--font-jetbrains-mono), monospace" };
@@ -125,6 +126,7 @@ export function CareerMap({
   facts,
   socials,
   children,
+  sections,
 }: {
   experiences: ExperienceWithRelations[];
   /** Root breadcrumb label */
@@ -136,6 +138,8 @@ export function CareerMap({
   socials?: React.ReactNode;
   /** Sections shown under the companies on the landing level */
   children?: React.ReactNode;
+  /** The page's sections below the summary, for the on-page guide */
+  sections: PageSection[];
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const search = useSyncExternalStore(subscribe, getSearch, getServerSearch);
@@ -274,7 +278,10 @@ export function CareerMap({
               >
                 {socials}
               </TShape>
+              <SectionStrip sections={sections} />
+              <SectionSpine sections={sections} />
 
+              <section id="experience" className="scroll-mt-24">
               <SectionHeading label="Experience" hint="Pick a company to zoom in, or jump straight to a highlight">
                 {filter && (
                   <button
@@ -376,6 +383,7 @@ export function CareerMap({
                   );
                 })}
               </ul>
+              </section>
 
               {children && <div>{children}</div>}
             </div>

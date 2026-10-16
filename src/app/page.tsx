@@ -1,5 +1,6 @@
 import { SocialIcons } from "@/components/public/SocialIcons";
 import { CareerMap, SectionHeading } from "@/components/public/CareerMap";
+import type { PageSection } from "@/components/public/SectionGuide";
 import { Footer } from "@/components/public/Footer";
 import { FlipName } from "@/components/public/FlipName";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -96,6 +97,13 @@ export default async function Home() {
   );
   const recentPosts = [...chosen, ...posts.filter((post) => !chosen.includes(post))].slice(0, 3);
 
+  // Sections below the summary, for the on-page guide
+  const homeSections: PageSection[] = [
+    { id: "experience", label: "Experience" },
+    { id: "education", label: "Education" },
+    ...(recentPosts.length > 0 ? [{ id: "writing", label: "Writing" }] : []),
+  ];
+
   const personJsonLd = profile
     ? {
         "@context": "https://schema.org",
@@ -170,6 +178,7 @@ export default async function Home() {
             <CareerMap
               experiences={experiences}
               name={profile?.name ?? "Home"}
+              sections={homeSections}
               summary={profile?.summary ?? ""}
               facts={FACTS}
               identity={
@@ -191,6 +200,7 @@ export default async function Home() {
                 ) : undefined
               }
             >
+              <section id="education" className="scroll-mt-24">
               <SectionHeading label="Education" />
               <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                 {EDUCATION.map((entry) => (
@@ -205,9 +215,10 @@ export default async function Home() {
                   </li>
                 ))}
               </ul>
+              </section>
 
               {recentPosts.length > 0 && (
-                <>
+                <section id="writing" className="scroll-mt-24">
                   <SectionHeading label="Writing">
                     <TrackedLink
                       event="view_all_clicked"
@@ -258,7 +269,7 @@ export default async function Home() {
                       </li>
                     ))}
                   </ul>
-                </>
+                </section>
               )}
             </CareerMap>
           ) : (
