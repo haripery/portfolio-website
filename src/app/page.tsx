@@ -147,14 +147,18 @@ export default async function Home() {
 
           {/* Resume link + Theme toggle */}
           <div className="flex items-center gap-3">
-            <TrackedAnchor
-              event="resume_interactive_opened"
-              properties={{ source: "header" }}
-              href="/resume"
-              className="hidden border border-forest px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:bg-forest hover:text-paper sm:inline-flex"
-            >
-              Résumé
-            </TrackedAnchor>
+            {profile?.resumeUrl && (
+              <TrackedAnchor
+                event="resume_downloaded"
+                properties={{ source: "header" }}
+                href={profile.resumeUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="hidden border border-forest px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-forest transition-colors hover:bg-forest hover:text-paper sm:inline-flex"
+              >
+                Résumé
+              </TrackedAnchor>
+            )}
             <ThemeToggle />
           </div>
         </div>

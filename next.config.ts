@@ -38,10 +38,6 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: "/resume",
-        destination: "/resume.html",
-      },
-      {
         source: "/ingest/static/:path*",
         destination: "https://us-assets.i.posthog.com/static/:path*",
       },

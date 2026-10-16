@@ -484,7 +484,7 @@ const PROJECT = {
   title: "On-Call Triage Assistant",
   description:
     "<p>A human-supervised AI assistant that investigates on-call alerts and reports <strong>which layer failed and which team owns it</strong>, instead of summarizing the alert. Originated at Autodesk and taken through enterprise AI governance, security review, and AWS deployment. It works read-only through allow-listed integrations, never remediates on its own, and an engineer reviews every action.</p>",
-  url: "https://www.irah.dev/resume#case-study",
+  url: "",
   stats: "1,200+ automated tests",
   featured: true,
   tags: ["Python", "LangGraph", "Amazon Bedrock", "MCP"],

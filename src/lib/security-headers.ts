@@ -6,9 +6,9 @@
 const cspDirectives = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://platform.twitter.com https://syndication.twitter.com https://cdn.syndication.twimg.com",
-  "style-src 'self' 'unsafe-inline' https://platform.twitter.com https://fonts.googleapis.com",
+  "style-src 'self' 'unsafe-inline' https://platform.twitter.com",
   "img-src 'self' data: blob: https://*.r2.dev https://*.cloudflare.com https://pub-*.r2.dev https://syndication.twitter.com https://pbs.twimg.com https://abs.twimg.com",
-  "font-src 'self' data: https://fonts.gstatic.com",
+  "font-src 'self' data:",
   "connect-src 'self' https://us.posthog.com https://us.i.posthog.com",
   "frame-src 'self' https://platform.twitter.com https://syndication.twitter.com",
   "media-src 'self'",
