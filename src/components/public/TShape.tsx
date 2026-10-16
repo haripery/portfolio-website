@@ -53,7 +53,7 @@ export const AREAS: Record<
   ai: {
     label: "Applied AI",
     short: "Applied AI",
-    note: "Agents that query through allow-listed integrations and leave the decision with an engineer, evals that check answers are grounded, and interfaces that show what the model saw.",
+    note: "Agents that query through allow-listed integrations and leave the decision with an engineer, evals that check answers are grounded, and interfaces that make a model's output something a person can check.",
     fill: "bg-coral",
     line: "border-coral",
     text: "text-[#C4502F] dark:text-coral",

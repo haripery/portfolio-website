@@ -17,7 +17,7 @@ import {
 } from "@/lib/protocols/a2a";
 import { parseA2UIMarkers, createA2UIEnvelopes } from "@/lib/protocols/a2ui";
 import { processSignals, type VisitorSignals } from "./tracker-agent";
-import { classifyVisitor } from "./profiler-agent";
+import { classifyVisitor, type Persona } from "./profiler-agent";
 import { generateRecommendations, type PortfolioData } from "./advisor-agent";
 import { getProfile } from "@/actions/profile";
 import { getExperiences } from "@/actions/experience";
@@ -69,46 +69,96 @@ async function fetchPortfolioData(): Promise<PortfolioData> {
 // ── Grounding ────────────────────────────────────────────────────────────────
 // The advisor is told to use only real posts, projects and experiences, but a
 // prompt is not a guarantee. Anything it names that isn't in the portfolio
-// data is dropped here, and links are replaced with the real ones, so the page
-// never shows a recommendation that does not exist.
+// data is dropped here, links, tags, roles and dates are replaced with the
+// real ones, and the persona card is pinned to what the profiler actually
+// returned, so the page never shows a recommendation that does not exist.
+
+const norm = (value: unknown) =>
+  String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "");
+
+// "Amazon Web Services" -> "aws", so short forms match
+const acronym = (value: string) =>
+  value
+    .split(/[^A-Za-z0-9]+/)
+    .filter(Boolean)
+    .map((word) => word[0])
+    .join("")
+    .toLowerCase();
+
+const sameName = (real: string, given: unknown) => {
+  const a = norm(real);
+  const b = norm(given);
+  if (!b) return false;
+  if (a === b || acronym(real) === b) return true;
+  // Containment only for names long enough not to match by accident
+  return b.length >= 6 && (a.includes(b) || b.includes(a));
+};
+
+const records = (value: unknown): Record<string, unknown>[] =>
+  Array.isArray(value)
+    ? value.filter((item): item is Record<string, unknown> => !!item && typeof item === "object")
+    : [];
+
+const strings = (value: unknown): string[] =>
+  Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
 
 export function groundProps(
   componentType: string,
   props: Record<string, unknown>,
-  portfolio: PortfolioData
+  portfolio: PortfolioData,
+  persona: Persona
 ): Record<string, unknown> | null {
-  const norm = (value: unknown) => String(value ?? "").trim().toLowerCase();
-  const list = (value: unknown) =>
-    Array.isArray(value) ? (value as Record<string, unknown>[]) : [];
+  if (componentType === "persona-card") {
+    return {
+      ...props,
+      type: persona.type,
+      confidence: persona.confidence,
+      traits: persona.traits,
+      reasoning: persona.reasoning,
+      emoji: persona.emoji,
+    };
+  }
 
   if (componentType === "suggested-reading") {
-    const posts = list(props.posts).flatMap((post) => {
+    const posts = records(props.posts).flatMap((post) => {
       const real = portfolio.blogPosts.find(
-        (b) => b.slug === post.slug || norm(b.title) === norm(post.title)
+        (b) => b.slug === post.slug || sameName(b.title, post.title)
       );
       return real
-        ? [{ ...post, slug: real.slug, title: real.title, excerpt: real.excerpt ?? post.excerpt ?? "" }]
+        ? [{ ...post, slug: real.slug, title: real.title, excerpt: real.excerpt ?? "" }]
         : [];
     });
     return posts.length > 0 ? { ...props, posts } : null;
   }
 
   if (componentType === "recommended-projects") {
-    const projects = list(props.projects).flatMap((project) => {
-      const real = portfolio.projects.find((p) => norm(p.title) === norm(project.title));
+    const projects = records(props.projects).flatMap((project) => {
+      const real = portfolio.projects.find((p) => sameName(p.title, project.title));
       if (!real) return [];
       const url = real.liveUrl || real.githubUrl || undefined;
-      return [{ ...project, title: real.title, url }];
+      return [{ ...project, title: real.title, tags: real.tags, url }];
     });
     return projects.length > 0 ? { ...props, projects } : null;
   }
 
   if (componentType === "relevant-experience") {
-    const experiences = list(props.experiences).filter((item) =>
-      portfolio.experiences.some(
-        (e) => norm(e.company) === norm(item.company) || norm(item.company).includes(norm(e.company))
-      )
-    );
+    const experiences = records(props.experiences).flatMap((item) => {
+      const real = portfolio.experiences.find((e) => sameName(e.company, item.company));
+      if (!real) return [];
+      return [
+        {
+          ...item,
+          company: real.company,
+          role: real.role,
+          period: real.period,
+          highlights: strings(item.highlights),
+        },
+      ];
+    });
     return experiences.length > 0 ? { ...props, experiences } : null;
   }
 
@@ -258,14 +308,17 @@ export async function runVisitorIntelPipeline(
         const { markers, cleanText } = parseA2UIMarkers(buffer);
 
         if (markers.length > 0) {
-          // Emit any clean text before the marker
-          if (cleanText.trim()) {
-            emitter.textContent(messageId, cleanText);
+          // A chunk can complete one marker and begin the next; keep the
+          // unfinished tail in the buffer instead of emitting it as text
+          const tail = cleanText.lastIndexOf("{{");
+          const text = tail === -1 ? cleanText : cleanText.slice(0, tail);
+          if (text.trim()) {
+            emitter.textContent(messageId, text);
           }
 
           // Emit A2UI envelopes for each marker, grounded in real portfolio data
           for (const marker of markers) {
-            const grounded = groundProps(marker.componentType, marker.props, portfolio);
+            const grounded = groundProps(marker.componentType, marker.props, portfolio, persona);
             if (!grounded) continue;
             const envelopes = createA2UIEnvelopes(marker.componentType, grounded);
             for (const envelope of envelopes) {
@@ -273,7 +326,7 @@ export async function runVisitorIntelPipeline(
             }
           }
 
-          buffer = "";
+          buffer = tail === -1 ? "" : cleanText.slice(tail);
         } else if (!buffer.includes("{{")) {
           // No partial marker in buffer - safe to emit text
           emitter.textContent(messageId, buffer);
@@ -293,7 +346,7 @@ export async function runVisitorIntelPipeline(
           emitter.textContent(messageId, cleanText);
         }
         for (const marker of markers) {
-          const grounded = groundProps(marker.componentType, marker.props, portfolio);
+          const grounded = groundProps(marker.componentType, marker.props, portfolio, persona);
           if (!grounded) continue;
           const envelopes = createA2UIEnvelopes(marker.componentType, grounded);
           for (const envelope of envelopes) {

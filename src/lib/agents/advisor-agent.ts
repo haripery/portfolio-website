@@ -71,7 +71,7 @@ Projects:
 ${portfolio.projects.map((p) => `- ${p.title}: ${p.description} [${p.tags.join(", ")}]`).join("\n")}
 
 Blog Posts:
-${portfolio.blogPosts.map((b) => `- "${b.title}" (${b.category}) - ${b.excerpt || "No excerpt"}`).join("\n")}
+${portfolio.blogPosts.map((b) => `- "${b.title}" (${b.category}, slug: ${b.slug}) - ${b.excerpt || "No excerpt"}`).join("\n")}
 
 INSTRUCTIONS:
 Write a short, personalized message (2-3 sentences) addressing what this visitor type would find most interesting. Then emit EXACTLY these UI components using the marker syntax:
@@ -85,7 +85,7 @@ Write a short, personalized message (2-3 sentences) addressing what this visitor
 3. Most relevant experience entries (2-3):
 {{UI:relevant-experience:{"experiences":[{"company":"...","role":"...","period":"...","highlights":["..."],"relevance":"why this matters to them"}]}}}
 
-4. Recommended blog posts (1-2):
+4. Recommended blog posts (1-2), using the exact slug listed above:
 {{UI:suggested-reading:{"posts":[{"title":"...","slug":"...","excerpt":"...","relevance":"why they should read this"}]}}}
 
 IMPORTANT: Use REAL data from the portfolio above. Do not invent projects, companies, or blog posts that don't exist in the data. Each UI marker must be on its own line with no extra whitespace inside the JSON.`,

@@ -54,9 +54,13 @@ export function VisitorSignalsDisplay({ signals }: Props) {
         ))}
       </div>
       <p className="mt-3 max-w-xl text-xs leading-relaxed text-ink/60">
-        The pills above are everything this demo collects. When you click Run they go once to a
-        model (Claude) that guesses a persona; the demo does not store them. The persona is a guess
-        from thin signals, so the card shows the model&apos;s own confidence and its one-line reason.
+        This demo collects: the page that referred you, the pages you have viewed on this site in
+        this session, time on site, device, browser, scroll depth, screen width and any UTM tags.
+        The pills show the main ones. When you click Run they go to this site&apos;s server, which
+        asks a model (Claude) to guess a persona and then to pick recommendations; the server keeps
+        none of it, and your browser keeps the page list for this session only. The persona is a
+        guess from thin signals, so the card shows the model&apos;s own confidence and its one-line
+        reason.
       </p>
     </div>
   );
