@@ -77,7 +77,7 @@ INSTRUCTIONS:
 Write a short, personalized message (2-3 sentences) addressing what this visitor type would find most interesting. Then emit EXACTLY these UI components using the marker syntax:
 
 1. A persona card summarizing who they are:
-{{UI:persona-card:{"type":"${persona.type}","confidence":${persona.confidence},"traits":${JSON.stringify(persona.traits)},"reasoning":"${persona.reasoning}","emoji":"${persona.emoji}"}}}
+{{UI:persona-card:{"type":"${persona.type}","confidence":${persona.confidence},"traits":${JSON.stringify(persona.traits)},"reasoning":${JSON.stringify(persona.reasoning)},"emoji":"${persona.emoji}"}}}
 
 2. Top 2-3 most relevant projects for this persona:
 {{UI:recommended-projects:{"projects":[{"title":"...","description":"...","tags":[...],"url":"...","relevance":"why this project matters to them"}]}}}

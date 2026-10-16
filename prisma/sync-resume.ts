@@ -33,7 +33,7 @@ const PROFILE = {
   role: "Principal Engineer",
   // Shown under the home page headline
   summary:
-    "Ten-plus years of full-stack engineering, frontend-heavy, building the web applications customers use across enterprise SaaS, cloud observability, ad tech and banking. Now focused on applied AI: agents that work inside explicit limits and leave the decision with a person, and the interfaces people use to check what they found.",
+    "Ten-plus years of full-stack engineering, frontend-heavy, building the web applications customers use across enterprise SaaS, cloud observability, ad tech and banking. Now focused on applied AI: agents that work inside explicit limits and leave the decision with a person, and the interfaces that put what they found in front of the person who decides.",
   tagline:
     "I build AI-native products and governed, human-in-the-loop agents — and explore what it means to build near the singularity.",
   bio: [
