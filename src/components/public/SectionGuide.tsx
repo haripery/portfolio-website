@@ -9,6 +9,8 @@ const MONO = { fontFamily: "var(--font-jetbrains-mono), monospace" };
 const NAV_EVENT = "careermap:navigate";
 // Fixed top bar plus the sections' scroll margin
 const TOP_OFFSET = 100;
+// Least scroll between two sections' nodes once they are pulled into reach
+const MIN_GAP = 48;
 const TOP: PageSection = { id: "top", label: "Top" };
 
 // Gold reads fine as a shape but not as a 1-2px line on paper, so the thin
@@ -58,12 +60,20 @@ export function useSectionProgress(sections: PageSection[]) {
       const y = window.scrollY;
       const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
       const nodes = [0, ...tops.map((t) => t.top), Math.max(maxScroll, tops[tops.length - 1].top + 1)];
+      // Sections near the end of a page can sit past the furthest the page
+      // scrolls, so they would never become current. Pull those nodes back
+      // into reach, each at least a short scroll apart, so every section
+      // gets its turn before the bottom.
+      if (maxScroll > 0) {
+        const gap = Math.min(MIN_GAP, Math.floor(maxScroll / (nodes.length - 1)));
+        nodes[nodes.length - 1] = maxScroll;
+        for (let i = nodes.length - 2; i > 0; i--) nodes[i] = Math.min(nodes[i], nodes[i + 1] - gap);
+      }
       const last = nodes.length - 2;
       let index = 0;
       while (index < last && y >= nodes[index + 1]) index++;
-      // A short last section may never reach the top of the viewport; the
-      // bottom of the page counts as being in it
-      const atEnd = y >= maxScroll - 2;
+      // The bottom of the page counts as being in the last section
+      const atEnd = maxScroll > 0 && y >= maxScroll - 2;
       if (atEnd) index = last;
       const span = Math.max(1, nodes[index + 1] - nodes[index]);
       const position = atEnd ? last : Math.min(last, index + Math.max(0, Math.min(1, (y - nodes[index]) / span)));
@@ -126,9 +136,10 @@ export function SectionSpine({ sections }: { sections: PageSection[] }) {
     <nav
       aria-label="Sections"
       className="fixed top-1/2 z-40 hidden -translate-y-1/2 min-[1440px]:block"
-      // Right edge 16px short of where the content column starts
-      // (the 1280px container is centred and has 96px of padding)
-      style={{ right: "calc(50% + 560px)" }}
+      // Right edge 16px short of where the content column starts: the
+      // 80rem container is centred and has 6rem of padding, so its text
+      // starts 34rem left of centre. In rem so it follows the font size.
+      style={{ right: "calc(50% + 34rem + 16px)" }}
     >
       <ol className="relative flex flex-col gap-7">
         <span aria-hidden="true" className="absolute left-[3px] top-1 h-[calc(100%-0.5rem)] w-px bg-ink/20" />
@@ -185,8 +196,13 @@ export function SectionBarLabel({ sections }: { sections: PageSection[] }) {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") closeAndRefocus();
     };
-    // Scrolling away closes it, so it cannot reappear open after the label hides
-    const onScroll = () => setOpen(false);
+    // Scrolling away closes it, so it cannot reappear open after the label
+    // hides. If focus was inside the list (arrow keys scroll the page), it
+    // goes back to the trigger instead of being lost.
+    const onScroll = () => {
+      if (document.activeElement?.closest("[data-section-menu]")) closeAndRefocus();
+      else setOpen(false);
+    };
     document.addEventListener("mousedown", onMouseDown);
     document.addEventListener("keydown", onKeyDown);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -215,7 +231,10 @@ export function SectionBarLabel({ sections }: { sections: PageSection[] }) {
       >
         <span aria-hidden="true" className={`h-[7px] w-[7px] border ${MARK_ON}`} />
         {currentLabel}
-        <ChevronDown className={`h-3 w-3 transition-transform ${open ? "rotate-180" : ""}`} aria-hidden="true" />
+        <ChevronDown
+          className={`h-3 w-3 transition-transform motion-reduce:transition-none ${open ? "rotate-180" : ""}`}
+          aria-hidden="true"
+        />
       </button>
       {open && (
         <ul
