@@ -33,7 +33,7 @@ export function PersonaCard({ type, confidence, traits, reasoning, emoji }: Pers
       {/* Confidence bar */}
       <div className="mb-3">
         <div className="flex justify-between text-xs mb-1">
-          <span className="text-ink/60">Confidence</span>
+          <span className="text-ink/60">Model&apos;s stated confidence</span>
           <span className={`font-mono font-semibold ${colors.text}`}>{confidence}%</span>
         </div>
         <div className="h-2 bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">

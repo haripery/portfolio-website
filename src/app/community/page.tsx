@@ -28,7 +28,7 @@ const WORKSHOPS = [
   },
   {
     name: "Harness Engineering",
-    desc: "Writing effective prompts and integrating AI into real development workflows",
+    desc: "Setting up a repository so a coding agent does correct work: a short map file, rules enforced by linters and hooks instead of documentation, and verification before anything is called done. Based on my guide and its open-source reference implementation.",
   },
   {
     name: "From Zero to Portfolio",

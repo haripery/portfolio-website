@@ -18,10 +18,10 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
     posthog.init(KEY, {
       api_host: HOST,
       ui_host: "https://us.posthog.com",
-      person_profiles: "always",
+      person_profiles: "identified_only",
       capture_pageview: true,
       capture_pageleave: true,
-      persistence: "localStorage+cookie",
+      persistence: "localStorage",
       loaded: () => setReady(true),
     });
   }, []);

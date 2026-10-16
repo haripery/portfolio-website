@@ -53,8 +53,10 @@ export function VisitorSignalsDisplay({ signals }: Props) {
           />
         ))}
       </div>
-      <p className="text-[10px] text-ink/30 mt-2 italic">
-        No personal data stored. Browsing context only.
+      <p className="mt-3 max-w-xl text-xs leading-relaxed text-ink/60">
+        The pills above are everything this demo collects. When you click Run they go once to a
+        model (Claude) that guesses a persona; the demo does not store them. The persona is a guess
+        from thin signals, so the card shows the model&apos;s own confidence and its one-line reason.
       </p>
     </div>
   );

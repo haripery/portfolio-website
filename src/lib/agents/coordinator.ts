@@ -66,6 +66,55 @@ async function fetchPortfolioData(): Promise<PortfolioData> {
   };
 }
 
+// ── Grounding ────────────────────────────────────────────────────────────────
+// The advisor is told to use only real posts, projects and experiences, but a
+// prompt is not a guarantee. Anything it names that isn't in the portfolio
+// data is dropped here, and links are replaced with the real ones, so the page
+// never shows a recommendation that does not exist.
+
+export function groundProps(
+  componentType: string,
+  props: Record<string, unknown>,
+  portfolio: PortfolioData
+): Record<string, unknown> | null {
+  const norm = (value: unknown) => String(value ?? "").trim().toLowerCase();
+  const list = (value: unknown) =>
+    Array.isArray(value) ? (value as Record<string, unknown>[]) : [];
+
+  if (componentType === "suggested-reading") {
+    const posts = list(props.posts).flatMap((post) => {
+      const real = portfolio.blogPosts.find(
+        (b) => b.slug === post.slug || norm(b.title) === norm(post.title)
+      );
+      return real
+        ? [{ ...post, slug: real.slug, title: real.title, excerpt: real.excerpt ?? post.excerpt ?? "" }]
+        : [];
+    });
+    return posts.length > 0 ? { ...props, posts } : null;
+  }
+
+  if (componentType === "recommended-projects") {
+    const projects = list(props.projects).flatMap((project) => {
+      const real = portfolio.projects.find((p) => norm(p.title) === norm(project.title));
+      if (!real) return [];
+      const url = real.liveUrl || real.githubUrl || undefined;
+      return [{ ...project, title: real.title, url }];
+    });
+    return projects.length > 0 ? { ...props, projects } : null;
+  }
+
+  if (componentType === "relevant-experience") {
+    const experiences = list(props.experiences).filter((item) =>
+      portfolio.experiences.some(
+        (e) => norm(e.company) === norm(item.company) || norm(item.company).includes(norm(e.company))
+      )
+    );
+    return experiences.length > 0 ? { ...props, experiences } : null;
+  }
+
+  return props;
+}
+
 // ── Coordinator Pipeline ─────────────────────────────────────────────────────
 
 export async function runVisitorIntelPipeline(
@@ -214,12 +263,11 @@ export async function runVisitorIntelPipeline(
             emitter.textContent(messageId, cleanText);
           }
 
-          // Emit A2UI envelopes for each marker
+          // Emit A2UI envelopes for each marker, grounded in real portfolio data
           for (const marker of markers) {
-            const envelopes = createA2UIEnvelopes(
-              marker.componentType,
-              marker.props
-            );
+            const grounded = groundProps(marker.componentType, marker.props, portfolio);
+            if (!grounded) continue;
+            const envelopes = createA2UIEnvelopes(marker.componentType, grounded);
             for (const envelope of envelopes) {
               emitter.custom("a2ui:envelope", envelope);
             }
@@ -245,10 +293,9 @@ export async function runVisitorIntelPipeline(
           emitter.textContent(messageId, cleanText);
         }
         for (const marker of markers) {
-          const envelopes = createA2UIEnvelopes(
-            marker.componentType,
-            marker.props
-          );
+          const grounded = groundProps(marker.componentType, marker.props, portfolio);
+          if (!grounded) continue;
+          const envelopes = createA2UIEnvelopes(marker.componentType, grounded);
           for (const envelope of envelopes) {
             emitter.custom("a2ui:envelope", envelope);
           }

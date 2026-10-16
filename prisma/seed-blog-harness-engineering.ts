@@ -271,7 +271,7 @@ bash scripts/check-verification.sh # Verification gate</code></pre>
 
 <h3>When documentation fails, promote to code</h3>
 
-<p>The verification rule is the clearest example. I wrote "always verify before marking done" in five different files. The agent ignored it three times. So I built a pre-commit hook that blocks commits without a completed verification checklist, and a session hook that prevents the agent from ending a session with unverified changes.</p>
+<p>The verification rule is the clearest example. I wrote "always verify before marking done" in five different files. The agent ignored it three times. So I built a <a href="https://github.com/haripery/harness-engineering/blob/main/.husky/pre-commit" target="_blank" rel="noopener noreferrer">pre-commit hook</a> that blocks commits without a completed verification checklist, and a <a href="https://github.com/haripery/harness-engineering/blob/main/scripts/check-verification-stop.sh" target="_blank" rel="noopener noreferrer">session hook</a> that prevents the agent from ending a session with unverified changes.</p>
 
 <p>Now the environment prevents the mistake. The agent can't skip verification because the system won't let it.</p>
 
