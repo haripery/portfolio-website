@@ -191,7 +191,7 @@ export function TShape({
           >
             {word("fullstack", "Full stack")}, all the way down.
             <br />
-            {word("ai", "AI")} and {word("cloud", "cloud")}, all the way across.
+            {word("ai", "Applied AI")} and {word("cloud", "cloud")}, all the way across.
           </motion.h2>
         </div>
       </div>

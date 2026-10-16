@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 // The card shown when a link to the site is shared (WhatsApp, LinkedIn, Slack, X…)
 export const alt =
-  "Hariprasath Periyasamy, Principal Engineer. Full stack, all the way down. AI and cloud, all the way across.";
+  "Hariprasath Periyasamy, Principal Engineer. Full stack, all the way down. Applied AI and cloud, all the way across.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -29,7 +29,7 @@ async function loadFont(family: string, weight: number, text: string) {
 }
 
 export default async function OpengraphImage() {
-  const headline = "Full stack, all the way down. AI and cloud, all the way across.";
+  const headline = "Full stack, all the way down. Applied AI and cloud, all the way across.";
   const small = "HARIPRASATH PERIYASAMY · PRINCIPAL ENGINEER irah.dev AUTODESK SHOPIFY AWS 10+ YEARS";
 
   const [bold, mono] = await Promise.all([
@@ -88,12 +88,12 @@ export default async function OpengraphImage() {
               <span>, all the way down.</span>
             </div>
             <div style={{ display: "flex", alignItems: "baseline", marginTop: 14 }}>
-              {word("AI", CORAL)}
+              {word("Applied AI", CORAL)}
               <span style={{ margin: "0 18px" }}>and</span>
               {word("cloud", MINT)}
-              <span>, all the way</span>
+              <span>,</span>
             </div>
-            <div style={{ display: "flex", marginTop: 14 }}>across.</div>
+            <div style={{ display: "flex", marginTop: 14 }}>all the way across.</div>
           </div>
         </div>
 

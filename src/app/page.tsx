@@ -64,7 +64,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const description =
     profile?.summary ||
     profile?.tagline ||
-    "Full stack, all the way down. AI and cloud, all the way across.";
+    "Full stack, all the way down. Applied AI and cloud, all the way across.";
   return {
     metadataBase: new URL(PORTFOLIO_URL),
     title: { absolute: title },
