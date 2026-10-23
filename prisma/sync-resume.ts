@@ -71,7 +71,7 @@ const EXPERIENCES: ExperienceContent[] = [
     description:
       "<p><strong>Post-Purchase – Autodesk Account Subscriptions &amp; Billing</strong></p>\n" +
       bullets([
-        "As lead frontend engineer, own Autodesk’s personalized, AI-driven billing website, used by <strong>thousands of customers daily</strong>, and led frontend delivery of the flagship Account Subscriptions 3.0 redesign.",
+        "As lead frontend engineer, own Autodesk’s personalized, AI-driven billing website, used by <strong>thousands of customers daily</strong>, and led frontend delivery of the flagship Account Subscriptions redesign.",
         "Originated a human-supervised AI on-call triage assistant that finds the failing layer and its owner, and took it through enterprise AI governance, security review, and AWS deployment with <strong>1,200+ automated tests</strong>.",
         "Documented the enterprise approval path for AI services so the next service owner can repeat it, lowering the barrier to shipping governed AI at Autodesk.",
         "Launched an AI adoption forum across <strong>three teams</strong>, turning demos into a prioritized, owned backlog, and standardized a 10-server MCP tool stack and reusable agent skills.",
@@ -228,7 +228,7 @@ const HIGHLIGHTS: Record<
         icon: "users",
         viz: "crowd:Thousands:of customers use it every day",
         detail: [
-          "As lead frontend engineer, own Autodesk’s personalized, AI-driven billing website, used by thousands of customers daily, and led frontend delivery of the flagship Account Subscriptions 3.0 redesign.",
+          "As lead frontend engineer, own Autodesk’s personalized, AI-driven billing website, used by thousands of customers daily, and led frontend delivery of the flagship Account Subscriptions redesign.",
         ],
       },
       {
@@ -240,7 +240,7 @@ const HIGHLIGHTS: Record<
         detail: [
           "Originated a human-supervised AI on-call triage assistant that finds the failing layer and its owner, and took it through enterprise AI governance, security review, and AWS deployment.",
           "It works read-only through allow-listed integrations, never remediates on its own, and an engineer reviews every action.",
-          "Built in Python with LangGraph on Amazon Bedrock and MCP. It queries observability and source-control systems through allow-listed integrations, grounded in a knowledge graph of team knowledge, and an eval harness checks for measurable, grounded answers.",
+          "Built in TypeScript with LangGraph on Amazon Bedrock and MCP. It queries observability and source-control systems through allow-listed integrations, grounded in a knowledge graph of team knowledge, and an eval harness checks for measurable, grounded answers.",
         ],
       },
       {
@@ -485,7 +485,7 @@ const PROJECT = {
   url: "",
   stats: "1,200+ automated tests",
   featured: true,
-  tags: ["Python", "LangGraph", "Amazon Bedrock", "MCP"],
+  tags: ["TypeScript", "LangGraph", "Amazon Bedrock", "MCP"],
 };
 
 // ---------------------------------------------------------------------------
