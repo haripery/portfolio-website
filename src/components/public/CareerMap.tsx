@@ -88,9 +88,11 @@ const parseLens = (value: string | null): Area | null =>
 
 // Highlight slugs from before their titles changed, so older links still open
 const LEGACY_HIGHLIGHT_SLUGS: Record<string, string> = {
-  "ai-triage-bot-for-on-call": "AI on-call triage assistant",
-  "ai-adoption-forum-and-a-shared-mcp-tool-stack":
-    "AI adoption forum, a shared MCP stack and a documented approval path",
+  "ai-triage-bot-for-on-call": "AI root-cause analysis agent",
+  "ai-on-call-triage-assistant": "AI root-cause analysis agent",
+  "ai-adoption-forum-and-a-shared-mcp-tool-stack": "Scaling the agent into an Autodesk-wide framework",
+  "ai-adoption-forum-a-shared-mcp-stack-and-a-documented-approval-path":
+    "Scaling the agent into an Autodesk-wide framework",
   "60-fewer-api-calls-850ms-down-to-320ms": "GraphQL batching and caching: 60% fewer calls, 850→320ms",
 };
 

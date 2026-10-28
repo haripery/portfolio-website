@@ -71,20 +71,19 @@ const EXPERIENCES: ExperienceContent[] = [
     description:
       "<p><strong>Post-Purchase – Autodesk Account Subscriptions &amp; Billing</strong></p>\n" +
       bullets([
-        "As lead frontend engineer, own Autodesk’s personalized, AI-driven billing website, used by <strong>thousands of customers daily</strong>, and led frontend delivery of the flagship Account Subscriptions redesign.",
-        "Originated a human-supervised AI on-call triage assistant that finds the failing layer and its owner, and took it through enterprise AI governance, security review, and AWS deployment with <strong>1,200+ automated tests</strong>.",
-        "Documented the enterprise approval path for AI services so the next service owner can repeat it, lowering the barrier to shipping governed AI at Autodesk.",
-        "Launched an AI adoption forum across <strong>three teams</strong>, turning demos into a prioritized, owned backlog, and standardized a 10-server MCP tool stack and reusable agent skills.",
-        "Authored engineering standards and architecture proposals, including a UI readiness framework and a distributed tracing initiative, to raise quality across teams.",
-        "Strengthened the shared design system so product copy and visual changes ship without a package release, and built components for reuse by sister teams.",
+        "Proposed and built an AI agent that finds <strong>the root cause of production problems</strong>, drawing on years of CloudWatch Logs work: it scans full logs for patterns instead of relying on status codes and generic observability signals, grounded in an ontology graph built by an automated harvester. In production within five months of joining, it cut investigation time from <strong>~30 to ~5 minutes</strong>, saving ~25 engineer-hours a month.",
+        "Built it to production standards: retrieval over the ontology graph, an eval harness and verification loop that checks answers are grounded (~90% correct on first answer), read-only allow-listed tools, no automatic remediation, and an engineer reviewing every action. Took it through enterprise AI governance, risk and security review to AWS production with <strong>1,200+ automated tests</strong>.",
+        "Now scaling the agent into a framework for all of Autodesk. Wrote the AI governance playbook the next team used to get approval in ~4 weeks instead of ~3 months, and standardized the 10-server MCP tool stack, agent skills and agentic engineering practices (spec-driven development and TDD with AI coding tools) that <strong>three teams</strong> now share, through an AI adoption forum that turned 12+ demos into an owned backlog.",
+        "As lead engineer, own Autodesk’s personalized, AI-driven subscriptions and billing website, used by <strong>thousands of customers daily</strong>, and led front-end delivery of the flagship subscriptions redesign across a 13-person team, cutting billing support tickets ~20%.",
+        "Wrote the UI readiness framework 16 engineers follow, cutting UI defects reaching production ~30%, and proposed distributed tracing across services. Strengthened the shared design system so product copy and visual changes ship without a package release, with components reused by three sister teams.",
       ]),
-    tags: ["Applied AI", "Leadership", "Reliability", "Design Systems", "MCP", "AI Governance"],
+    tags: ["Applied AI", "Root-Cause Analysis", "Reliability", "AI Governance", "MCP", "Leadership", "Design Systems"],
     links: [],
     metrics: [
+      { value: "~30→~5 min", label: "investigation time for production problems with the root-cause agent" },
+      { value: "1,200+", label: "automated tests behind the root-cause agent" },
+      { value: "Autodesk-wide", label: "framework the agent is now being scaled into" },
       { value: "Thousands", label: "of customers use the AI-driven billing website daily" },
-      { value: "1,200+", label: "automated tests behind the AI on-call triage assistant" },
-      { value: "Enterprise", label: "approval path for AI services, documented so other teams can repeat it" },
-      { value: "3 teams", label: "in the AI adoption forum, from demos to an owned backlog" },
     ],
   },
   {
@@ -219,8 +218,32 @@ const HIGHLIGHTS: Record<
 > = {
   Autodesk: {
     headline:
-      "A personalized, AI-assisted website for customers, and a read-only, human-supervised on-call triage assistant for the teams behind it.",
+      "An AI agent that finds the root cause of production problems, now being scaled into a framework for all of Autodesk, and the AI-driven billing website thousands of customers use every day.",
     items: [
+      {
+        kind: "For engineering teams",
+        title: "AI root-cause analysis agent",
+        areas: "ai,fullstack,cloud",
+        icon: "bot",
+        viz: "flow:A production problem^on any service|Root-cause agent^LangGraph · Amazon Bedrock · MCP|Full-log pattern scan^instead of status codes and generic observability signals|Ontology graph^built by an automated harvester, grounds every answer|Root cause^an engineer reviews; nothing is remediated automatically",
+        detail: [
+          "Proposed and built an AI agent that finds the root cause of production problems, drawing on years of CloudWatch Logs work. No system’s signals are perfect, so instead of relying on status codes and generic observability signals it scans full logs for patterns, grounded in an ontology graph built by an automated harvester.",
+          "In production within five months of joining, it cut investigation time from about 30 minutes to 5, saving around 25 engineer-hours a month, and its first answer is right about 90% of the time.",
+          "Built in TypeScript with LangGraph on Amazon Bedrock and MCP, with retrieval over the ontology graph and an eval harness and verification loop that check answers are grounded. It works read-only through allow-listed integrations, never remediates on its own, and an engineer reviews every action. It went through enterprise AI governance, risk and security review to AWS production with 1,200+ automated tests.",
+        ],
+      },
+      {
+        kind: "Across Autodesk",
+        title: "Scaling the agent into an Autodesk-wide framework",
+        areas: "ai",
+        icon: "network",
+        viz: "tags:Autodesk-wide framework|Governance playbook|10-server MCP tool stack|Agent skills|Spec-driven development|AI adoption forum",
+        detail: [
+          "Now scaling the agent into a framework for all of Autodesk, building on the reusable patterns and reference architecture from its first deployment.",
+          "Wrote the AI governance playbook the next team used to get approval in about 4 weeks instead of 3 months.",
+          "Standardized the 10-server MCP tool stack, agent skills and agentic engineering practices (spec-driven development and TDD with AI coding tools) that three teams now share, through an AI adoption forum that turned 12+ demos into an owned backlog.",
+        ],
+      },
       {
         kind: "For customers",
         title: "Personalized, AI-assisted account and billing website",
@@ -228,30 +251,8 @@ const HIGHLIGHTS: Record<
         icon: "users",
         viz: "crowd:Thousands:of customers use it every day",
         detail: [
-          "As lead frontend engineer, own Autodesk’s personalized, AI-driven billing website, used by thousands of customers daily, and led frontend delivery of the flagship Account Subscriptions redesign.",
-        ],
-      },
-      {
-        kind: "For internal teams and stakeholders",
-        title: "AI on-call triage assistant",
-        areas: "ai,fullstack,cloud",
-        icon: "bot",
-        viz: "flow:An alert fires^on a production service|Triage agent^LangGraph · Amazon Bedrock · MCP|Read-only queries^allow-listed integrations into observability and source control, grounded in a knowledge graph|Layer and owner^which layer failed, which team owns it|Engineer reviews^nothing is remediated automatically",
-        detail: [
-          "Originated a human-supervised AI on-call triage assistant that finds the failing layer and its owner, and took it through enterprise AI governance, security review, and AWS deployment.",
-          "It works read-only through allow-listed integrations, never remediates on its own, and an engineer reviews every action.",
-          "Built in TypeScript with LangGraph on Amazon Bedrock and MCP. It queries observability and source-control systems through allow-listed integrations, grounded in a knowledge graph of team knowledge, and an eval harness checks for measurable, grounded answers.",
-        ],
-      },
-      {
-        kind: "Across teams",
-        title: "AI adoption forum, a shared MCP stack and a documented approval path",
-        areas: "ai",
-        icon: "network",
-        viz: "tags:AI adoption forum across three teams|Prioritized, owned backlog|10-server MCP tool stack|Reusable agent skills|Documented approval path for AI services",
-        detail: [
-          "Launched an AI adoption forum across three teams, turning demos into a prioritized, owned backlog, and standardized a 10-server MCP tool stack and reusable agent skills.",
-          "Documented the enterprise approval path for AI services so the next service owner can repeat it, lowering the barrier to shipping governed AI at Autodesk.",
+          "As lead engineer, own Autodesk’s personalized, AI-driven subscriptions and billing website, used by thousands of customers daily.",
+          "Led front-end delivery of the flagship subscriptions redesign across a 13-person team, cutting billing support tickets by about 20%.",
         ],
       },
       {
@@ -261,8 +262,8 @@ const HIGHLIGHTS: Record<
         icon: "ruler",
         viz: "tags:UI readiness framework|Distributed tracing|Shared design system|Reusable components",
         detail: [
-          "Authored engineering standards and architecture proposals, including a UI readiness framework and a distributed tracing initiative, to raise quality across teams.",
-          "Strengthened the shared design system so product copy and visual changes ship without a package release, and built components for reuse by sister teams.",
+          "Wrote the UI readiness framework 16 engineers follow, cutting UI defects that reach production by about 30%, and proposed distributed tracing across services.",
+          "Strengthened the shared design system so product copy and visual changes ship without a package release, with components reused by three sister teams.",
         ],
       },
     ],
@@ -477,16 +478,17 @@ const HIGHLIGHTS: Record<
   },
 };
 
-// Matched by title.
+// Matched by title, or by an earlier title so a rename updates the existing row instead of adding a second one.
 const PROJECT = {
-  title: "On-Call Triage Assistant",
+  title: "Root-Cause Analysis Agent",
   description:
-    "<p>A human-supervised AI assistant that investigates on-call alerts and reports <strong>which layer failed and which team owns it</strong>, instead of summarizing the alert. Originated at Autodesk and taken through enterprise AI governance, security review, and AWS deployment. It works read-only through allow-listed integrations, never remediates on its own, and an engineer reviews every action.</p>",
+    "<p>An AI agent that finds <strong>the root cause of production problems</strong>, built on years of CloudWatch Logs work. Instead of relying on status codes and generic observability signals, it scans full logs for patterns, grounded in an ontology graph built by an automated harvester. Originated at Autodesk and taken through enterprise AI governance, security review, and AWS deployment, it works read-only through allow-listed integrations, never remediates on its own, and an engineer reviews every action. It cut investigation time from about 30 minutes to 5 and is now being scaled into a framework for all of Autodesk.</p>",
   url: "",
-  stats: "1,200+ automated tests",
+  stats: "~30 → ~5 min investigations · 1,200+ tests",
   featured: true,
-  tags: ["TypeScript", "LangGraph", "Amazon Bedrock", "MCP"],
+  tags: ["TypeScript", "LangGraph", "Amazon Bedrock", "MCP", "Knowledge Graphs"],
 };
+const PREVIOUS_PROJECT_TITLES = ["On-Call Triage Assistant"];
 
 // ---------------------------------------------------------------------------
 // Sync
@@ -631,7 +633,7 @@ async function main() {
   // ── Project ──
   console.log("\nProject");
   const project = await prisma.project.findFirst({
-    where: { title: PROJECT.title },
+    where: { title: { in: [PROJECT.title, ...PREVIOUS_PROJECT_TITLES] } },
     include: { tags: true },
   });
   const projectCurrent = project
