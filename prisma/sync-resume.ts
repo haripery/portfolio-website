@@ -33,11 +33,11 @@ const PROFILE = {
   role: "Principal Engineer",
   // Shown under the home page headline
   summary:
-    "Ten-plus years of full-stack engineering, frontend-heavy, building the web applications customers use across enterprise SaaS, cloud observability, ad tech and banking. Now focused on applied AI: agents that work inside explicit limits and leave the decision with a person, and the interfaces that put what they found in front of the person who decides.",
+    "Ten-plus years of full-stack engineering, frontend-heavy, building the web applications customers use, and the UI platforms, design systems and tooling other teams build on, across enterprise SaaS, cloud observability, ad tech and banking. Now focused on applied AI: agents that work inside explicit limits and leave the decision with a person, and the interfaces that put what they found in front of the person who decides.",
   tagline:
     "I build AI-native products and governed, human-in-the-loop agents — and explore what it means to build near the singularity.",
   bio: [
-    "<p>Principal Engineer with <strong>10+ years</strong> of experience building high-performance, customer-centric web applications across enterprise SaaS, cloud observability, ad tech, and banking.</p>",
+    "<p>Principal Engineer with <strong>10+ years</strong> of experience building high-performance, customer-centric web applications, and the <strong>UI platforms, design systems and tooling</strong> other teams build on, across enterprise SaaS, cloud observability, ad tech, and banking.</p>",
     "<p>Deep full-stack expertise in React, TypeScript, Node.js, GraphQL, and AWS, now focused on <strong>applied AI</strong>: governed, human-in-the-loop agents, MCP-based tooling, and AI-native engineering workflows.</p>",
     "<p>Proven track record of leading cross-functional delivery, raising engineering standards across teams, and mentoring engineers.</p>",
   ].join("\n"),
@@ -108,7 +108,7 @@ const EXPERIENCES: ExperienceContent[] = [
   {
     match: ["amazon", "aws"],
     period: "Jun 2022 — Aug 2025",
-    title: "Senior Engineer",
+    title: "Front-End Engineer",
     company: "Amazon Web Services",
     companyUrl: "https://aws.amazon.com",
     description:
@@ -218,7 +218,7 @@ const HIGHLIGHTS: Record<
 > = {
   Autodesk: {
     headline:
-      "An AI agent that finds the root cause of production problems, now being scaled into a framework for all of Autodesk, and the AI-driven billing website thousands of customers use every day.",
+      "The AI-driven billing website thousands of customers use every day, the design system three sister teams reuse, and an AI agent that finds the root cause of production problems, now being scaled into a framework for all of Autodesk.",
     items: [
       {
         kind: "For engineering teams",
