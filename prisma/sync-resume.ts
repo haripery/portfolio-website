@@ -33,13 +33,13 @@ const PROFILE = {
   role: "Principal Engineer",
   // Shown under the home page headline
   summary:
-    "Ten-plus years of full-stack engineering, frontend-heavy, building the web applications customers use, and the UI platforms, design systems and tooling other teams build on, across enterprise SaaS, cloud observability, ad tech and banking. Now focused on applied AI: agents that work inside explicit limits and leave the decision with a person, and the interfaces that put what they found in front of the person who decides.",
+    "Ten-plus years of full-stack engineering, frontend-heavy, building the web applications customers use, and the UI platforms, design systems and tooling other teams build on, across enterprise SaaS, cloud observability, ad tech and banking. Now focused on applied AI: agents that work inside explicit limits and leave the decision with a person, and the interfaces that put what they found in front of the person who decides. Works directly with customers, partner engineering teams and executives, from discovery and architecture reviews to workshops and demos.",
   tagline:
     "I build AI-native products and governed, human-in-the-loop agents — and explore what it means to build near the singularity.",
   bio: [
     "<p>Principal Engineer with <strong>10+ years</strong> of experience building high-performance, customer-centric web applications, and the <strong>UI platforms, design systems and tooling</strong> other teams build on, across enterprise SaaS, cloud observability, ad tech, and banking.</p>",
-    "<p>Deep full-stack expertise in React, TypeScript, Node.js, GraphQL, and AWS, now focused on <strong>applied AI</strong>: governed, human-in-the-loop agents, MCP-based tooling, and AI-native engineering workflows.</p>",
-    "<p>Proven track record of leading cross-functional delivery, raising engineering standards across teams, and mentoring engineers.</p>",
+    "<p>Deep full-stack expertise in React, TypeScript, Node.js, GraphQL, and AWS, now focused on <strong>applied AI</strong>: governed, human-in-the-loop agents, evaluation frameworks, MCP-based tooling, and AI-native engineering workflows.</p>",
+    "<p>Proven track record of leading cross-functional delivery, <strong>working directly with customers, partner engineering teams and executives</strong> through architecture reviews, workshops and demos, raising engineering standards across teams, and mentoring engineers.</p>",
   ].join("\n"),
   resumeUrl: "https://www.irah.dev/Hariprasath_Periyasamy_Resume.pdf",
 };
@@ -94,6 +94,7 @@ const EXPERIENCES: ExperienceContent[] = [
     companyUrl: "https://www.shopify.com",
     description: bullets([
       "Led engineering for the Ads 3P team (real-time bidding, merchant dashboards, email/SMS automations), combining hands-on leadership with mentoring on frontend architecture, code quality, and delivery velocity.",
+      "Represented Shopify in real-time bidding architecture reviews with <strong>Microsoft’s and Instacart’s engineering teams</strong>, leading to ad creatives that load ~40% faster, and worked directly with merchants to shape the ads products.",
       "Built a high-integrity event tracking solution across Web and Native platforms, ensuring reliable real-time signals for Meta Pixel and Google Tag Manager to improve merchant conversion tracking accuracy.",
       "Developed a Dynamic Creative Optimization (DCO) system spanning frontend and backend layers, serving ad creatives within <strong>150ms</strong> response time with full-stack ownership from UI rendering to data layer integration.",
       "Contributed to the on-call rotation (weekly quarterly shifts), driving system health, security hardening, and engineering culture through structured code reviews and knowledge-sharing sessions.",
@@ -114,6 +115,7 @@ const EXPERIENCES: ExperienceContent[] = [
     description:
       "<p><strong>Amazon Ads – Full-Stack Digital Experiences</strong></p>\n" +
       bullets([
+        "Worked directly with advertisers and AWS customers through betas, feedback sessions and escalations, turning what they needed into product and architecture changes.",
         "Designed and shipped Ads Data Manager, a cloud-based data onboarding and activation SPA using React, TypeScript, and GraphQL, delivering production-ready digital workflows for enterprise advertisers.",
         "Implemented Backend-for-Frontend (BFF) middleware using GraphQL to stitch multiple microservice APIs, optimizing client-server communication and streamlining complex advertiser data flows.",
         "Achieved a <strong>60% reduction</strong> in backend API calls through GraphQL query batching and multi-level caching (client, CDN), reducing average response time from <strong>850ms to 320ms</strong> under peak traffic.",
@@ -339,6 +341,17 @@ const HIGHLIGHTS: Record<
           "Designed and shipped Ads Data Manager, a cloud-based data onboarding and activation SPA using React, TypeScript, and GraphQL, delivering production-ready digital workflows for enterprise advertisers.",
           "Developed a Server-Driven UI architecture that delivered UI configurations from the backend, enabling real-time interface updates without client deployments and supporting A/B experimentation at scale.",
           "Led infrastructure provisioning with AWS CDK for secure self-service deployments across multiple accounts and regions, reducing deployment complexity and accelerating release cycles.",
+        ],
+      },
+      {
+        kind: "Customers",
+        title: "Working directly with advertisers and AWS customers",
+        areas: "fullstack,cloud",
+        icon: "users",
+        viz: "steps:Betas and feedback sessions|Customer escalations|Product and architecture changes",
+        detail: [
+          "Worked directly with advertisers and AWS customers through betas, feedback sessions and escalations.",
+          "Turned what they needed into product and architecture changes.",
         ],
       },
       {
