@@ -1,0 +1,17 @@
+[package]
+name = "engine-napi"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "napi-rs wrapper exposing engine-core to Node.js (architecture A)"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+engine-core = { path = "../engine-core" }
+napi = "3.16.3"
+napi-derive = "3.7.2"
+
+[build-dependencies]
+napi-build = "2.7.0"

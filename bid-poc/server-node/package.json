@@ -1,0 +1,11 @@
+{
+  "name": "server-node",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Architecture A: plain Node http server calling engine-napi (one call per request)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "start:cluster": "node cluster.js"
+  }
+}

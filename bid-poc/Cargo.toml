@@ -1,0 +1,8 @@
+[workspace]
+resolver = "2"
+members = ["engine-core", "engine-napi", "server-rust"]
+
+# One workspace => one Cargo.lock and one [profile.release] for both architectures,
+# so engine-napi (A) and server-rust (B) link the exact same engine-core build.
+# The release profile is deliberately left at Cargo's defaults (opt-level = 3,
+# no extra LTO / codegen-units / allocator tuning) for both.

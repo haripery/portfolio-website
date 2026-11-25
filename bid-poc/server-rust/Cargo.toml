@@ -1,0 +1,13 @@
+[package]
+name = "server-rust"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Architecture B: axum + tokio HTTP server calling engine-core directly"
+
+[dependencies]
+engine-core = { path = "../engine-core" }
+# HTTP/1.1 only (like Node's `http` module); no tracing/JSON/form extras because the
+# handler passes the raw body string straight to engine-core.
+axum = { version = "0.8.9", default-features = false, features = ["http1", "tokio"] }
+tokio = { version = "1.54.1", features = ["rt-multi-thread", "macros", "net"] }
