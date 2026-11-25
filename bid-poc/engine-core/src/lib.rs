@@ -18,6 +18,8 @@ use std::collections::HashMap;
 use std::fmt::{self, Write as _};
 use std::sync::LazyLock;
 
+pub mod openrtb;
+
 /// Fixed seed for the synthetic advertiser list.
 pub const DEFAULT_SEED: u64 = 42;
 /// Number of synthetic advertisers held in memory.
@@ -189,10 +191,10 @@ pub struct Advertiser {
 }
 
 /// SplitMix64: tiny, well-known, integer-only PRNG => identical sequence everywhere.
-struct SplitMix64(u64);
+pub(crate) struct SplitMix64(pub(crate) u64);
 
 impl SplitMix64 {
-    fn next_u64(&mut self) -> u64 {
+    pub(crate) fn next_u64(&mut self) -> u64 {
         self.0 = self.0.wrapping_add(0x9E37_79B9_7F4A_7C15);
         let mut z = self.0;
         z = (z ^ (z >> 30)).wrapping_mul(0xBF58_476D_1CE4_E5B9);
@@ -201,12 +203,12 @@ impl SplitMix64 {
     }
 
     /// Uniform-ish integer in `0..n` (modulo bias is irrelevant here; determinism is what matters).
-    fn below(&mut self, n: u64) -> u64 {
+    pub(crate) fn below(&mut self, n: u64) -> u64 {
         self.next_u64() % n
     }
 
     /// `k` distinct indices from `0..n`, ascending (partial Fisher-Yates).
-    fn distinct(&mut self, k: usize, n: usize) -> Vec<usize> {
+    pub(crate) fn distinct(&mut self, k: usize, n: usize) -> Vec<usize> {
         let mut pool: Vec<usize> = (0..n).collect();
         for j in 0..k {
             let r = j + self.below((n - j) as u64) as usize;

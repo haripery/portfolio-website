@@ -18,6 +18,7 @@ const HOST = '127.0.0.1';
 const STUB = process.env.STUB === '1';
 
 const advertisers = engine.init(); // build the advertiser list before accepting traffic
+const lineItems = engine.openrtbInit(); // and the OpenRTB line-item index
 const STUB_BODY = STUB
   ? engine.bid(fs.readFileSync(process.env.PAYLOAD || path.join(__dirname, '../bench/payload.json'), 'utf8'))
   : null;
@@ -30,7 +31,46 @@ function send(res, status, body) {
   res.end(body);
 }
 
+// OpenRTB 2.6 endpoint (bench v2). The raw body bytes go to Rust as a Buffer (no string
+// decoding); gzip in/out is done by engine-core, exactly as in server-rust.
+const ORTB_HEADER = 'x-openrtb-version';
+function onOpenRtb(req, res) {
+  const chunks = [];
+  req.on('data', (chunk) => chunks.push(chunk));
+  req.on('end', () => {
+    const body = chunks.length === 1 ? chunks[0] : Buffer.concat(chunks);
+    const gzipIn = (req.headers['content-encoding'] || '').toLowerCase() === 'gzip';
+    const gzipOut = (req.headers['accept-encoding'] || '').toLowerCase().includes('gzip');
+    let out;
+    try {
+      out = engine.openrtbBid(body, gzipIn, gzipOut); // the single JS -> Rust call
+    } catch (err) {
+      res.writeHead(400, { 'content-length': '0', [ORTB_HEADER]: '2.6' }); // malformed request (spec 2.1)
+      res.end();
+      return;
+    }
+    if (out == null) {
+      res.writeHead(204, { [ORTB_HEADER]: '2.6' }); // no bid (spec 2.1, 7.1)
+      res.end();
+      return;
+    }
+    const headers = { 'content-type': 'application/json', 'content-length': out.length, [ORTB_HEADER]: '2.6' };
+    if (gzipOut) headers['content-encoding'] = 'gzip';
+    res.writeHead(200, headers);
+    res.end(out);
+  });
+}
+
 function onRequest(req, res) {
+  if (req.url === '/openrtb2/bid') {
+    if (req.method !== 'POST') {
+      res.writeHead(405, { allow: 'POST', 'content-length': '0' });
+      res.end();
+      return;
+    }
+    onOpenRtb(req, res);
+    return;
+  }
   if (req.url !== '/bid') {
     res.writeHead(404, { 'content-length': '0' });
     res.end();
@@ -67,7 +107,7 @@ server.listen(PORT, HOST, () => {
   const role = require('node:cluster').isWorker ? 'worker' : 'single';
   console.error(
     `[server-node] READY pid=${process.pid} role=${role} url=http://${HOST}:${PORT}/bid ` +
-      `advertisers=${advertisers} stub=${STUB} node=${process.version}`,
+      `advertisers=${advertisers} ortb_line_items=${lineItems} stub=${STUB} node=${process.version}`,
   );
 });
 

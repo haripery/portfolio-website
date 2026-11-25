@@ -23,6 +23,21 @@ export declare function bid(requestJson: string): string | null
 export declare function init(): number
 
 /**
+ * Called by server-node once per OpenRTB request: raw (possibly gzip) body in, response body
+ * out (gzip if `gzip_out`), `null` for no-bid (HTTP 204). Throws for a malformed request (HTTP 400).
+ */
+export declare function openrtbBid(body: Buffer, gzipIn: boolean, gzipOut: boolean): Buffer | null
+
+/**
+ * Micro-benchmark only: the same work with strings across the boundary (JS string in, copied
+ * to a Rust String; Rust String out, copied into a V8 string), to compare boundary choices.
+ */
+export declare function openrtbBidStr(body: string): string | null
+
+/** Builds the OpenRTB line-item index eagerly. Returns the number of line items. */
+export declare function openrtbInit(): number
+
+/**
  * The same argument conversion as bid(), no engine work, and returns a new JS string with
  * the same bytes as a real response => the string-in + string-out boundary cost on its own.
  */
@@ -38,6 +53,12 @@ export declare function probeEngineLoop(requestJson: string, iterations: number)
 
 /** No arguments and no return value: the bare JS -> Rust -> JS call. */
 export declare function probeNoop(): void
+
+/**
+ * Micro-benchmark only: runs `handle()` over every line of `corpus` (JSON lines), `passes` times,
+ * inside Rust in this Node process. Returns mean ns per request.
+ */
+export declare function probeOpenrtbEngineLoop(corpus: Buffer, passes: number): number
 
 /** Stores the string probe_echo() returns. Set it once to a real bid() response. */
 export declare function probeSetEcho(response: string): boolean

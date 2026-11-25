@@ -4,12 +4,14 @@
 //! precomputed response, see README "supplementary runs"), PAYLOAD (stub input file).
 //! No logging on the request path; one line is printed to stderr at startup.
 use axum::{
-    http::{header, StatusCode},
+    body::Bytes,
+    http::{header, HeaderMap, HeaderName, HeaderValue, StatusCode},
     response::{IntoResponse, Response},
     routing::post,
     serve::ListenerExt,
     Router,
 };
+use engine_core::openrtb::{self, Outcome};
 use std::sync::OnceLock;
 
 /// Main handler: `String` extractor = read the whole body + check it is UTF-8 (like
@@ -24,6 +26,33 @@ async fn bid(body: String) -> Response {
             e.to_json_body(),
         )
             .into_response(),
+    }
+}
+
+const X_OPENRTB: HeaderName = HeaderName::from_static("x-openrtb-version");
+const ORTB_VERSION: HeaderValue = HeaderValue::from_static("2.6");
+
+/// OpenRTB 2.6 endpoint (bench v2): the raw body bytes go straight to engine-core, which also does
+/// gzip in/out, exactly as for server-node.
+async fn openrtb_bid(headers: HeaderMap, body: Bytes) -> Response {
+    let gzip_in = headers
+        .get(header::CONTENT_ENCODING)
+        .is_some_and(|v| v.as_bytes().eq_ignore_ascii_case(b"gzip"));
+    let gzip_out = headers
+        .get(header::ACCEPT_ENCODING)
+        .and_then(|v| v.to_str().ok())
+        .is_some_and(|v| v.to_ascii_lowercase().contains("gzip"));
+    match openrtb::engine().handle(&body, gzip_in, gzip_out) {
+        Outcome::Body(out) => {
+            let mut r = ([(header::CONTENT_TYPE, "application/json")], out).into_response();
+            r.headers_mut().insert(X_OPENRTB, ORTB_VERSION);
+            if gzip_out {
+                r.headers_mut().insert(header::CONTENT_ENCODING, HeaderValue::from_static("gzip"));
+            }
+            r
+        }
+        Outcome::NoBid => (StatusCode::NO_CONTENT, [(X_OPENRTB, ORTB_VERSION)]).into_response(),
+        Outcome::Invalid => (StatusCode::BAD_REQUEST, [(X_OPENRTB, ORTB_VERSION)]).into_response(),
     }
 }
 
@@ -44,8 +73,9 @@ async fn main() {
         .unwrap_or(3002);
     let stub = std::env::var("STUB").as_deref() == Ok("1");
 
-    // Build the advertiser list before accepting traffic.
+    // Build the advertiser list and the OpenRTB line-item index before accepting traffic.
     let advertisers = engine_core::engine().advertisers().len();
+    let line_items = openrtb::engine().line_items().len();
 
     let app = if stub {
         let path = std::env::var("PAYLOAD").unwrap_or_else(|_| {
@@ -60,7 +90,8 @@ async fn main() {
         Router::new().route("/bid", post(bid_stub))
     } else {
         Router::new().route("/bid", post(bid))
-    };
+    }
+    .route("/openrtb2/bid", post(openrtb_bid));
 
     // Node's http.createServer() disables Nagle by default (noDelay: true); do the same here.
     let listener = tokio::net::TcpListener::bind(("127.0.0.1", port))
@@ -72,7 +103,7 @@ async fn main() {
 
     eprintln!(
         "[server-rust] READY pid={} url=http://127.0.0.1:{port}/bid advertisers={advertisers} \
-         tokio_workers={} available_parallelism={} stub={stub}",
+         ortb_line_items={line_items} tokio_workers={} available_parallelism={} stub={stub}",
         std::process::id(),
         tokio::runtime::Handle::current().metrics().num_workers(),
         std::thread::available_parallelism().map(|n| n.get()).unwrap_or(0),

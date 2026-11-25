@@ -603,6 +603,15 @@ The per-request picture, in one place:
   `summarize.py` was changed after that commit (in-window CPU averaging, paired micro-benchmark differences, the
   machine block). It only reads raw files, and re-running it reproduces this README's tables byte for byte.
 
+## Part 2: OpenRTB 2.6 POC (real-world traffic)
+
+<!-- OPENRTB INTRO -->
+
+<!-- BEGIN OPENRTB RESULTS -->
+<!-- END OPENRTB RESULTS -->
+
+<!-- OPENRTB ANALYSIS -->
+
 ## Caveats (read these before quoting any number)
 
 - **One VM, loopback.** oha and the servers share one 4-vCPU KVM guest and talk over `127.0.0.1`. CPU pinning

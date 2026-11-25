@@ -2,3 +2,8 @@
 node_modules/
 *.node
 __pycache__/
+
+# generated OpenRTB load-test inputs (bench/openrtb/make-inputs.sh)
+bench/openrtb/corpus.jsonl
+bench/openrtb/single-request.json
+bench/openrtb/single-request.json.gz
