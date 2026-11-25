@@ -1,0 +1,20 @@
+[2026-11-25T03:21:27Z] === run-http.sh: SERVER_CPUS=0,1 CLIENT_CPUS=2,3 CLIENT_THREADS=2 WARMUP=10s DURATION=30s LEVELS='100' STUB_LEVELS='1 100' PHASES='round1' REPS=3
+[2026-11-25T03:21:27Z] START rep1 round1/node-single c=100
+[2026-11-25T03:22:07Z] DONE  rep1 round1/node-single c=100 -> 30122 req/s
+[2026-11-25T03:22:09Z] START rep1 round1/rust c=100
+[2026-11-25T03:22:52Z] DONE  rep1 round1/rust c=100 -> 126694 req/s
+[2026-11-25T03:22:54Z] START rep1 supplementary/rust-1worker c=100
+[2026-11-25T03:23:35Z] DONE  rep1 supplementary/rust-1worker c=100 -> 73899 req/s
+[2026-11-25T03:23:37Z] START rep2 supplementary/rust-1worker c=100
+[2026-11-25T03:24:19Z] DONE  rep2 supplementary/rust-1worker c=100 -> 74037 req/s
+[2026-11-25T03:24:21Z] START rep2 round1/rust c=100
+[2026-11-25T03:25:03Z] DONE  rep2 round1/rust c=100 -> 75320 req/s
+[2026-11-25T03:25:05Z] START rep2 round1/node-single c=100
+[2026-11-25T03:25:46Z] DONE  rep2 round1/node-single c=100 -> 33044 req/s
+[2026-11-25T03:25:48Z] START rep3 round1/node-single c=100
+[2026-11-25T03:26:28Z] DONE  rep3 round1/node-single c=100 -> 32009 req/s
+[2026-11-25T03:26:30Z] START rep3 round1/rust c=100
+[2026-11-25T03:27:13Z] DONE  rep3 round1/rust c=100 -> 125290 req/s
+[2026-11-25T03:27:15Z] START rep3 supplementary/rust-1worker c=100
+[2026-11-25T03:27:56Z] DONE  rep3 supplementary/rust-1worker c=100 -> 70091 req/s
+[2026-11-25T03:27:58Z] === all phases finished

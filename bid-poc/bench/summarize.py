@@ -38,38 +38,80 @@ LABEL = {
 }
 
 
+def window_stats(csv_path, end_s):
+    """Aggregate the per-second sampler rows that fall inside oha's measured window.
+
+    The samplers start right after oha's measured run starts and are stopped only when oha exits,
+    which is ~1 s after its last request because oha then computes its statistics. Rows ending
+    after end_s (+0.25 s tolerance for the sampler's start offset) are excluded, so that idle
+    tail does not dilute the averages. Each row covers the interval since the previous row.
+    """
+    rows = []
+    with open(csv_path) as f:
+        header = f.readline().strip().split(",")
+        for line in f:
+            vals = line.strip().split(",")
+            if len(vals) == len(header):
+                rows.append(dict(zip(header, (float(v) for v in vals))))
+    prev, inside = 0.0, []
+    for r in rows:
+        r["dt"] = r["elapsed_s"] - prev
+        prev = r["elapsed_s"]
+        if r["elapsed_s"] <= end_s + 0.25:
+            inside.append(r)
+    if not inside:
+        return None
+    wsum = sum(r["dt"] for r in inside)
+    wavg = lambda k: sum(r[k] * r["dt"] for r in inside) / wsum
+    out = {
+        "cpu_pct_avg": wavg("cpu_pct"),
+        "rss_kb_max": max(r["rss_kb"] for r in inside),
+        "pss_kb_max": max(r["pss_kb"] for r in inside),
+        "threads_max": max(r["threads"] for r in inside),
+        "processes_max": max(r["processes"] for r in inside),
+        "rows": len(inside),
+        "rows_excluded": len(rows) - len(inside),
+    }
+    if "steal_pct" in header:
+        out["steal_pct"] = wavg("steal_pct")
+        out["busy"] = {k[:-9]: wavg(k) for k in header if k.endswith("_busy_pct")}
+    return out
+
+
 def load_run(d):
     oha = json.loads((d / "oha.json").read_text())
-    srv = json.loads((d / "server-usage.csv.summary.json").read_text())
-    cli = json.loads((d / "client-usage.csv.summary.json").read_text())
+    total = oha["summary"]["total"]
+    srv = window_stats(d / "server-usage.csv", total)
+    cli = window_stats(d / "client-usage.csv", total)
+    if srv is None or cli is None:
+        raise ValueError("sampler has no rows inside the measured window")
     lp = oha["latencyPercentiles"]
     status = oha.get("statusCodeDistribution", {})
     errors = oha.get("errorDistribution", {})
+    responses = sum(status.values())
     return {
         "rep": d.name,
         "rps": oha["summary"]["requestsPerSec"],
-        "total_s": oha["summary"]["total"],
+        "total_s": total,
         "p50": lp["p50"] * 1e3,
         "p90": lp["p90"] * 1e3,
         "p99": lp["p99"] * 1e3,
         "p999": lp["p99.9"] * 1e3,
         "max": oha["summary"]["slowest"] * 1e3,
-        "responses": sum(status.values()),
+        "responses": responses,
         "non200": sum(v for k, v in status.items() if k != "200"),
         "errors": sum(errors.values()),
         "error_kinds": errors,
         "srv_cpu": srv["cpu_pct_avg"],
         "srv_rss_mb": srv["rss_kb_max"] / 1024,
         "srv_pss_mb": srv["pss_kb_max"] / 1024,
-        "srv_rss_avg_mb": srv["rss_kb_avg"] / 1024,
         "srv_threads": srv["threads_max"],
         "srv_procs": srv["processes_max"],
-        "steal": srv.get("steal_pct_whole_window"),
-        "busy": srv.get("busy_pct_whole_window", {}),
+        "steal": srv.get("steal_pct"),
+        "busy": srv.get("busy", {}),
         "cli_cpu": cli["cpu_pct_avg"],
         # derived: server CPU time per completed request = avg CPU (cores) x measured duration / responses
-        "srv_us_per_req": (srv["cpu_pct_avg"] / 100 * oha["summary"]["total"] / max(1, sum(status.values())) * 1e6
-                           if srv["cpu_pct_avg"] is not None else None),
+        "srv_us_per_req": srv["cpu_pct_avg"] / 100 * total / max(1, responses) * 1e6,
     }
 
 
@@ -292,6 +334,17 @@ def micro_tables():
             out.append(f"- `bid()` − `probeEngineLoop` (same process, same CPUs, interleaved samples) = "
                        f"{m['bid(payload)']:.1f} − {m['probeEngineLoop(payload)']:.1f} = **{m['bid(payload)'] - m['probeEngineLoop(payload)']:.1f} ns**: "
                        f"the cost of reaching the engine from JS instead of from a Rust loop.")
+            # paired: sample s of every benchmark was taken in the same round (~300 ms window)
+            per_rep = []
+            for nb in nbs:
+                by = {r["name"]: r.get("samples_ns_per_op") for r in nb["results"]}
+                a, b = by.get("bid(payload)"), by.get("probeEngineLoop(payload)")
+                if a and b:
+                    per_rep.append(statistics.median([x - y for x, y in zip(a, b)]))
+            if per_rep:
+                out.append(f"- the same difference computed **per round** (each `bid()` sample minus the `probeEngineLoop` sample taken "
+                           f"in the same round, so both saw the same CPU-speed state): median {med_range(per_rep)} ns "
+                           f"(median over {len(per_rep)} run(s), min–max over runs).")
         if direct:
             rd = med(direct)
             out.append(f"- `bid()` − criterion `bid_json/direct` (different processes and harnesses) = {m['bid(payload)']:.1f} − {rd:.1f} = "
@@ -383,9 +436,17 @@ def main():
     if args.readme:
         p = pathlib.Path(args.readme)
         text = p.read_text()
-        begin, end = "<!-- BEGIN GENERATED RESULTS -->", "<!-- END GENERATED RESULTS -->"
-        i, j = text.index(begin) + len(begin), text.index(end)
-        p.write_text(text[:i] + "\n" + summary + text[j:])
+
+        def fill(text, name, body):
+            begin, end = f"<!-- BEGIN {name} -->", f"<!-- END {name} -->"
+            i, j = text.index(begin) + len(begin), text.index(end)
+            return text[:i] + "\n" + body + text[j:]
+
+        text = fill(text, "GENERATED RESULTS", summary)
+        machine = RES / "machine.txt"
+        if machine.exists():
+            text = fill(text, "MACHINE", "```text\n" + machine.read_text().strip() + "\n```\n")
+        p.write_text(text)
 
 
 if __name__ == "__main__":

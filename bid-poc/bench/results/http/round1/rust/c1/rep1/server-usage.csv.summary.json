@@ -1,0 +1,21 @@
+{
+  "pid": 19680,
+  "tree": true,
+  "samples": 31,
+  "wall_s": 30.156,
+  "cpu_pct_avg": 72.4,
+  "cpu_pct_max_interval": 78.0,
+  "rss_kb_max": 4340,
+  "rss_kb_avg": 4340,
+  "pss_kb_max": 2334,
+  "pss_kb_avg": 2277,
+  "processes_max": 1,
+  "threads_max": 3,
+  "steal_pct_whole_window": 0.38,
+  "busy_pct_whole_window": {
+    "cpu0": 33.9,
+    "cpu1": 37.3,
+    "cpu2": 25.1,
+    "cpu3": 25.2
+  }
+}

@@ -1,0 +1,12 @@
+node v22.23.5  v8 12.4.254.21-node.57  napi 10  pid 19160
+payload 210 bytes, response 1179 bytes
+warm-up 2000 ms per benchmark, then 100 interleaved rounds (one ~50 ms sample of each benchmark per round)
+ns per operation (operation = one call, or one engine iteration for probeEngineLoop):
+benchmark                 calls/sample        min      p05   median     mean      p95      max    stdev
+bid(payload)              11915            2680.9   2733.0   3458.6   3481.4   4283.8   5263.8    499.2
+probeEngineLoop(payload)  15               2289.9   2313.5   2966.9   2961.4   3580.1   4794.7    416.9
+probeEcho(payload)        163449            247.4    255.8    310.4    313.4    377.0    531.4     42.0
+probeTakeString(payload)  299801            130.3    131.3    168.4    168.5    200.7    249.8     21.8
+probeNoop()               1184617            30.3     30.5     38.9     38.7     45.4     58.4      4.6
+js: () => 1               4630087             7.8      8.0     10.6     10.4     12.0     12.9      1.2
+(sink 38582124217.05999)

@@ -1,0 +1,26 @@
+   Compiling engine-core v0.1.0 (/home/user/portfolio-website/bid-poc/engine-core)
+    Finished `release` profile [optimized] target(s) in 1.47s
+     Running unittests src/lib.rs (target/release/deps/engine_core-c8c0825b877c0cd1)
+
+running 12 tests
+test tests::generated_advertisers_are_well_formed ... ok
+test tests::golden_no_segments ... ok
+test tests::golden_bench_payload ... ok
+test tests::golden_desktop_leaderboard ... ok
+test tests::golden_tv_billboard ... ok
+test tests::request_values_are_escaped ... ok
+test tests::invalid_requests_are_errors ... ok
+test tests::scoring_rule ... ok
+test tests::response_shape_and_html ... ok
+test tests::unknown_size_is_no_bid ... ok
+test tests::same_seed_same_advertisers_and_bytes ... ok
+test tests::matches_reference_implementation ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+
+   Doc-tests engine_core
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -1,0 +1,84 @@
+
+===== date (UTC) =====
+Wed Nov 25 02:19:03 UTC 2026
+
+===== CPU (lscpu) =====
+Architecture:                            x86_64
+CPU(s):                                  4
+On-line CPU(s) list:                     0-3
+Model name:                              Intel(R) Xeon(R) Processor @ 2.10GHz
+Thread(s) per core:                      1
+Core(s) per socket:                      4
+Socket(s):                               1
+BogoMIPS:                                4200.00
+Hypervisor vendor:                       KVM
+Virtualization type:                     full
+L1d cache:                               192 KiB (4 instances)
+L1i cache:                               128 KiB (4 instances)
+L2 cache:                                8 MiB (4 instances)
+L3 cache:                                260 MiB (1 instance)
+NUMA node(s):                            1
+
+===== cores (nproc) =====
+nproc=4  nproc --all=4
+
+===== cgroup CPU limit =====
+no /sys/fs/cgroup/cpu.max (no cgroup v2 CPU quota visible)
+
+===== memory (free -m) =====
+               total        used        free      shared  buff/cache   available
+Mem:           16087         588       13889          12        1879       15498
+Swap:              0           0           0
+
+===== OS =====
+Linux vm 6.18.44-fc-v880 #1 SMP PREEMPT_DYNAMIC @0 x86_64 x86_64 x86_64 GNU/Linux
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+VERSION_ID="24.04"
+
+===== node =====
+v22.23.5
+v8 12.4.254.21-node.57, napi 10, uv 1.51.0
+
+===== npm =====
+10.9.9
+
+===== rustc =====
+rustc 1.97.0 (2d8144b78 2026-07-07)
+binary: rustc
+commit-hash: 2d8144b7880597b6e6d3dfd63a9a9efae3f533d3
+commit-date: 2026-07-07
+host: x86_64-unknown-linux-gnu
+release: 1.97.0
+LLVM version: 22.1.6
+
+===== cargo =====
+cargo 1.97.0 (c980f4866 2026-06-30)
+
+===== napi CLI =====
+3.11.1
+
+===== oha =====
+oha 1.17.0
+
+===== python3 =====
+Python 3.13.18
+
+===== locked crate versions (Cargo.lock) =====
+axum 0.8.9
+criterion 0.8.2
+hyper 1.13.0
+hyper-util 0.1.21
+napi 3.16.3
+napi-build 2.7.0
+napi-derive 3.7.2
+napi-sys 3.4.1
+serde 1.0.229
+serde_json 1.0.154
+tokio 1.54.1
+
+===== git commit of bid-poc =====
+3c92331b7207100164c2698a6692fd2bfd92e28b
+?? bench/results/machine.txt
+
+===== CPU pinning used by the benchmarks =====
+servers + micro-benchmarks: CPUs 0,1   load generator (oha) + samplers: CPUs 2,3

@@ -1,0 +1,1 @@
+taskset -c 2,3 oha --no-tui -w -z 30s -c 10 --worker-threads 2 -m POST -H content-type: application/json -D /home/user/portfolio-website/bid-poc/bench/payload.json --output-format json http://127.0.0.1:3001/bid

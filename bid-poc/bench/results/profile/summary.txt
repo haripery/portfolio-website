@@ -1,0 +1,48 @@
+profile: node-single-c100.cpuprofile  samples=35899  wall=40.6s  busy=34.4s  idle=6.2s  (main thread; sampling interval ~1130 us)
+throughput during the profiled measured run (profiler overhead included, NOT comparable with the benchmark): 30963 req/s
+requests served while profiling (warm-up + measured run): 1,220,255
+
+SELF time by category: % of non-idle main-thread time, and main-thread us per request:
+   55.1%   15.50 us/req  socket write: native writev (on loopback includes the kernel TCP send path)
+   23.4%    6.60 us/req  server.js 'end' handler, INCLUDING the napi engine.bid() call (engine + string copies)
+    6.5%    1.84 us/req  other Node internals (JS)
+    4.2%    1.17 us/req  Node HTTP layer (JS: node:_http_server/_common/_incoming/_outgoing)
+    3.3%    0.93 us/req  Node net + streams (JS)
+    3.3%    0.93 us/req  (program): native code outside any JS function (libuv/epoll, C++ stream + llhttp parsing, V8 runtime)
+    1.7%    0.47 us/req  V8 garbage collector
+    1.0%    0.29 us/req  other native functions called from JS
+    0.5%    0.14 us/req  server.js, other functions (JS)
+    0.5%    0.14 us/req  EventEmitter (JS)
+    0.3%    0.09 us/req  Buffer (JS)
+    0.2%    0.05 us/req  request body Buffer -> JS string (native utf8Slice)
+    0.0%    0.00 us/req  other JS
+  -----
+  100.0%   28.15 us/req  total non-idle main-thread time
+
+Top 25 functions by SELF time, % of non-idle main-thread time:
+   55.1%  writev  [native]:0
+   23.4%  (anonymous)  server.js:46
+    4.8%  writevGeneric  stream_base_commons:121
+    3.3%  (program)  [native]:0
+    1.7%  (garbage collector)  [native]:0
+    0.6%  _storeHeader  node:_http_outgoing:455
+    0.6%  Readable.read  readable:647
+    0.4%  clearBuffer  writable:744
+    0.4%  end  node:_http_outgoing:1087
+    0.4%  createWriteWrap  stream_base_commons:108
+    0.4%  _addHeaderLine  node:_http_incoming:382
+    0.4%  processTicksAndRejections  task_queues:71
+    0.3%  parserOnIncoming  node:_http_server:1073
+    0.3%  writeHead  node:_http_server:351
+    0.3%  RegExp: ^[\^_`a-zA-Z\-0-9!#$%&'*+.|~]+$  [native]:0
+    0.3%  RegExp: [^\t\x20-\x7e\x80-\xff]  [native]:0
+    0.3%  fromList  readable:1582
+    0.3%  emit  node:events:466
+    0.3%  checkInvalidHeaderChar  node:_http_common:264
+    0.2%  send  server.js:25
+    0.2%  _write  writable:453
+    0.2%  processHeader  node:_http_outgoing:591
+    0.2%  write_  node:_http_outgoing:945
+    0.2%  (anonymous)  [native]:0
+    0.2%  parserOnMessageComplete  node:_http_common:143
+    0.2%  nextTick  task_queues:111

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Reproduces every result in bench/results/ and the tables in README.md, in order.
-# Each step can also be run on its own (see README). Total time: roughly 1 h 10 min,
+# Each step can also be run on its own (see README). Total time: about 1 hour,
 # almost all of it in step 6 (3 repetitions x 24 HTTP cells x ~43 s).
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

@@ -1,0 +1,8 @@
+   Compiling engine-core v0.1.0 (/home/user/portfolio-website/bid-poc/engine-core)
+   Compiling server-rust v0.1.0 (/home/user/portfolio-website/bid-poc/server-rust)
+    Finished `release` profile [optimized] target(s) in 2.52s
+   Compiling engine-core v0.1.0 (/home/user/portfolio-website/bid-poc/engine-core)
+   Compiling engine-napi v0.1.0 (/home/user/portfolio-website/bid-poc/engine-napi)
+    Finished `release` profile [optimized] target(s) in 1.07s
+cc5a36552dbd5197823b7b823244d171bd167a93cde0e3030ad6749aad558947  target/release/server-rust
+9a01ea65811a7051f70ff2c51ba20225a6a73dfe8c9e8a6a5e464c4ebc615aea  engine-napi/engine-napi.linux-x64-gnu.node

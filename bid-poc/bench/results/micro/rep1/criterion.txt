@@ -1,0 +1,59 @@
+    Finished `bench` profile [optimized] target(s) in 0.04s
+     Running benches/engine.rs (target/release/deps/engine-1164f937173aef35)
+Gnuplot not found, using plotters backend
+Benchmarking bid_json/direct
+Benchmarking bid_json/direct: Warming up for 3.0000 s
+Benchmarking bid_json/direct: Collecting 100 samples in estimated 5.0030 s (1.8M iterations)
+Benchmarking bid_json/direct: Analyzing
+bid_json/direct         time:   [2.5853 µs 2.6303 µs 2.6744 µs]
+                        change: [+10.731% +13.941% +17.340%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 12 outliers among 100 measurements (12.00%)
+  1 (1.00%) low severe
+  2 (2.00%) low mild
+  3 (3.00%) high mild
+  6 (6.00%) high severe
+
+Benchmarking stages/1_parse_request
+Benchmarking stages/1_parse_request: Warming up for 3.0000 s
+Benchmarking stages/1_parse_request: Collecting 100 samples in estimated 5.0004 s (13M iterations)
+Benchmarking stages/1_parse_request: Analyzing
+stages/1_parse_request  time:   [353.89 ns 365.94 ns 377.71 ns]
+                        change: [−3.0946% +0.5341% +4.1422%] (p = 0.77 > 0.05)
+                        No change in performance detected.
+Found 2 outliers among 100 measurements (2.00%)
+  2 (2.00%) high mild
+Benchmarking stages/2_select_winner
+Benchmarking stages/2_select_winner: Warming up for 3.0000 s
+Benchmarking stages/2_select_winner: Collecting 100 samples in estimated 5.0010 s (5.7M iterations)
+Benchmarking stages/2_select_winner: Analyzing
+stages/2_select_winner  time:   [867.37 ns 879.40 ns 896.24 ns]
+                        change: [+0.1837% +3.0032% +6.0260%] (p = 0.04 < 0.05)
+                        Change within noise threshold.
+Found 5 outliers among 100 measurements (5.00%)
+  2 (2.00%) high mild
+  3 (3.00%) high severe
+Benchmarking stages/3_build_html
+Benchmarking stages/3_build_html: Warming up for 3.0000 s
+Benchmarking stages/3_build_html: Collecting 100 samples in estimated 5.0003 s (14M iterations)
+Benchmarking stages/3_build_html: Analyzing
+stages/3_build_html     time:   [315.25 ns 325.76 ns 337.84 ns]
+                        change: [+7.6113% +11.165% +14.754%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 16 outliers among 100 measurements (16.00%)
+  10 (10.00%) low mild
+  5 (5.00%) high mild
+  1 (1.00%) high severe
+Benchmarking stages/4_serialize_response
+Benchmarking stages/4_serialize_response: Warming up for 3.0000 s
+Benchmarking stages/4_serialize_response: Collecting 100 samples in estimated 5.0026 s (4.9M iterations)
+Benchmarking stages/4_serialize_response: Analyzing
+stages/4_serialize_response
+                        time:   [1.0676 µs 1.0928 µs 1.1212 µs]
+                        change: [+2.6393% +5.0052% +7.3995%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 7 outliers among 100 measurements (7.00%)
+  3 (3.00%) low mild
+  3 (3.00%) high mild
+  1 (1.00%) high severe
+
