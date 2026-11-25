@@ -20,7 +20,8 @@ for rep in $(seq 1 "$REPS"); do
   rm -rf "$d" && mkdir -p "$d"
   echo "== rep $rep (a) criterion, pinned to CPUs $CPUS =="
   taskset -c "$CPUS" cargo bench -p engine-core --bench engine 2>&1 | tee "$d/criterion.txt"
-  ( cd target/criterion && find . -path '*/new/estimates.json' | while read -r f; do
+  # only this bench's own directories (target/criterion also holds the OpenRTB benches)
+  ( cd target/criterion && find ./bid_json_direct ./stages -path '*/new/estimates.json' 2>/dev/null | while read -r f; do
       src="$(dirname "$f")"; dst="$d/criterion-estimates/$(dirname "$src")"; mkdir -p "$dst"
       cp "$src/estimates.json" "$src/benchmark.json" "$src/sample.json" "$dst/"
     done )

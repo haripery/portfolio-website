@@ -1,0 +1,51 @@
+requests compared: 2309   (each sent to A on :3001 and to B on :3002)
+case group                   status  count
+corpus gzip in+out              200    269
+corpus gzip in+out              204     31
+corpus plain                    200   1789
+corpus plain                    204    211
+invalid                         400      4
+spec example-1                  200      1
+spec example-2                  200      1
+spec example-3                  200      1
+spec example-4                  200      1
+spec example-5                  204      1
+
+first 200 response for 'corpus plain': A 1772 bytes sha256[0:16]=0d00dba239fe1dc1 headers={'content-type': 'application/json', 'content-encoding': None, 'x-openrtb-version': '2.6'} | B 1772 bytes sha256[0:16]=0d00dba239fe1dc1 headers={'content-type': 'application/json', 'content-encoding': None, 'x-openrtb-version': '2.6'}
+
+first 200 response for 'corpus gzip in+out': A 878 bytes sha256[0:16]=1ab16421ef70b10c headers={'content-type': 'application/json', 'content-encoding': 'gzip', 'x-openrtb-version': '2.6'} | B 878 bytes sha256[0:16]=1ab16421ef70b10c headers={'content-type': 'application/json', 'content-encoding': 'gzip', 'x-openrtb-version': '2.6'}
+
+first 200 response for 'spec example-1': A 1787 bytes sha256[0:16]=c2101ebcdf62c140 headers={'content-type': 'application/json', 'content-encoding': None, 'x-openrtb-version': '2.6'} | B 1787 bytes sha256[0:16]=c2101ebcdf62c140 headers={'content-type': 'application/json', 'content-encoding': None, 'x-openrtb-version': '2.6'}
+
+first 200 response for 'spec example-2': A 1785 bytes sha256[0:16]=a1e9dacaa1d970c0 headers={'content-type': 'application/json', 'content-encoding': None, 'x-openrtb-version': '2.6'} | B 1785 bytes sha256[0:16]=a1e9dacaa1d970c0 headers={'content-type': 'application/json', 'content-encoding': None, 'x-openrtb-version': '2.6'}
+
+first 200 response for 'spec example-3': A 1720 bytes sha256[0:16]=c641befb0fe967fe headers={'content-type': 'application/json', 'content-encoding': None, 'x-openrtb-version': '2.6'} | B 1720 bytes sha256[0:16]=c641befb0fe967fe headers={'content-type': 'application/json', 'content-encoding': None, 'x-openrtb-version': '2.6'}
+
+first 200 response for 'spec example-4': A 2057 bytes sha256[0:16]=a99de54c83253d11 headers={'content-type': 'application/json', 'content-encoding': None, 'x-openrtb-version': '2.6'} | B 2057 bytes sha256[0:16]=a99de54c83253d11 headers={'content-type': 'application/json', 'content-encoding': None, 'x-openrtb-version': '2.6'}
+
+mismatches between A and B (status, compared headers, content-length presence, body bytes): 0
+OpenRTB response check problems: 0
+RESULT: A and B identical on every request; all responses pass the checks
+
+raw HTTP exchange for the first corpus request (curl -si, body cut at 400 bytes):
+----- A -----
+HTTP/1.1 200 OK
+content-type: application/json
+content-length: 1772
+x-openrtb-version: 2.6
+Date: Wed, 25 Nov 2026 04:46:29 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"id":"6f8dd1a410e34dc0cc21fee7dc25a06a","seatbid":[{"bid":[{"id":"1-li-000591","impid":"1","price":17.9928,"adid":"cr-000591","nurl":"https://win.dsp-poc.example/win?a=${AUCTION_ID}&i=${AUCTION_IMP_ID}&li=li-000591&p=${AUCTION_PRICE}","burl":"https://bill.dsp-poc.example/bill?a=${AUCTION_ID}&i=${AUCTION_IMP_ID}&li=li-000591&p=${AUCTION_PRICE}","lurl":"https://loss.dsp-poc.example/loss?a=${AUCTION_ID}&i=${AUCTION_IMP_ID}&li=li-000591&r=${AUCTION_LOSS}&m=${AUCTION_MIN_TO_WIN}","adm":"<div class=\"ad\" data-li=\"li-000591\" data-vurl=\"https://ev.dsp-poc.example/view?a=${AUCTION_ID}&amp;i=${AUCTION_IMP_ID}&amp;li=li-000591\" style=\"position:relative;overflow:hidden;width:300px;height:250px\"><a href=\"https://b
+----- B -----
+HTTP/1.1 200 OK
+content-type: application/json
+x-openrtb-version: 2.6
+content-length: 1772
+date: Wed, 25 Nov 2026 04:46:29 GMT
+
+{"id":"6f8dd1a410e34dc0cc21fee7dc25a06a","seatbid":[{"bid":[{"id":"1-li-000591","impid":"1","price":17.9928,"adid":"cr-000591","nurl":"https://win.dsp-poc.example/win?a=${AUCTION_ID}&i=${AUCTION_IMP_ID}&li=li-000591&p=${AUCTION_PRICE}","burl":"https://bill.dsp-poc.example/bill?a=${AUCTION_ID}&i=${AUCTION_IMP_ID}&li=li-000591&p=${AUCTION_PRICE}","lurl":"https://loss.dsp-poc.example/loss?a=${AUCTION_ID}&i=${AUCTION_IMP_ID}&li=li-000591&r=${AUCTION_LOSS}&m=${AUCTION_MIN_TO_WIN}","adm":"<div class=\"ad\" data-li=\"li-000591\" data-vurl=\"https://ev.dsp-poc.example/view?a=${AUCTION_ID}&amp;i=${AUCTION_IMP_ID}&amp;li=li-000591\" style=\"position:relative;overflow:hidden;width:300px;height:250px\"><a href=\"https://brand0372.example/landing?li=li-000591&amp;imp=$
+
+[server-node] READY pid=6720 role=single url=http://127.0.0.1:3001/bid advertisers=1000 ortb_line_items=2000 stub=false node=v22.23.5
+[server-rust] READY pid=6721 url=http://127.0.0.1:3002/bid advertisers=1000 ortb_line_items=2000 tokio_workers=4 available_parallelism=4 stub=false

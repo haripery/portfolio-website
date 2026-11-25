@@ -1,0 +1,3 @@
+line_items=2000 requests=1000 passes=20: mean ns per request: parse=1694 decide=6468 render+serialize=1690 total=9852
+line_items=2000 requests=1000 passes=20: mean ns per request: parse=1633 decide=6517 render+serialize=1676 total=9826
+line_items=2000 requests=1000 passes=20: mean ns per request: parse=1604 decide=6257 render+serialize=1617 total=9478

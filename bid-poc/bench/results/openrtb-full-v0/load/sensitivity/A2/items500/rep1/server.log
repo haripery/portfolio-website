@@ -1,0 +1,3 @@
+[server-node] READY pid=11179 role=worker url=http://127.0.0.1:3001/bid advertisers=1000 ortb_line_items=500 stub=false node=v22.23.5
+[server-node] READY pid=11178 role=worker url=http://127.0.0.1:3001/bid advertisers=1000 ortb_line_items=500 stub=false node=v22.23.5
+[server-node cluster] READY primary pid=11167 workers=2 os.availableParallelism()=2 os.cpus().length=4 schedulingPolicy=SCHED_RR

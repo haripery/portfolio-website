@@ -1,0 +1,41 @@
+    Finished `bench` profile [optimized] target(s) in 0.05s
+     Running benches/openrtb.rs (target/release/deps/openrtb-0f5726b9e830ab7b)
+Gnuplot not found, using plotters backend
+Benchmarking openrtb/handle_json/corpus
+Benchmarking openrtb/handle_json/corpus: Warming up for 3.0000 s
+Benchmarking openrtb/handle_json/corpus: Collecting 100 samples in estimated 5.0148 s (237k iterations)
+Benchmarking openrtb/handle_json/corpus: Analyzing
+openrtb/handle_json/corpus
+                        time:   [20.501 µs 20.826 µs 21.166 µs]
+                        change: [+3.4510% +8.3847% +13.542%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 21 outliers among 100 measurements (21.00%)
+  6 (6.00%) low mild
+  2 (2.00%) high mild
+  13 (13.00%) high severe
+Benchmarking openrtb/handle_gzip_in_out/corpus
+Benchmarking openrtb/handle_gzip_in_out/corpus: Warming up for 3.0000 s
+Benchmarking openrtb/handle_gzip_in_out/corpus: Collecting 100 samples in estimated 5.1033 s (86k iterations)
+Benchmarking openrtb/handle_gzip_in_out/corpus: Analyzing
+openrtb/handle_gzip_in_out/corpus
+                        time:   [59.449 µs 60.983 µs 62.635 µs]
+                        change: [−4.1803% −1.8934% +0.3209%] (p = 0.12 > 0.05)
+                        No change in performance detected.
+Found 20 outliers among 100 measurements (20.00%)
+  4 (4.00%) low mild
+  1 (1.00%) high mild
+  15 (15.00%) high severe
+Benchmarking openrtb/parse_only/corpus
+Benchmarking openrtb/parse_only/corpus: Warming up for 3.0000 s
+Benchmarking openrtb/parse_only/corpus: Collecting 100 samples in estimated 5.0074 s (1.1M iterations)
+Benchmarking openrtb/parse_only/corpus: Analyzing
+openrtb/parse_only/corpus
+                        time:   [4.7337 µs 4.9057 µs 5.0892 µs]
+                        change: [−1.2602% +3.3013% +7.7251%] (p = 0.15 > 0.05)
+                        No change in performance detected.
+Found 16 outliers among 100 measurements (16.00%)
+  2 (2.00%) low severe
+  2 (2.00%) low mild
+  3 (3.00%) high mild
+  9 (9.00%) high severe
+

@@ -1,0 +1,40 @@
+    Finished `bench` profile [optimized] target(s) in 0.05s
+     Running benches/openrtb.rs (target/release/deps/openrtb-0f5726b9e830ab7b)
+Gnuplot not found, using plotters backend
+Benchmarking openrtb/handle_json/corpus
+Benchmarking openrtb/handle_json/corpus: Warming up for 3.0000 s
+Benchmarking openrtb/handle_json/corpus: Collecting 100 samples in estimated 5.0463 s (258k iterations)
+Benchmarking openrtb/handle_json/corpus: Analyzing
+openrtb/handle_json/corpus
+                        time:   [20.230 µs 20.476 µs 20.810 µs]
+                        change: [−2.5307% +0.3847% +3.3357%] (p = 0.80 > 0.05)
+                        No change in performance detected.
+Found 16 outliers among 100 measurements (16.00%)
+  1 (1.00%) low severe
+  3 (3.00%) low mild
+  3 (3.00%) high mild
+  9 (9.00%) high severe
+Benchmarking openrtb/handle_gzip_in_out/corpus
+Benchmarking openrtb/handle_gzip_in_out/corpus: Warming up for 3.0000 s
+Benchmarking openrtb/handle_gzip_in_out/corpus: Collecting 100 samples in estimated 5.2365 s (96k iterations)
+Benchmarking openrtb/handle_gzip_in_out/corpus: Analyzing
+openrtb/handle_gzip_in_out/corpus
+                        time:   [60.340 µs 61.816 µs 63.471 µs]
+                        change: [+3.5779% +5.9517% +8.4692%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 14 outliers among 100 measurements (14.00%)
+  3 (3.00%) low mild
+  5 (5.00%) high mild
+  6 (6.00%) high severe
+Benchmarking openrtb/parse_only/corpus
+Benchmarking openrtb/parse_only/corpus: Warming up for 3.0000 s
+Benchmarking openrtb/parse_only/corpus: Collecting 100 samples in estimated 5.0177 s (1.0M iterations)
+Benchmarking openrtb/parse_only/corpus: Analyzing
+openrtb/parse_only/corpus
+                        time:   [4.6741 µs 4.8305 µs 4.9968 µs]
+                        change: [+2.9534% +7.9422% +13.761%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 6 outliers among 100 measurements (6.00%)
+  5 (5.00%) high mild
+  1 (1.00%) high severe
+

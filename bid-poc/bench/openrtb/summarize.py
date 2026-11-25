@@ -151,7 +151,7 @@ def usage_table(c, rows):
 
 
 def open_table(c, rates, dur_s, tmax):
-    lines = [f"| offered req/s | server | sent (share of offered) | answered within {tmax} (share of offered) | timeouts (> {tmax}) | p50 ms | p99 ms | p99.9 ms | server CPU % |",
+    lines = [f"| offered req/s | server | sent (share of offered) | answered, no client timeout (share of offered) | client timeouts (> {tmax} after sending) | p50 ms | p99 ms | p99.9 ms | server CPU % |",
              "|---:|---|---:|---:|---:|---:|---:|---:|---:|"]
     for q in rates:
         for cfg in CFGS:
@@ -206,9 +206,11 @@ def main():
     rates = sorted({int(k[1][1:]) for k in c if k[0] == "open"})
     if rates:
         parts.append(f"\n#### Open loop at fixed offered rates, per-request timeout {tmax} (the exchange's tmax): what an exchange would see\n")
-        parts.append(f"oha sends at the offered rate on {p.get('OPEN_CONNS', '?')} connections with coordinated-omission correction "
-                     f"(`--latency-correction`); a response later than {tmax} is a timeout, which an exchange treats as no bid. "
-                     f"Latency percentiles are over the answered requests.\n")
+        parts.append(f"oha sends at the offered rate on {p.get('OPEN_CONNS', '?')} connections. A request that gets no response within {tmax} "
+                     f"of being **sent** is a client timeout, which an exchange treats as no bid. When all connections are busy, a request first "
+                     f"**waits inside oha** before it is sent; the latency percentiles include that wait (`--latency-correction`, which corrects "
+                     f"for coordinated omission), so they are the stricter measure: under overload, \"answered\" requests can still be far "
+                     f"later than {tmax} from the exchange's point of view. Percentiles are over answered requests.\n")
         parts.append(open_table(c, rates, dur_s, tmax))
     cold = [k for k in c if k[0] == "cold"]
     if cold:

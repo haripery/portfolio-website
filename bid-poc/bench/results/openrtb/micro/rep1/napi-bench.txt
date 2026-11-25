@@ -1,0 +1,9 @@
+node v22.23.5  v8 12.4.254.21-node.57  napi 10  pid 2309
+corpus 1000 requests, mean 692 bytes; line items 2000
+warm-up 2000 ms per benchmark, then 60 interleaved rounds (one ~50 ms sample of each benchmark per round)
+ns per request (per call; per corpus request for the engine loop):
+benchmark                 calls/sample        min      p05   median     mean      p95      max    stdev
+openrtbBid(Buffer)        3653            11424.9  11944.9  13049.8  13402.4  15957.6  17501.1   1246.0
+probeOpenrtbEngineLoop    4                9619.8  10111.8  11395.1  11392.2  12556.7  14783.2    879.9
+js: () => 1               5129453             9.3      9.5     10.6     10.6     11.8     13.8      0.8
+(sink 838107425.7439995)

@@ -1,0 +1,92 @@
+[2026-11-25T15:50:39Z] === run-load.sh SERVER_CPUS=0,1 CLIENT_CPUS=2,3 CLIENT_THREADS=2 WARMUP=10s DURATION=30s PHASES='closed open cold memory' CLOSED_LEVELS='1 100' OPEN_RATES='10000 25000 40000 55000' OPEN_CONNS=500 TMAX=100ms COLD_RATE=10000 BIG_ITEMS=200000 corpus_sha256=c4ef0e6bc155348e
+[2026-11-25T15:50:39Z] START closed/A1/c1 rep1
+[2026-11-25T15:51:20Z] DONE  closed/A1/c1 rep1 -> 11224 req/s, errors 0
+[2026-11-25T15:51:22Z] START closed/A2/c1 rep1
+[2026-11-25T15:52:02Z] DONE  closed/A2/c1 rep1 -> 11507 req/s, errors 0
+[2026-11-25T15:52:04Z] START closed/B/c1 rep1
+[2026-11-25T15:52:44Z] DONE  closed/B/c1 rep1 -> 13837 req/s, errors 0
+[2026-11-25T15:52:46Z] START closed/A1/c100 rep1
+[2026-11-25T15:53:27Z] DONE  closed/A1/c100 rep1 -> 19477 req/s, errors 0
+[2026-11-25T15:53:29Z] START closed/A2/c100 rep1
+[2026-11-25T15:54:10Z] DONE  closed/A2/c100 rep1 -> 43878 req/s, errors 0
+[2026-11-25T15:54:12Z] START closed/B/c100 rep1
+[2026-11-25T15:54:53Z] DONE  closed/B/c100 rep1 -> 47533 req/s, errors 0
+[2026-11-25T15:54:55Z] START closed/B/c1 rep2
+[2026-11-25T15:55:35Z] DONE  closed/B/c1 rep2 -> 13923 req/s, errors 0
+[2026-11-25T15:55:37Z] START closed/A2/c1 rep2
+[2026-11-25T15:56:18Z] DONE  closed/A2/c1 rep2 -> 11700 req/s, errors 0
+[2026-11-25T15:56:20Z] START closed/A1/c1 rep2
+[2026-11-25T15:57:00Z] DONE  closed/A1/c1 rep2 -> 11890 req/s, errors 0
+[2026-11-25T15:57:02Z] START closed/B/c100 rep2
+[2026-11-25T15:57:43Z] DONE  closed/B/c100 rep2 -> 53976 req/s, errors 0
+[2026-11-25T15:57:45Z] START closed/A2/c100 rep2
+[2026-11-25T15:58:26Z] DONE  closed/A2/c100 rep2 -> 45580 req/s, errors 0
+[2026-11-25T15:58:28Z] START closed/A1/c100 rep2
+[2026-11-25T15:59:09Z] DONE  closed/A1/c100 rep2 -> 19392 req/s, errors 0
+[2026-11-25T15:59:11Z] START open/A1/q10000 rep1
+[2026-11-25T15:59:51Z] DONE  open/A1/q10000 rep1 -> 9998 req/s, errors 0
+[2026-11-25T15:59:53Z] START open/A2/q10000 rep1
+[2026-11-25T16:00:33Z] DONE  open/A2/q10000 rep1 -> 9998 req/s, errors 0
+[2026-11-25T16:00:35Z] START open/B/q10000 rep1
+[2026-11-25T16:01:16Z] DONE  open/B/q10000 rep1 -> 9998 req/s, errors 0
+[2026-11-25T16:01:18Z] START open/A1/q25000 rep1
+[2026-11-25T16:01:58Z] DONE  open/A1/q25000 rep1 -> 24367 req/s, errors 78943
+[2026-11-25T16:02:00Z] START open/A2/q25000 rep1
+[2026-11-25T16:02:41Z] DONE  open/A2/q25000 rep1 -> 24995 req/s, errors 0
+[2026-11-25T16:02:43Z] START open/B/q25000 rep1
+[2026-11-25T16:03:23Z] DONE  open/B/q25000 rep1 -> 24995 req/s, errors 0
+[2026-11-25T16:03:25Z] START open/A1/q40000 rep1
+[2026-11-25T16:04:06Z] DONE  open/A1/q40000 rep1 -> 26023 req/s, errors 91476
+[2026-11-25T16:04:08Z] START open/A2/q40000 rep1
+[2026-11-25T16:04:48Z] DONE  open/A2/q40000 rep1 -> 38259 req/s, errors 122199
+[2026-11-25T16:04:51Z] START open/B/q40000 rep1
+[2026-11-25T16:05:31Z] DONE  open/B/q40000 rep1 -> 39990 req/s, errors 0
+[2026-11-25T16:05:33Z] START open/A1/q55000 rep1
+[2026-11-25T16:06:14Z] DONE  open/A1/q55000 rep1 -> 23505 req/s, errors 76923
+[2026-11-25T16:06:16Z] START open/A2/q55000 rep1
+[2026-11-25T16:06:56Z] DONE  open/A2/q55000 rep1 -> 32285 req/s, errors 132036
+[2026-11-25T16:06:58Z] START open/B/q55000 rep1
+[2026-11-25T16:07:39Z] DONE  open/B/q55000 rep1 -> 54987 req/s, errors 0
+[2026-11-25T16:07:41Z] START open/B/q10000 rep2
+[2026-11-25T16:08:22Z] DONE  open/B/q10000 rep2 -> 9998 req/s, errors 0
+[2026-11-25T16:08:24Z] START open/A2/q10000 rep2
+[2026-11-25T16:09:04Z] DONE  open/A2/q10000 rep2 -> 9997 req/s, errors 0
+[2026-11-25T16:09:06Z] START open/A1/q10000 rep2
+[2026-11-25T16:09:46Z] DONE  open/A1/q10000 rep2 -> 9998 req/s, errors 0
+[2026-11-25T16:09:48Z] START open/B/q25000 rep2
+[2026-11-25T16:10:29Z] DONE  open/B/q25000 rep2 -> 24995 req/s, errors 0
+[2026-11-25T16:10:31Z] START open/A2/q25000 rep2
+[2026-11-25T16:11:11Z] DONE  open/A2/q25000 rep2 -> 24995 req/s, errors 8160
+[2026-11-25T16:11:13Z] START open/A1/q25000 rep2
+[2026-11-25T16:11:54Z] DONE  open/A1/q25000 rep2 -> 23615 req/s, errors 77769
+[2026-11-25T16:11:56Z] START open/B/q40000 rep2
+[2026-11-25T16:12:36Z] DONE  open/B/q40000 rep2 -> 39991 req/s, errors 0
+[2026-11-25T16:12:39Z] START open/A2/q40000 rep2
+[2026-11-25T16:13:19Z] DONE  open/A2/q40000 rep2 -> 31011 req/s, errors 121717
+[2026-11-25T16:13:21Z] START open/A1/q40000 rep2
+[2026-11-25T16:14:02Z] DONE  open/A1/q40000 rep2 -> 22216 req/s, errors 76626
+[2026-11-25T16:14:04Z] START open/B/q55000 rep2
+[2026-11-25T16:14:45Z] DONE  open/B/q55000 rep2 -> 54990 req/s, errors 0
+[2026-11-25T16:14:47Z] START open/A2/q55000 rep2
+[2026-11-25T16:15:28Z] DONE  open/A2/q55000 rep2 -> 30616 req/s, errors 134274
+[2026-11-25T16:15:30Z] START open/A1/q55000 rep2
+[2026-11-25T16:16:10Z] DONE  open/A1/q55000 rep2 -> 23528 req/s, errors 82269
+[2026-11-25T16:16:12Z] START cold/A1/q10000 rep1
+[2026-11-25T16:16:22Z] DONE  cold/A1/q10000 rep1 -> 9994 req/s, errors 1859
+[2026-11-25T16:16:24Z] START cold/A2/q10000 rep1
+[2026-11-25T16:16:35Z] DONE  cold/A2/q10000 rep1 -> 9994 req/s, errors 4032
+[2026-11-25T16:16:37Z] START cold/B/q10000 rep1
+[2026-11-25T16:16:47Z] DONE  cold/B/q10000 rep1 -> 9992 req/s, errors 0
+[2026-11-25T16:16:49Z] START cold/B/q10000 rep2
+[2026-11-25T16:16:59Z] DONE  cold/B/q10000 rep2 -> 9994 req/s, errors 24
+[2026-11-25T16:17:01Z] START cold/A2/q10000 rep2
+[2026-11-25T16:17:11Z] DONE  cold/A2/q10000 rep2 -> 9994 req/s, errors 2508
+[2026-11-25T16:17:13Z] START cold/A1/q10000 rep2
+[2026-11-25T16:17:23Z] DONE  cold/A1/q10000 rep2 -> 9993 req/s, errors 513
+[2026-11-25T16:17:25Z] START memory/A1/items200000 rep1
+[2026-11-25T16:18:06Z] DONE  memory/A1/items200000 rep1 -> 837 req/s, errors 0
+[2026-11-25T16:18:08Z] START memory/A2/items200000 rep1
+[2026-11-25T16:18:49Z] DONE  memory/A2/items200000 rep1 -> 1653 req/s, errors 0
+[2026-11-25T16:18:51Z] START memory/B/items200000 rep1
+[2026-11-25T16:19:31Z] DONE  memory/B/items200000 rep1 -> 1727 req/s, errors 0
+[2026-11-25T16:19:33Z] === all phases finished

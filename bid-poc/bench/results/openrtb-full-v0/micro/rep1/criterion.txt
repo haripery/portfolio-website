@@ -1,0 +1,33 @@
+    Finished `bench` profile [optimized] target(s) in 0.05s
+     Running benches/openrtb.rs (target/release/deps/openrtb-0f5726b9e830ab7b)
+Gnuplot not found, using plotters backend
+Benchmarking openrtb/handle_json/corpus
+Benchmarking openrtb/handle_json/corpus: Warming up for 3.0000 s
+Benchmarking openrtb/handle_json/corpus: Collecting 100 samples in estimated 5.0872 s (263k iterations)
+Benchmarking openrtb/handle_json/corpus: Analyzing
+openrtb/handle_json/corpus
+                        time:   [19.764 µs 20.086 µs 20.428 µs]
+Found 14 outliers among 100 measurements (14.00%)
+  3 (3.00%) low mild
+  5 (5.00%) high mild
+  6 (6.00%) high severe
+Benchmarking openrtb/handle_gzip_in_out/corpus
+Benchmarking openrtb/handle_gzip_in_out/corpus: Warming up for 3.0000 s
+Benchmarking openrtb/handle_gzip_in_out/corpus: Collecting 100 samples in estimated 5.1597 s (96k iterations)
+Benchmarking openrtb/handle_gzip_in_out/corpus: Analyzing
+openrtb/handle_gzip_in_out/corpus
+                        time:   [56.565 µs 57.843 µs 59.130 µs]
+Found 8 outliers among 100 measurements (8.00%)
+  4 (4.00%) low severe
+  1 (1.00%) low mild
+  1 (1.00%) high mild
+  2 (2.00%) high severe
+Benchmarking openrtb/parse_only/corpus
+Benchmarking openrtb/parse_only/corpus: Warming up for 3.0000 s
+Benchmarking openrtb/parse_only/corpus: Collecting 100 samples in estimated 5.0025 s (1.1M iterations)
+Benchmarking openrtb/parse_only/corpus: Analyzing
+openrtb/parse_only/corpus
+                        time:   [4.5132 µs 4.6291 µs 4.7487 µs]
+Found 2 outliers among 100 measurements (2.00%)
+  2 (2.00%) high mild
+

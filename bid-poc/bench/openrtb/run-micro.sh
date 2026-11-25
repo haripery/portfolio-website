@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # OpenRTB micro-benchmarks, MICRO_REPS times, alternating, pinned to the servers' CPUs:
 #   (a) criterion: engine-core's OpenRTB handle() called directly, cycling through the corpus
-#   (b) Node: openrtbBid(Buffer) vs openrtbBidStr(string) vs the engine looped inside Rust, interleaved
+#   (b) Node: openrtbBid(Buffer) vs the same engine work looped inside Rust (no boundary), interleaved
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "$HERE/../.." && pwd)"
@@ -11,6 +11,8 @@ REPS="${MICRO_REPS:-3}"
 mkdir -p "$OUT"
 cd "$ROOT"
 cargo bench -p engine-core --bench openrtb --no-run 2>&1 | tail -1
+# start from an empty criterion directory: only benchmarks of THIS run may be copied into the results
+rm -rf target/criterion/openrtb
 for rep in $(seq 1 "$REPS"); do
   d="$OUT/rep$rep"; rm -rf "$d"; mkdir -p "$d"
   echo "== rep $rep (a) criterion openrtb, CPUs $CPUS =="

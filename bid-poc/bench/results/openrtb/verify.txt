@@ -1,0 +1,45 @@
+requests compared: 1008   (each sent to A on :3001 and to B on :3002)
+case group                   status  count
+corpus                          200    840
+corpus                          204    160
+invalid                         400      3
+spec example-1                  200      1
+spec example-2                  200      1
+spec example-3                  200      1
+spec example-4                  204      1
+spec example-5                  204      1
+
+first 200 response for 'corpus': A 916 bytes sha256[0:16]=8e0a3ee3ef6d070f headers={'content-type': 'application/json', 'x-openrtb-version': '2.6'} | B 916 bytes sha256[0:16]=8e0a3ee3ef6d070f headers={'content-type': 'application/json', 'x-openrtb-version': '2.6'}
+
+first 200 response for 'spec example-1': A 963 bytes sha256[0:16]=a7fd9938447b6715 headers={'content-type': 'application/json', 'x-openrtb-version': '2.6'} | B 963 bytes sha256[0:16]=a7fd9938447b6715 headers={'content-type': 'application/json', 'x-openrtb-version': '2.6'}
+
+first 200 response for 'spec example-2': A 962 bytes sha256[0:16]=6d1f73777d7a5b26 headers={'content-type': 'application/json', 'x-openrtb-version': '2.6'} | B 962 bytes sha256[0:16]=6d1f73777d7a5b26 headers={'content-type': 'application/json', 'x-openrtb-version': '2.6'}
+
+first 200 response for 'spec example-3': A 900 bytes sha256[0:16]=bcc0a5a2591fa576 headers={'content-type': 'application/json', 'x-openrtb-version': '2.6'} | B 900 bytes sha256[0:16]=bcc0a5a2591fa576 headers={'content-type': 'application/json', 'x-openrtb-version': '2.6'}
+
+mismatches between A and B (status, compared headers, content-length presence, body bytes): 0
+OpenRTB response check problems: 0
+RESULT: A and B identical on every request; all responses pass the checks
+
+raw HTTP exchange for OpenRTB 2.6 spec example 1 (curl -si, cut at 900 bytes):
+----- A -----
+HTTP/1.1 200 OK
+content-type: application/json
+content-length: 963
+x-openrtb-version: 2.6
+Date: Wed, 25 Nov 2026 15:48:29 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"id":"80ce30c53c16e6ede735f123ef6e32361bfc7b22","seatbid":[{"bid":[{"id":"1-li-001937","impid":"1","price":16.762,"adid":"cr-001937","nurl":"https://win.dsp-poc.example/win?a=${AUCTION_ID}&i=${AUCTION_IMP_ID}&li=li-001937&p=${AUCTION_PRICE}","burl":"https://bill.dsp-poc.example/bill?a=${AUCTION_ID}&i=${AUCTION_IMP_ID}&li=li-001937&p=${AUCTION_PRICE}","adm":"<a href=\"https://brand0010.example/landing?li=li-001937\" target=\"_blank\" rel=\"noopener\"><img src=\"https://cdn.dsp-poc.example/cr/cr-001937-300x250.png\" width=\"300\" height=\"250\" alt=\"Advertisement\"></a><img src=\"https://ev.dsp-poc.example/imp?a=${AUCTION_ID}&amp;i=${AUCTION_IMP_ID}&amp;p=${AUCTION_PRICE}&amp;li=li-001937\" width=\"1\" height=\
+----- B -----
+HTTP/1.1 200 OK
+content-type: application/json
+x-openrtb-version: 2.6
+content-length: 963
+date: Wed, 25 Nov 2026 15:48:29 GMT
+
+{"id":"80ce30c53c16e6ede735f123ef6e32361bfc7b22","seatbid":[{"bid":[{"id":"1-li-001937","impid":"1","price":16.762,"adid":"cr-001937","nurl":"https://win.dsp-poc.example/win?a=${AUCTION_ID}&i=${AUCTION_IMP_ID}&li=li-001937&p=${AUCTION_PRICE}","burl":"https://bill.dsp-poc.example/bill?a=${AUCTION_ID}&i=${AUCTION_IMP_ID}&li=li-001937&p=${AUCTION_PRICE}","adm":"<a href=\"https://brand0010.example/landing?li=li-001937\" target=\"_blank\" rel=\"noopener\"><img src=\"https://cdn.dsp-poc.example/cr/cr-001937-300x250.png\" width=\"300\" height=\"250\" alt=\"Advertisement\"></a><img src=\"https://ev.dsp-poc.example/imp?a=${AUCTION_ID}&amp;i=${AUCTION_IMP_ID}&amp;p=${AUCTION_PRICE}&amp;li=li-001937\" width=\"1\" height=\"1\" alt=\"\" style=\"display:none\">","adomain
+
+[server-node] READY pid=2182 role=single url=http://127.0.0.1:3001/bid advertisers=1000 ortb_line_items=2000 stub=false node=v22.23.5
+[server-rust] READY pid=2183 url=http://127.0.0.1:3002/bid advertisers=1000 ortb_line_items=2000 tokio_workers=4 available_parallelism=4 stub=false

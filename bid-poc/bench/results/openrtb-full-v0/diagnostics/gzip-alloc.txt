@@ -1,0 +1,8 @@
+# gzip state per request (ORTB_GZIP_REUSE=0) vs reused per thread (=1); gzip request+response, c=100, 15 s after 5 s warm-up
+# Wed Nov 25 05:45:18 UTC 2026
+server / setting                                          throughput            page faults                CPU
+A1 Node single, ORTB_GZIP_REUSE=0 (allocate per req)     12385 req/s     0.08 minor faults/req     81.8 CPU us/req  errors 0
+A1 Node single, ORTB_GZIP_REUSE=1 (reuse)                13279 req/s     0.02 minor faults/req     75.9 CPU us/req  errors 0
+B  Rust axum,   ORTB_GZIP_REUSE=0 (allocate per req)     12844 req/s    31.30 minor faults/req    155.4 CPU us/req  errors 0
+B  Rust axum,   ORTB_GZIP_REUSE=1 (reuse)                34197 req/s     0.00 minor faults/req     58.4 CPU us/req  errors 0
+B  Rust axum,   REUSE=0 + glibc trim/mmap thresholds 64MiB     32916 req/s     0.00 minor faults/req     60.6 CPU us/req  errors 0

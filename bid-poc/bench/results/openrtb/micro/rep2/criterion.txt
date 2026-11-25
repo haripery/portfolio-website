@@ -1,0 +1,26 @@
+    Finished `bench` profile [optimized] target(s) in 0.06s
+     Running benches/openrtb.rs (target/release/deps/openrtb-948cb6f695575d97)
+Gnuplot not found, using plotters backend
+Benchmarking openrtb/handle/corpus
+Benchmarking openrtb/handle/corpus: Warming up for 3.0000 s
+Benchmarking openrtb/handle/corpus: Collecting 100 samples in estimated 5.0051 s (470k iterations)
+Benchmarking openrtb/handle/corpus: Analyzing
+openrtb/handle/corpus   time:   [10.188 µs 10.415 µs 10.669 µs]
+                        change: [−9.3394% −6.1067% −2.8121%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 7 outliers among 100 measurements (7.00%)
+  5 (5.00%) high mild
+  2 (2.00%) high severe
+Benchmarking openrtb/parse_only/corpus
+Benchmarking openrtb/parse_only/corpus: Warming up for 3.0000 s
+Benchmarking openrtb/parse_only/corpus: Collecting 100 samples in estimated 5.0011 s (3.2M iterations)
+Benchmarking openrtb/parse_only/corpus: Analyzing
+openrtb/parse_only/corpus
+                        time:   [1.5231 µs 1.5884 µs 1.6682 µs]
+                        change: [−1.0807% +1.2758% +4.1743%] (p = 0.36 > 0.05)
+                        No change in performance detected.
+Found 11 outliers among 100 measurements (11.00%)
+  1 (1.00%) low mild
+  3 (3.00%) high mild
+  7 (7.00%) high severe
+

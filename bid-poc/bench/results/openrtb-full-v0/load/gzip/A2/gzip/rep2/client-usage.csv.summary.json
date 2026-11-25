@@ -1,0 +1,14 @@
+{
+  "pid": 11027,
+  "tree": false,
+  "samples": 30,
+  "wall_s": 30.003,
+  "cpu_pct_avg": 49.4,
+  "cpu_pct_max_interval": 55.0,
+  "rss_kb_max": 146132,
+  "rss_kb_avg": 85221,
+  "pss_kb_max": 144210,
+  "pss_kb_avg": 83309,
+  "processes_max": 1,
+  "threads_max": 5
+}

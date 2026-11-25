@@ -1,0 +1,1 @@
+ORTB_LINE_ITEMS=2000 taskset -c 2,3 oha --no-tui -w --worker-threads 2 -m POST -H content-type:\ application/json -H x-openrtb-version:\ 2.6 --output-format json -c 100 -H content-encoding:\ gzip -H accept-encoding:\ gzip -D /home/user/portfolio-website/bid-poc/bench/openrtb/single-request.json.gz -z 30s http://127.0.0.1:3002/openrtb2/bid

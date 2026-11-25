@@ -1,0 +1,1 @@
+[server-node] READY pid=2478 role=single url=http://127.0.0.1:3001/bid advertisers=1000 ortb_line_items=2000 stub=false node=v22.23.5

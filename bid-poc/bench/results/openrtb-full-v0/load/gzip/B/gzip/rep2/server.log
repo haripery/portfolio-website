@@ -1,0 +1,1 @@
+[server-rust] READY pid=10936 url=http://127.0.0.1:3002/bid advertisers=1000 ortb_line_items=2000 tokio_workers=2 available_parallelism=2 stub=false

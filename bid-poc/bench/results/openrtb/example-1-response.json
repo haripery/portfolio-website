@@ -1,0 +1,32 @@
+{
+    "id": "80ce30c53c16e6ede735f123ef6e32361bfc7b22",
+    "seatbid": [
+        {
+            "bid": [
+                {
+                    "id": "1-li-001937",
+                    "impid": "1",
+                    "price": 16.762,
+                    "adid": "cr-001937",
+                    "nurl": "https://win.dsp-poc.example/win?a=${AUCTION_ID}&i=${AUCTION_IMP_ID}&li=li-001937&p=${AUCTION_PRICE}",
+                    "burl": "https://bill.dsp-poc.example/bill?a=${AUCTION_ID}&i=${AUCTION_IMP_ID}&li=li-001937&p=${AUCTION_PRICE}",
+                    "adm": "<a href=\"https://brand0010.example/landing?li=li-001937\" target=\"_blank\" rel=\"noopener\"><img src=\"https://cdn.dsp-poc.example/cr/cr-001937-300x250.png\" width=\"300\" height=\"250\" alt=\"Advertisement\"></a><img src=\"https://ev.dsp-poc.example/imp?a=${AUCTION_ID}&amp;i=${AUCTION_IMP_ID}&amp;p=${AUCTION_PRICE}&amp;li=li-001937\" width=\"1\" height=\"1\" alt=\"\" style=\"display:none\">",
+                    "adomain": [
+                        "brand0010.example"
+                    ],
+                    "cid": "cmp-00485",
+                    "crid": "cr-001937",
+                    "cat": [
+                        "IAB4-1"
+                    ],
+                    "w": 300,
+                    "h": 250,
+                    "mtype": 1
+                }
+            ],
+            "seat": "dsp-poc"
+        }
+    ],
+    "bidid": "dsp-poc-80ce30c53c16e6ede735f123ef6e32361bfc7b22",
+    "cur": "USD"
+}

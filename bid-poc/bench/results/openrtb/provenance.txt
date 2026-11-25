@@ -1,0 +1,15 @@
+date: Wed Nov 25 15:48:23 UTC 2026
+git commit: 11605aa57e32f745dc9e09ab16d3480b455f8aa9
+ M README.md
+    Finished `release` profile [optimized] target(s) in 0.04s
+356b99f6f3f9e9ded16dd37840b0c70ddf0ecc9baf4f989b747479e916d6a630  target/release/server-rust
+232a9744b8e2d447c095e68fe9f30c545c974edbe6dc2a12caf723751e89ef6b  engine-napi/engine-napi.linux-x64-gnu.node
+
+inputs (bench/openrtb/make-inputs.sh):
+requests=1000 seed=7 line_items=2000 | request bytes: mean=691 p50=685 p90=809 max=1020 | imps=1197 (1.20/request)
+outcomes: 200 with bids=840 (84.0%), 204 no-bid=160 (16.0%) | bids=973 | bid response bytes mean=1042
+c4ef0e6bc155348eb300a1b4d6028b4d82f63f66b70f414e8621e7d6d32f8a7d  corpus.jsonl
+
+v22.23.5
+rustc 1.97.0 (2d8144b78 2026-07-07)
+oha 1.17.0
