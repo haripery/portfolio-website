@@ -869,8 +869,9 @@ The labels are the same as in Part 1: **[measured]** means a number from the tab
   budgets, frequency caps and user data, so the duplication grows, or that state has to move to an external store.
 
 **5. Two lessons from the larger version** (raw data in `bench/results/openrtb-full-v0/`):
-- **[measured]** Passing the request as a string or as a zero-copy `Buffer` made no measurable difference at
-  2.4 KB requests (26.02 vs 26.21 µs per call). "Zero-copy" didn't pay off here.
+- **[measured]** At 2.4 KB requests, passing strings (copied in and out) was slightly *faster* than zero-copy
+  `Buffer`s: 26.02 vs 26.21 µs per call, and a paired same-round difference of −0.37 µs (−0.41 to −0.31 across
+  3 runs). "Zero-copy" didn't pay off here.
 - **[measured]** Allocating gzip state per request cost the multi-threaded Rust server 31.30 page faults and
   155.4 µs of CPU per request (12,844 req/s). Reusing that state per thread brought it to 0.00 page faults, 58.4 µs
   and 34,197 req/s. Keeping the per-request allocation but raising glibc malloc's trim and mmap thresholds to
