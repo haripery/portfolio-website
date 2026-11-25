@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Reproduces every result in bench/results/openrtb/ and the OpenRTB tables in README.md (about 70 min).
+# Reproduces every result in bench/results/openrtb/ and the Part 2 tables in README.md (about 35 min).
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "$HERE/../.." && pwd)"
@@ -31,13 +31,10 @@ step "4. micro-benchmarks -> results/openrtb/micro/"
 
 step "5. engine stage breakdown -> results/openrtb/diagnostics/engine-breakdown.txt"
 cargo build -q --release -p engine-core --example openrtb_breakdown
-for rep in 1 2 3; do taskset -c 1 target/release/examples/openrtb_breakdown 10000 3; done 2>&1 | tee "$R/diagnostics/engine-breakdown.txt"
+for rep in 1 2 3; do taskset -c 1 target/release/examples/openrtb_breakdown 1000 20; done 2>&1 | tee "$R/diagnostics/engine-breakdown.txt"
 
 step "6. load tests -> results/openrtb/load/"
 "$HERE/run-load.sh"
 
-step "7. gzip allocation diagnostic -> results/openrtb/diagnostics/gzip-alloc.txt"
-"$HERE/gzip-alloc-diagnostic.sh"
-
-step "8. tables -> results/openrtb/summary.md and README.md"
+step "7. tables -> results/openrtb/summary.md and README.md"
 python3 "$HERE/summarize.py" --readme "$ROOT/README.md"

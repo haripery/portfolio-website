@@ -15,10 +15,10 @@ for f in "$OUT/server-node.log" "$OUT/server-rust.log"; do
   for _ in $(seq 1 200); do grep -q READY "$f" 2>/dev/null && break; sleep 0.05; done
   grep -q READY "$f" || { echo "server did not start: $f"; cat "$f"; exit 1; }
 done
-python3 -I "$HERE/verify.py" "$CORPUS" "$ROOT/engine-core/fixtures/openrtb-2.6" "${N_PLAIN:-2000}" "${N_GZIP:-300}"
+python3 -I "$HERE/verify.py" "$CORPUS" "$ROOT/engine-core/fixtures/openrtb-2.6"
 echo
-echo "raw HTTP exchange for the first corpus request (curl -si, body cut at 400 bytes):"
-head -1 "$CORPUS" > "$OUT/first-request.json"
+echo "raw HTTP exchange for OpenRTB 2.6 spec example 1 (curl -si, cut at 900 bytes):"
+cp "$ROOT/engine-core/fixtures/openrtb-2.6/example-1.json" "$OUT/first-request.json"
 for target in "A 3001" "B 3002"; do
   set -- $target
   echo "----- $1 -----"

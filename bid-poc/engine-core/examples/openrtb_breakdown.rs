@@ -6,7 +6,7 @@ use std::time::Instant;
 
 fn main() {
     let mut args = std::env::args().skip(1);
-    let n: usize = args.next().and_then(|s| s.parse().ok()).unwrap_or(10_000);
+    let n: usize = args.next().and_then(|s| s.parse().ok()).unwrap_or(corpus::DEFAULT_CORPUS_SIZE);
     let passes: usize = args.next().and_then(|s| s.parse().ok()).unwrap_or(5);
     let reqs = corpus::generate(corpus::DEFAULT_CORPUS_SEED, n);
     let e = openrtb::engine();

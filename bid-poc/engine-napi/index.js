@@ -838,7 +838,6 @@ module.exports = nativeBinding
 module.exports.bid = nativeBinding.bid
 module.exports.init = nativeBinding.init
 module.exports.openrtbBid = nativeBinding.openrtbBid
-module.exports.openrtbBidStr = nativeBinding.openrtbBidStr
 module.exports.openrtbInit = nativeBinding.openrtbInit
 module.exports.probeEcho = nativeBinding.probeEcho
 module.exports.probeEngineLoop = nativeBinding.probeEngineLoop

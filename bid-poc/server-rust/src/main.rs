@@ -5,7 +5,7 @@
 //! No logging on the request path; one line is printed to stderr at startup.
 use axum::{
     body::Bytes,
-    http::{header, HeaderMap, HeaderName, HeaderValue, StatusCode},
+    http::{header, HeaderName, HeaderValue, StatusCode},
     response::{IntoResponse, Response},
     routing::post,
     serve::ListenerExt,
@@ -32,23 +32,12 @@ async fn bid(body: String) -> Response {
 const X_OPENRTB: HeaderName = HeaderName::from_static("x-openrtb-version");
 const ORTB_VERSION: HeaderValue = HeaderValue::from_static("2.6");
 
-/// OpenRTB 2.6 endpoint (bench v2): the raw body bytes go straight to engine-core, which also does
-/// gzip in/out, exactly as for server-node.
-async fn openrtb_bid(headers: HeaderMap, body: Bytes) -> Response {
-    let gzip_in = headers
-        .get(header::CONTENT_ENCODING)
-        .is_some_and(|v| v.as_bytes().eq_ignore_ascii_case(b"gzip"));
-    let gzip_out = headers
-        .get(header::ACCEPT_ENCODING)
-        .and_then(|v| v.to_str().ok())
-        .is_some_and(|v| v.to_ascii_lowercase().contains("gzip"));
-    match openrtb::engine().handle(&body, gzip_in, gzip_out) {
+/// OpenRTB 2.6 image bidder (Part 2): the raw body bytes go straight to engine-core.
+async fn openrtb_bid(body: Bytes) -> Response {
+    match openrtb::engine().handle(&body) {
         Outcome::Body(out) => {
             let mut r = ([(header::CONTENT_TYPE, "application/json")], out).into_response();
             r.headers_mut().insert(X_OPENRTB, ORTB_VERSION);
-            if gzip_out {
-                r.headers_mut().insert(header::CONTENT_ENCODING, HeaderValue::from_static("gzip"));
-            }
             r
         }
         Outcome::NoBid => (StatusCode::NO_CONTENT, [(X_OPENRTB, ORTB_VERSION)]).into_response(),

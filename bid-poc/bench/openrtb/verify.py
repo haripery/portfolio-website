@@ -6,10 +6,9 @@ compares, byte for byte: status code, body, and the headers that carry meaning
 (content-type, content-encoding, x-openrtb-version, and whether content-length is present).
 Also applies basic OpenRTB 2.6 checks to every response. Exits 1 on any mismatch or failed check.
 
-usage: verify.py <corpus.jsonl> <spec-examples-dir> <n_plain> <n_gzip>
+usage: verify.py <corpus.jsonl> <spec-examples-dir>
 """
 import collections
-import gzip
 import hashlib
 import http.client
 import json
@@ -18,7 +17,7 @@ import sys
 
 A, B = ("127.0.0.1", 3001), ("127.0.0.1", 3002)
 PATH = "/openrtb2/bid"
-HEADERS_COMPARED = ("content-type", "content-encoding", "x-openrtb-version")
+HEADERS_COMPARED = ("content-type", "x-openrtb-version")
 
 
 def post(conn, body, headers):
@@ -29,7 +28,7 @@ def post(conn, body, headers):
     return r.status, data, {k: h.get(k) for k in HEADERS_COMPARED}, "content-length" in h
 
 
-def check_spec(req, status, body, hdrs, gz):
+def check_spec(req, status, body, hdrs):
     """Basic OpenRTB 2.6 response rules (the engine's unit tests check many more)."""
     problems = []
     if hdrs["x-openrtb-version"] != "2.6":
@@ -43,13 +42,9 @@ def check_spec(req, status, body, hdrs, gz):
         return problems
     if hdrs["content-type"] != "application/json":
         problems.append("content-type is not application/json")
-    if gz != (hdrs["content-encoding"] == "gzip"):
-        problems.append("content-encoding does not match accept-encoding")
-    resp = json.loads(gzip.decompress(body) if gz else body)
+    resp = json.loads(body)
     if resp.get("id") != req["id"]:
         problems.append("BidResponse.id != BidRequest.id")
-    if "nbr" in resp:
-        return problems
     imp_ids = {i["id"] for i in req["imp"]}
     for sb in resp.get("seatbid", []):
         for bid in sb.get("bid", []):
@@ -65,38 +60,34 @@ def check_spec(req, status, body, hdrs, gz):
 
 
 def main():
-    corpus_path, examples_dir, n_plain, n_gzip = sys.argv[1], pathlib.Path(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4])
+    corpus_path, examples_dir = sys.argv[1], pathlib.Path(sys.argv[2])
     lines = [l for l in pathlib.Path(corpus_path).read_bytes().split(b"\n") if l]
-    cases = []  # (label, body, headers, request_json_or_None, gzip_out)
-    for raw in lines[:n_plain]:
-        cases.append(("corpus plain", raw, {"content-type": "application/json"}, json.loads(raw), False))
-    for raw in lines[n_plain:n_plain + n_gzip]:
-        cases.append(("corpus gzip in+out", gzip.compress(raw, 1),
-                      {"content-type": "application/json", "content-encoding": "gzip", "accept-encoding": "gzip"},
-                      json.loads(raw), True))
+    ct = {"content-type": "application/json"}
+    cases = []  # (label, body, headers, request_json_or_None)
+    for raw in lines:
+        cases.append(("corpus", raw, ct, json.loads(raw)))
     for f in sorted(examples_dir.glob("example-*.json")):
         raw = f.read_bytes()
-        cases.append((f"spec {f.stem}", raw, {"content-type": "application/json"}, json.loads(raw), False))
-    for label, body, extra in [
-        ("invalid: malformed JSON", b'{"id":', {}),
-        ("invalid: empty imp array", b'{"id":"x","imp":[]}', {}),
-        ("invalid: gzip header on plain body", b'{"id":"x","imp":[{"id":"1"}]}', {"content-encoding": "gzip"}),
-        ("invalid: not JSON", b"hello", {}),
+        cases.append((f"spec {f.stem}", raw, ct, json.loads(raw)))
+    for label, body in [
+        ("invalid: malformed JSON", b'{"id":'),
+        ("invalid: empty imp array", b'{"id":"x","imp":[]}'),
+        ("invalid: not JSON", b"hello"),
     ]:
-        cases.append((label, body, {"content-type": "application/json", **extra}, None, False))
+        cases.append((label, body, ct, None))
 
     ca, cb = http.client.HTTPConnection(*A), http.client.HTTPConnection(*B)
     stats = collections.Counter()
     mismatches, spec_problems = [], []
     sample = {}
-    for label, body, headers, req, gz in cases:
+    for label, body, headers, req in cases:
         ra, rb = post(ca, body, headers), post(cb, body, headers)
         kind = label.split(":")[0]
         stats[(kind, ra[0])] += 1
         if ra != rb:
             mismatches.append((label, ra[0], rb[0], ra[2], rb[2], ra[3], rb[3], len(ra[1]), len(rb[1])))
         if req is not None:
-            for p in check_spec(req, ra[0], ra[1], ra[2], gz):
+            for p in check_spec(req, ra[0], ra[1], ra[2]):
                 spec_problems.append((label, p))
         elif ra[0] != 400 or ra[1]:
             spec_problems.append((label, f"expected 400 with no content, got {ra[0]} with {len(ra[1])} bytes"))

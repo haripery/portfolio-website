@@ -31,19 +31,16 @@ function send(res, status, body) {
   res.end(body);
 }
 
-// OpenRTB 2.6 endpoint (bench v2). The raw body bytes go to Rust as a Buffer (no string
-// decoding); gzip in/out is done by engine-core, exactly as in server-rust.
+// OpenRTB 2.6 image bidder (Part 2): the raw body bytes go to Rust as a Buffer (no string decoding).
 const ORTB_HEADER = 'x-openrtb-version';
 function onOpenRtb(req, res) {
   const chunks = [];
   req.on('data', (chunk) => chunks.push(chunk));
   req.on('end', () => {
     const body = chunks.length === 1 ? chunks[0] : Buffer.concat(chunks);
-    const gzipIn = (req.headers['content-encoding'] || '').toLowerCase() === 'gzip';
-    const gzipOut = (req.headers['accept-encoding'] || '').toLowerCase().includes('gzip');
     let out;
     try {
-      out = engine.openrtbBid(body, gzipIn, gzipOut); // the single JS -> Rust call
+      out = engine.openrtbBid(body); // the single JS -> Rust call
     } catch (err) {
       res.writeHead(400, { 'content-length': '0', [ORTB_HEADER]: '2.6' }); // malformed request (spec 2.1)
       res.end();
@@ -54,9 +51,7 @@ function onOpenRtb(req, res) {
       res.end();
       return;
     }
-    const headers = { 'content-type': 'application/json', 'content-length': out.length, [ORTB_HEADER]: '2.6' };
-    if (gzipOut) headers['content-encoding'] = 'gzip';
-    res.writeHead(200, headers);
+    res.writeHead(200, { 'content-type': 'application/json', 'content-length': out.length, [ORTB_HEADER]: '2.6' });
     res.end(out);
   });
 }

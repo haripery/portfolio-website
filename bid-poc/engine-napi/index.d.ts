@@ -23,16 +23,10 @@ export declare function bid(requestJson: string): string | null
 export declare function init(): number
 
 /**
- * Called by server-node once per OpenRTB request: raw (possibly gzip) body in, response body
- * out (gzip if `gzip_out`), `null` for no-bid (HTTP 204). Throws for a malformed request (HTTP 400).
+ * Called by server-node once per OpenRTB request: raw body in, JSON response bytes out,
+ * `null` for no-bid (HTTP 204). Throws for a malformed request (HTTP 400).
  */
-export declare function openrtbBid(body: Buffer, gzipIn: boolean, gzipOut: boolean): Buffer | null
-
-/**
- * Micro-benchmark only: the same work with strings across the boundary (JS string in, copied
- * to a Rust String; Rust String out, copied into a V8 string), to compare boundary choices.
- */
-export declare function openrtbBidStr(body: string): string | null
+export declare function openrtbBid(body: Buffer): Buffer | null
 
 /** Builds the OpenRTB line-item index eagerly. Returns the number of line items. */
 export declare function openrtbInit(): number

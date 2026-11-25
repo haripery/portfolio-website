@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# OpenRTB (bench v2) load tests against POST /openrtb2/bid, with the same pinning and sampling as
+# OpenRTB image-bidder (Part 2) load tests against POST /openrtb2/bid, with the same pinning and sampling as
 # bench/run-http.sh. Configs: A1 = Node single process, A2 = Node cluster (2 workers), B = Rust axum.
 #
 # Phases (PHASES env, default all):
@@ -7,8 +7,6 @@
 #   open         OPEN loop at fixed offered rates (-q, with --latency-correction) and a per-request
 #                timeout of TMAX (default 100ms, a typical exchange tmax) -> timeouts = lost auctions
 #   cold         fresh server, NO warm-up, open loop at COLD_RATE for 10 s: what a deploy/restart costs
-#   gzip         one representative request, plain vs gzip request+response (OpenRTB 2.6 section 2.4)
-#   sensitivity  closed loop c=100 with lighter/heavier engines (ORTB_LINE_ITEMS = SENS_ITEMS)
 #   memory       closed loop c=100 with BIG_ITEMS line items: memory of each architecture at scale
 # Every cell starts a fresh server; warm-up (except "cold") then a measured run with CPU/RSS sampling.
 set -euo pipefail
@@ -21,20 +19,16 @@ CLIENT_THREADS="${CLIENT_THREADS:-2}"
 WARMUP="${WARMUP:-10s}"
 DURATION="${DURATION:-30s}"
 CORPUS="${CORPUS:-$HERE/corpus.jsonl}"
-SINGLE="${SINGLE:-$HERE/single-request.json}"
-SINGLE_GZ="${SINGLE_GZ:-$HERE/single-request.json.gz}"
-PHASES="${PHASES:-closed open cold gzip sensitivity memory}"
+READY_REQ="$ROOT/engine-core/fixtures/openrtb-2.6/example-1.json"   # gets a bid
+PHASES="${PHASES:-closed open cold memory}"
 CLOSED_LEVELS="${CLOSED_LEVELS:-1 100}"
-CLOSED_REPS="${CLOSED_REPS:-3}"
-OPEN_RATES="${OPEN_RATES:-5000 15000 25000 35000 45000}"
+CLOSED_REPS="${CLOSED_REPS:-2}"
+OPEN_RATES="${OPEN_RATES:-10000 25000 40000 55000}"
 OPEN_REPS="${OPEN_REPS:-2}"
 OPEN_CONNS="${OPEN_CONNS:-500}"
 TMAX="${TMAX:-100ms}"
 COLD_RATE="${COLD_RATE:-10000}"
-COLD_REPS="${COLD_REPS:-3}"
-GZIP_REPS="${GZIP_REPS:-2}"
-SENS_ITEMS="${SENS_ITEMS:-500 5000}"
-SENS_REPS="${SENS_REPS:-2}"
+COLD_REPS="${COLD_REPS:-2}"
 BIG_ITEMS="${BIG_ITEMS:-200000}"
 URLPATH=/openrtb2/bid
 RUST_BIN="$ROOT/target/release/server-rust"
@@ -65,7 +59,7 @@ start_server() { # cfg logfile line_items
   STARTUP_MS=$(( $(now_ms) - t0 ))
   local code
   code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H 'content-type: application/json' \
-    --data-binary "@$SINGLE" "http://127.0.0.1:${PORT[$cfg]}$URLPATH")
+    --data-binary "@$READY_REQ" "http://127.0.0.1:${PORT[$cfg]}$URLPATH")
   [ "$code" = 200 ] || { log "ERROR: $cfg answered HTTP $code"; return 1; }
 }
 
@@ -85,8 +79,6 @@ set_oha_args() {
   case $1 in
     closed) OHA_ARGS+=(-c "$2" --disable-compression -Z "$CORPUS") ;;
     open)   OHA_ARGS+=(-c "$OPEN_CONNS" -q "$2" --latency-correction -t "$TMAX" --disable-compression -Z "$CORPUS") ;;
-    plain)  OHA_ARGS+=(-c "$2" --disable-compression -D "$SINGLE") ;;
-    gzip)   OHA_ARGS+=(-c "$2" -H "content-encoding: gzip" -H "accept-encoding: gzip" -D "$SINGLE_GZ") ;;
     *) log "unknown mode $1"; return 1 ;;
   esac
 }
@@ -129,7 +121,7 @@ run_group() {
   for cfg in "${cfgs[@]}"; do run_cell "$1" "$cfg" "${@:2}"; done
 }
 
-log "=== run-load.sh SERVER_CPUS=$SERVER_CPUS CLIENT_CPUS=$CLIENT_CPUS CLIENT_THREADS=$CLIENT_THREADS WARMUP=$WARMUP DURATION=$DURATION PHASES='$PHASES' CLOSED_LEVELS='$CLOSED_LEVELS' OPEN_RATES='$OPEN_RATES' OPEN_CONNS=$OPEN_CONNS TMAX=$TMAX COLD_RATE=$COLD_RATE SENS_ITEMS='$SENS_ITEMS' BIG_ITEMS=$BIG_ITEMS corpus_sha256=$(sha256sum "$CORPUS" | cut -c1-16)"
+log "=== run-load.sh SERVER_CPUS=$SERVER_CPUS CLIENT_CPUS=$CLIENT_CPUS CLIENT_THREADS=$CLIENT_THREADS WARMUP=$WARMUP DURATION=$DURATION PHASES='$PHASES' CLOSED_LEVELS='$CLOSED_LEVELS' OPEN_RATES='$OPEN_RATES' OPEN_CONNS=$OPEN_CONNS TMAX=$TMAX COLD_RATE=$COLD_RATE BIG_ITEMS=$BIG_ITEMS corpus_sha256=$(sha256sum "$CORPUS" | cut -c1-16)"
 DEFAULT_ITEMS=$(cd "$ROOT" && grep -oP 'DEFAULT_LINE_ITEMS: usize = \K[0-9_]+' engine-core/src/openrtb.rs | tr -d _)
 for phase in $PHASES; do
   case $phase in
@@ -145,15 +137,6 @@ for phase in $PHASES; do
       for REP in $(seq 1 "$COLD_REPS"); do
         run_group cold "q$COLD_RATE" open "$COLD_RATE" "$DEFAULT_ITEMS" no 10s
       done ;;
-    gzip)
-      for REP in $(seq 1 "$GZIP_REPS"); do
-        run_group gzip plain plain 100 "$DEFAULT_ITEMS" yes "$DURATION"
-        run_group gzip gzip gzip 100 "$DEFAULT_ITEMS" yes "$DURATION"
-      done ;;
-    sensitivity)
-      for REP in $(seq 1 "$SENS_REPS"); do for n in $SENS_ITEMS; do
-        run_group sensitivity "items$n" closed 100 "$n" yes "$DURATION"
-      done; done ;;
     memory)
       REP=1
       run_group memory "items$BIG_ITEMS" closed 100 "$BIG_ITEMS" yes "$DURATION" ;;

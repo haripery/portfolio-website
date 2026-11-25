@@ -4,7 +4,6 @@
 // every benchmark per round), every per-sample value saved.
 //
 //   openrtbBid(Buffer)        what server-node does: bytes in (zero-copy view), bytes out (external Buffer)
-//   openrtbBidStr(string)     the same work with strings across the boundary (copy + transcode both ways)
 //   probeOpenrtbEngineLoop    the same engine work looped inside Rust, in this process (no boundary)
 //
 // usage: node bench/openrtb/napi-bench.js [corpus.jsonl] [out.json]
@@ -23,22 +22,10 @@ const buffers = lines.map((l) => Buffer.from(l, 'utf8'));
 const corpusBuffer = Buffer.from(lines.join('\n') + '\n', 'utf8');
 engine.openrtbInit();
 
-// sanity: both boundary styles return the same bytes
-for (let i = 0; i < 200; i++) {
-  const a = engine.openrtbBid(buffers[i], false, false);
-  const b = engine.openrtbBidStr(lines[i]);
-  if ((a === null) !== (b === null) || (a !== null && a.toString('utf8') !== b)) throw new Error(`mismatch at ${i}`);
-}
-
 let bi = 0;
-let si = 0;
 const BENCHES = [
   ['openrtbBid(Buffer)', 'server path: Buffer in (zero-copy), Buffer out (external)', () => {
-    const out = engine.openrtbBid(buffers[bi++ % buffers.length], false, false);
-    return out === null ? 0 : out.length;
-  }, 1],
-  ['openrtbBidStr(string)', 'same work, JS string in and out', () => {
-    const out = engine.openrtbBidStr(lines[si++ % lines.length]);
+    const out = engine.openrtbBid(buffers[bi++ % buffers.length]);
     return out === null ? 0 : out.length;
   }, 1],
   ['probeOpenrtbEngineLoop', `engine only: one pass over all ${lines.length} requests inside Rust (per request)`, () =>

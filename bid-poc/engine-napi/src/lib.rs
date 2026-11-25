@@ -61,7 +61,7 @@ pub fn probe_echo(request_json: String) -> Result<&'static str> {
 }
 
 // ---------------------------------------------------------------------------
-// OpenRTB 2.6 endpoint (bench v2). Bytes cross the boundary, not strings:
+// OpenRTB 2.6 image bidder (Part 2). Bytes cross the boundary, not strings:
 //  - in:  `BufferSlice` = zero-copy view of the Node Buffer (napi_get_buffer_info), valid during the call
 //  - out: `Buffer` from a Rust Vec<u8> = external buffer, no copy; Rust frees it when V8 collects it
 // ---------------------------------------------------------------------------
@@ -74,23 +74,12 @@ pub fn openrtb_init() -> u32 {
     openrtb::engine().line_items().len() as u32
 }
 
-/// Called by server-node once per OpenRTB request: raw (possibly gzip) body in, response body
-/// out (gzip if `gzip_out`), `null` for no-bid (HTTP 204). Throws for a malformed request (HTTP 400).
+/// Called by server-node once per OpenRTB request: raw body in, JSON response bytes out,
+/// `null` for no-bid (HTTP 204). Throws for a malformed request (HTTP 400).
 #[napi]
-pub fn openrtb_bid(body: BufferSlice, gzip_in: bool, gzip_out: bool) -> Result<Option<Buffer>> {
-    match openrtb::engine().handle(&body, gzip_in, gzip_out) {
+pub fn openrtb_bid(body: BufferSlice) -> Result<Option<Buffer>> {
+    match openrtb::engine().handle(&body) {
         Outcome::Body(b) => Ok(Some(b.into())),
-        Outcome::NoBid => Ok(None),
-        Outcome::Invalid => Err(Error::new(Status::InvalidArg, "invalid bid request")),
-    }
-}
-
-/// Micro-benchmark only: the same work with strings across the boundary (JS string in, copied
-/// to a Rust String; Rust String out, copied into a V8 string), to compare boundary choices.
-#[napi]
-pub fn openrtb_bid_str(body: String) -> Result<Option<String>> {
-    match openrtb::engine().handle(body.as_bytes(), false, false) {
-        Outcome::Body(b) => Ok(Some(String::from_utf8(b).expect("JSON is UTF-8"))),
         Outcome::NoBid => Ok(None),
         Outcome::Invalid => Err(Error::new(Status::InvalidArg, "invalid bid request")),
     }
@@ -105,7 +94,7 @@ pub fn probe_openrtb_engine_loop(corpus: BufferSlice, passes: u32) -> f64 {
     let start = std::time::Instant::now();
     for _ in 0..passes.max(1) {
         for l in &lines {
-            std::hint::black_box(e.handle(std::hint::black_box(l), false, false));
+            std::hint::black_box(e.handle(std::hint::black_box(l)));
         }
     }
     start.elapsed().as_nanos() as f64 / (lines.len().max(1) as f64 * passes.max(1) as f64)
