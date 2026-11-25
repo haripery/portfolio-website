@@ -67,21 +67,39 @@ def load_run(d):
         "steal": srv.get("steal_pct_whole_window"),
         "busy": srv.get("busy_pct_whole_window", {}),
         "cli_cpu": cli["cpu_pct_avg"],
+        # derived: server CPU time per completed request = avg CPU (cores) x measured duration / responses
+        "srv_us_per_req": (srv["cpu_pct_avg"] / 100 * oha["summary"]["total"] / max(1, sum(status.values())) * 1e6
+                           if srv["cpu_pct_avg"] is not None else None),
     }
+
+
+SKIPPED = []  # incomplete runs (e.g. still in progress); listed in the output, never dropped silently
 
 
 def cells():
     """{(group, cfg, conc): [run, ...]}"""
+    import sys
     out = {}
     for rep_dir in sorted(HTTP.glob("*/*/c*/rep*")):
-        if not (rep_dir / "oha.json").exists():
-            continue
         group, cfg, conc = rep_dir.parts[-4], rep_dir.parts[-3], int(rep_dir.parts[-2][1:])
-        out.setdefault((group, cfg, conc), []).append(load_run(rep_dir))
+        try:
+            run = load_run(rep_dir)
+        except (OSError, ValueError, KeyError) as e:
+            SKIPPED.append(f"{rep_dir.relative_to(HTTP)}: {type(e).__name__}: {e}")
+            print(f"WARNING: skipping incomplete run {rep_dir}: {e}", file=sys.stderr)
+            continue
+        out.setdefault((group, cfg, conc), []).append(run)
     return out
 
 
-med = statistics.median
+def med(values):
+    """median of the non-None values (None = sampler had no complete interval)"""
+    v = [x for x in values if x is not None]
+    return statistics.median(v) if v else float("nan")
+
+
+def num(x, fmt="{:.0f}"):
+    return "-" if x is None else fmt.format(x)
 
 
 def fmt_rps(runs):
@@ -157,7 +175,8 @@ def usage_table(c, rows, conc=100):
         if not runs:
             continue
         m = lambda k: med([r[k] for r in runs])
-        rng = lambda k, f: f"{f(m(k))} ({f(min(r[k] for r in runs))}–{f(max(r[k] for r in runs))})" if len(runs) > 1 else f(m(k))
+        vals = lambda k: [r[k] for r in runs if r[k] is not None]
+        rng = lambda k, f: (f"{f(m(k))} ({f(min(vals(k)))}–{f(max(vals(k)))})" if len(vals(k)) > 1 else (f(m(k)) if vals(k) else "-"))
         steal = [r["steal"] for r in runs if r["steal"] is not None]
         steal_str = f"{max(steal):.2f} (max)" if steal else "-"
         lines.append(
@@ -166,6 +185,27 @@ def usage_table(c, rows, conc=100):
             f"{rng('cli_cpu', lambda x: f'{x:.0f}')} | {steal_str} |"
         )
     return "\n".join(lines)
+
+
+def cpu_per_req_table(c, rows, levels):
+    head = " | ".join(f"c={l}" for l in levels)
+    lines = [f"| round | server | {head} |", "|---|---|" + "---:|" * len(levels)]
+    for group, cfg in rows:
+        cellv = []
+        for l in levels:
+            runs = c.get((group, cfg, l))
+            cellv.append(f"{med([r['srv_us_per_req'] for r in runs]):.1f}" if runs else "")
+        lines.append(f"| {group} | {LABEL[cfg]} | " + " | ".join(cellv) + " |")
+    return "\n".join(lines)
+
+
+def text_block(path, title, keep=None):
+    if not path.exists():
+        return ""
+    lines = path.read_text().splitlines()
+    if keep:
+        lines = [l for l in lines if keep(l)]
+    return f"{title}\n\n```text\n" + "\n".join(lines) + "\n```\n"
 
 
 def all_runs_table(c):
@@ -179,55 +219,90 @@ def all_runs_table(c):
             lines.append(
                 f"| {group} | {cfg} | {conc} | {r['rep']} | {r['rps']:,.0f} | {r['p50']:.3f} | {r['p90']:.3f} | {r['p99']:.3f} | "
                 f"{r['p999']:.3f} | {r['max']:.3f} | {r['responses']:,} | {r['non200']} | {r['errors']}"
-                f"{(' ' + json.dumps(r['error_kinds'])) if r['errors'] else ''} | {r['srv_cpu']:.0f} | {r['srv_rss_mb']:.1f} | "
-                f"{r['srv_pss_mb']:.1f} | {r['cli_cpu']:.0f} | {r['steal'] if r['steal'] is not None else '-'} | {busy} |"
+                f"{(' ' + json.dumps(r['error_kinds'])) if r['errors'] else ''} | {num(r['srv_cpu'])} | {r['srv_rss_mb']:.1f} | "
+                f"{r['srv_pss_mb']:.1f} | {num(r['cli_cpu'])} | {num(r['steal'], '{:.2f}')} | {busy} |"
             )
     return "\n".join(lines)
 
 
-def micro_tables():
-    out = []
-    est_dir = MICRO / "criterion-estimates"
-    if est_dir.exists():
-        out.append("**Rust, criterion** (`cargo bench -p engine-core --bench engine`), point estimate [95% CI], ns per call:\n")
-        out.append("| benchmark | mean | median |")
-        out.append("|---|---:|---:|")
+def micro_reps():
+    """[(rep_name, {criterion_name: estimates}, napi_bench_json_or_None)] for results/micro/rep*/ (or the flat layout)."""
+    dirs = sorted(MICRO.glob("rep*")) or ([MICRO] if MICRO.exists() else [])
+    reps = []
+    for d in dirs:
+        crit = {}
+        est_dir = d / "criterion-estimates"
         for f in sorted(est_dir.glob("**/estimates.json")):
-            e = json.loads(f.read_text())
-            name = str(f.parent.relative_to(est_dir))
-            mean, median = e["mean"], e["median"]
-            ci = lambda x: f"{x['point_estimate']:.1f} [{x['confidence_interval']['lower_bound']:.1f}, {x['confidence_interval']['upper_bound']:.1f}]"
-            out.append(f"| `{name}` | {ci(mean)} | {ci(median)} |")
+            meta = f.parent / "benchmark.json"  # criterion's own id, e.g. "bid_json/direct"
+            name = json.loads(meta.read_text())["full_id"] if meta.exists() else str(f.parent.relative_to(est_dir))
+            crit[name.replace("bid_json_direct", "bid_json/direct")] = json.loads(f.read_text())
+        nb = d / "napi-bench.json"
+        reps.append((d.name, crit, json.loads(nb.read_text()) if nb.exists() else None))
+    return reps
+
+
+def ns_stats(r):
+    return r.get("ns_per_op") or r["ns_per_call"]
+
+
+def med_range(values, fmt="{:.1f}"):
+    if len(values) == 1:
+        return fmt.format(values[0])
+    return f"{fmt.format(med(values))} ({fmt.format(min(values))}–{fmt.format(max(values))})"
+
+
+def micro_tables():
+    reps = micro_reps()
+    if not reps:
+        return ""
+    out = []
+    n = len(reps)
+    crit_names = sorted({k for _, c, _ in reps for k in c})
+    if crit_names:
+        out.append(f"**Rust, criterion** (`cargo bench -p engine-core --bench engine`), ns per call. Columns are criterion's "
+                   f"*median* and *mean* point estimates (its printed `time:` is the slope estimate, also in `estimates.json`). "
+                   f"Median over {n} run(s) (min–max over runs).\n")
+        out.append("| benchmark | median ns | mean ns |")
+        out.append("|---|---:|---:|")
+        for name in crit_names:
+            md = [c[name]["median"]["point_estimate"] for _, c, _ in reps if name in c]
+            mn = [c[name]["mean"]["point_estimate"] for _, c, _ in reps if name in c]
+            out.append(f"| `{name}` | {med_range(md)} | {med_range(mn)} |")
         out.append("")
-    nb = MICRO / "napi-bench.json"
-    if nb.exists():
-        d = json.loads(nb.read_text())
-        out.append(
-            f"**Node → napi** (`node bench/napi-bench.js`, {d['node']}, {d['results'][0]['samples']} samples, "
-            f"ns per call, statistics over samples):\n"
-        )
-        out.append("| benchmark | what it does | calls/sample | median | mean | p05 | p95 | stdev |")
-        out.append("|---|---|---:|---:|---:|---:|---:|---:|")
-        for r in d["results"]:
-            s = r["ns_per_call"]
-            out.append(
-                f"| `{r['name']}` | {r['description']} | {r['calls_per_sample']:,} | {s['median']:.1f} | {s['mean']:.1f} | "
-                f"{s['p05']:.1f} | {s['p95']:.1f} | {s['stdev']:.1f} |"
-            )
+    nbs = [nb for _, _, nb in reps if nb]
+    if nbs:
+        names = [r["name"] for r in nbs[0]["results"]]
+        desc = {r["name"]: r["description"] for r in nbs[0]["results"]}
+        out.append(f"**Node → napi** (`node bench/napi-bench.js`, {nbs[0]['node']}): median ns per operation over "
+                   f"{nbs[0]['results'][0]['samples']} samples per run; median over {len(nbs)} run(s) (min–max over runs). "
+                   f"Samples of all benchmarks were interleaved: {nbs[0].get('interleaved', False)}.\n")
+        out.append("| benchmark | what it measures | median ns | mean ns | p05 ns | p95 ns |")
+        out.append("|---|---|---:|---:|---:|---:|")
+        for name in names:
+            rs = [next(r for r in nb["results"] if r["name"] == name) for nb in nbs]
+            out.append(f"| `{name}` | {desc[name]} | {med_range([ns_stats(r)['median'] for r in rs])} | "
+                       f"{med_range([ns_stats(r)['mean'] for r in rs])} | "
+                       f"{med_range([ns_stats(r)['p05'] for r in rs])} | {med_range([ns_stats(r)['p95'] for r in rs])} |")
         out.append("")
-        # derived numbers (simple differences of measured medians)
-        direct = est_dir / "bid_json" / "direct" / "estimates.json"
-        if direct.exists():
-            rd = json.loads(direct.read_text())["median"]["point_estimate"]
-            res = {r["name"]: r["ns_per_call"]["median"] for r in d["results"]}
-            out.append("Derived from the two tables above (differences of measured medians, different harnesses):\n")
-            out.append(f"- napi `bid()` − Rust `bid_json/direct` = {res['bid(payload)']:.1f} − {rd:.1f} = "
-                       f"**{res['bid(payload)'] - rd:.1f} ns** per call attributable to crossing the JS↔Rust boundary.")
-            out.append(f"- `probeEcho` (boundary only, measured directly) = **{res['probeEcho(payload)']:.1f} ns**; "
-                       f"of which `probeNoop` (bare call) = {res['probeNoop()']:.1f} ns, string in (`probeTakeString` − `probeNoop`) = "
-                       f"{res['probeTakeString(payload)'] - res['probeNoop()']:.1f} ns, string out (`probeEcho` − `probeTakeString`) = "
-                       f"{res['probeEcho(payload)'] - res['probeTakeString(payload)']:.1f} ns.")
-            out.append("")
+        # derived numbers: arithmetic on the medians above
+        m = {name: med([ns_stats(next(r for r in nb["results"] if r["name"] == name))["median"] for nb in nbs]) for name in names}
+        direct = [c["bid_json/direct"]["median"]["point_estimate"] for _, c, _ in reps if "bid_json/direct" in c]
+        out.append("Derived (arithmetic on the medians above; each line names its inputs):\n")
+        if "probeEngineLoop(payload)" in m:
+            out.append(f"- `bid()` − `probeEngineLoop` (same process, same CPUs, interleaved samples) = "
+                       f"{m['bid(payload)']:.1f} − {m['probeEngineLoop(payload)']:.1f} = **{m['bid(payload)'] - m['probeEngineLoop(payload)']:.1f} ns**: "
+                       f"the cost of reaching the engine from JS instead of from a Rust loop.")
+        if direct:
+            rd = med(direct)
+            out.append(f"- `bid()` − criterion `bid_json/direct` (different processes and harnesses) = {m['bid(payload)']:.1f} − {rd:.1f} = "
+                       f"**{m['bid(payload)'] - rd:.1f} ns**.")
+            if "probeEngineLoop(payload)" in m:
+                out.append(f"- engine inside the Node process (`probeEngineLoop`) − engine in the criterion process = "
+                           f"{m['probeEngineLoop(payload)']:.1f} − {rd:.1f} = **{m['probeEngineLoop(payload)'] - rd:.1f} ns**.")
+        out.append(f"- boundary alone, measured directly by `probeEcho` = **{m['probeEcho(payload)']:.1f} ns**, of which: bare call (`probeNoop`) "
+                   f"{m['probeNoop()']:.1f} ns; string in (`probeTakeString` − `probeNoop`) {m['probeTakeString(payload)'] - m['probeNoop()']:.1f} ns; "
+                   f"string out (`probeEcho` − `probeTakeString`) {m['probeEcho(payload)'] - m['probeTakeString(payload)']:.1f} ns.")
+        out.append("")
     return "\n".join(out)
 
 
@@ -274,6 +349,11 @@ def main():
     parts.append("\n### Benchmark 3: CPU and memory of each server during the concurrency-100 runs\n")
     parts.append(usage_table(c, [("round1", "node-single"), ("round1", "rust"), ("round2", "node-cluster"),
                                  ("round2", "rust"), ("supplementary", "rust-1worker")]))
+    parts.append("\nServer CPU time per completed request, µs (derived: average server CPU × measured duration ÷ responses; "
+                 "median over runs). Lower is more efficient, independent of how many cores were used:\n")
+    parts.append(cpu_per_req_table(c, [("round1", "node-single"), ("round1", "rust"), ("round2", "node-cluster"), ("round2", "rust"),
+                                       ("supplementary", "rust-1worker"), ("supplementary", "node-stub"), ("supplementary", "rust-stub")],
+                                   levels))
     parts.append("\n### Supplementary runs (not part of the requested comparison)\n")
     parts.append("Rust limited to one tokio worker thread (`TOKIO_WORKER_THREADS=1`), run interleaved with round 1, "
                  "for a one-event-loop vs one-event-loop comparison with A (single process):\n")
@@ -284,6 +364,15 @@ def main():
                      "precomputed response bytes for the benchmark payload. Compare with the real servers in round 1:\n")
         parts.append(http_table(c, "supplementary", ["node-stub", "rust-stub"], stub_levels))
         parts.append("\n" + usage_table(c, [("supplementary", "node-stub"), ("supplementary", "rust-stub")], conc=100))
+    parts.append("\n### Diagnostics (raw output, verbatim)\n")
+    parts.append(text_block(RES / "profile" / "summary.txt",
+                            "V8 CPU profile of A (single process) under concurrency 100 (`bench/profile-node.sh`; separate run, "
+                            "profiler overhead included, so its throughput is not comparable):"))
+    parts.append(text_block(RES / "diagnostics" / "vcpu-speed-check.txt",
+                            "vCPU speed check (`engine-core/examples/speed_check.rs`; ns per `bid_json()` iteration over 250 ms windows; "
+                            "per-window series in the file):", keep=lambda l: "series" not in l and l.strip()))
+    if SKIPPED:
+        parts.append("\n**Incomplete runs skipped by the summarizer:**\n\n" + "\n".join(f"- `{x}`" for x in SKIPPED))
     summary = "\n".join(parts) + "\n"
     (RES / "summary.md").write_text(summary)
     (HTTP / "all-runs.md").write_text(

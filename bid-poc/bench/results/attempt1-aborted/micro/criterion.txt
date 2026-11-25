@@ -1,0 +1,44 @@
+    Finished `bench` profile [optimized] target(s) in 0.05s
+     Running benches/engine.rs (target/release/deps/engine-1164f937173aef35)
+Gnuplot not found, using plotters backend
+Benchmarking bid_json/direct
+Benchmarking bid_json/direct: Warming up for 3.0000 s
+Benchmarking bid_json/direct: Collecting 100 samples in estimated 5.0016 s (1.9M iterations)
+Benchmarking bid_json/direct: Analyzing
+bid_json/direct         time:   [2.4931 µs 2.5412 µs 2.5793 µs]
+
+Benchmarking stages/1_parse_request
+Benchmarking stages/1_parse_request: Warming up for 3.0000 s
+Benchmarking stages/1_parse_request: Collecting 100 samples in estimated 5.0010 s (15M iterations)
+Benchmarking stages/1_parse_request: Analyzing
+stages/1_parse_request  time:   [338.84 ns 350.30 ns 363.20 ns]
+Found 25 outliers among 100 measurements (25.00%)
+  7 (7.00%) low severe
+  13 (13.00%) low mild
+  1 (1.00%) high mild
+  4 (4.00%) high severe
+Benchmarking stages/2_select_winner
+Benchmarking stages/2_select_winner: Warming up for 3.0000 s
+Benchmarking stages/2_select_winner: Collecting 100 samples in estimated 5.0006 s (5.7M iterations)
+Benchmarking stages/2_select_winner: Analyzing
+stages/2_select_winner  time:   [774.91 ns 803.43 ns 832.44 ns]
+Found 33 outliers among 100 measurements (33.00%)
+  19 (19.00%) low severe
+  7 (7.00%) high mild
+  7 (7.00%) high severe
+Benchmarking stages/3_build_html
+Benchmarking stages/3_build_html: Warming up for 3.0000 s
+Benchmarking stages/3_build_html: Collecting 100 samples in estimated 5.0000 s (16M iterations)
+Benchmarking stages/3_build_html: Analyzing
+stages/3_build_html     time:   [310.07 ns 320.02 ns 330.32 ns]
+Benchmarking stages/4_serialize_response
+Benchmarking stages/4_serialize_response: Warming up for 3.0000 s
+Benchmarking stages/4_serialize_response: Collecting 100 samples in estimated 5.0022 s (5.0M iterations)
+Benchmarking stages/4_serialize_response: Analyzing
+stages/4_serialize_response
+                        time:   [1.0285 µs 1.0478 µs 1.0768 µs]
+Found 11 outliers among 100 measurements (11.00%)
+  1 (1.00%) low mild
+  4 (4.00%) high mild
+  6 (6.00%) high severe
+

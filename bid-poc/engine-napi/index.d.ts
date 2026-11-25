@@ -28,6 +28,14 @@ export declare function init(): number
  */
 export declare function probeEcho(requestJson: string): string
 
+/**
+ * Runs the full engine pipeline (`bid_json`, the same work as one bid() call minus the
+ * boundary) `iterations` times in a Rust loop and returns the mean ns per iteration.
+ * Measures the engine inside the Node process, so it can be compared with bid() sample by
+ * sample in the same process, on the same CPU, at the same time.
+ */
+export declare function probeEngineLoop(requestJson: string, iterations: number): number
+
 /** No arguments and no return value: the bare JS -> Rust -> JS call. */
 export declare function probeNoop(): void
 

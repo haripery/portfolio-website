@@ -1,0 +1,91 @@
+{
+  "node": "v22.23.5",
+  "v8": "12.4.254.21-node.57",
+  "napi": "10",
+  "payload_bytes": 210,
+  "response_bytes": 1179,
+  "warmup_ms": 3000,
+  "sample_ms": 50,
+  "results": [
+    {
+      "name": "bid(payload)",
+      "description": "full napi call: string in -> parse/select/html/serialize in Rust -> string out",
+      "samples": 100,
+      "calls_per_sample": 14604,
+      "ns_per_call": {
+        "min": 2628.564092029581,
+        "p05": 2658.185979868529,
+        "median": 3339.688989317995,
+        "mean": 3182.696138729115,
+        "p95": 3808.717505477951,
+        "max": 5839.9587784168725,
+        "stdev": 564.1557683627416
+      },
+      "sink": 2755794600
+    },
+    {
+      "name": "probeEcho(payload)",
+      "description": "same string in + same 1179-byte string out, no engine work",
+      "samples": 100,
+      "calls_per_sample": 179611,
+      "ns_per_call": {
+        "min": 239.6737838996498,
+        "p05": 240.27087650533653,
+        "median": 242.45866344488923,
+        "mean": 244.25492937514963,
+        "p95": 253.1889717222219,
+        "max": 271.35010661930505,
+        "stdev": 5.254400067076355
+      },
+      "sink": 33882219900
+    },
+    {
+      "name": "probeTakeString(payload)",
+      "description": "same string in, number out",
+      "samples": 100,
+      "calls_per_sample": 346560,
+      "ns_per_call": {
+        "min": 146.50777931671283,
+        "p05": 149.94601814981533,
+        "median": 161.5445665974146,
+        "mean": 160.71718963527238,
+        "p95": 165.91048433171747,
+        "max": 193.53314577562327,
+        "stdev": 6.0858677715324365
+      },
+      "sink": 11644500000
+    },
+    {
+      "name": "probeNoop()",
+      "description": "bare call, no arguments, no return value",
+      "samples": 100,
+      "calls_per_sample": 1535762,
+      "ns_per_call": {
+        "min": 30.19481924933681,
+        "p05": 31.098599001668227,
+        "median": 32.89421440301297,
+        "mean": 33.834696632681364,
+        "p95": 38.1740904840724,
+        "max": 47.993271092786514,
+        "stdev": 2.663905481062676
+      },
+      "sink": 245722200
+    },
+    {
+      "name": "js: () => 1",
+      "description": "pure-JS loop baseline (harness overhead)",
+      "samples": 100,
+      "calls_per_sample": 16643453,
+      "ns_per_call": {
+        "min": 3.0844982107979635,
+        "p05": 3.096969820505396,
+        "median": 3.16644097231506,
+        "mean": 3.2491078089384455,
+        "p95": 3.7641503569000974,
+        "max": 4.081645557565488,
+        "stdev": 0.20287380925169737
+      },
+      "sink": 2662953300
+    }
+  ]
+}

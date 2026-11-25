@@ -838,6 +838,7 @@ module.exports = nativeBinding
 module.exports.bid = nativeBinding.bid
 module.exports.init = nativeBinding.init
 module.exports.probeEcho = nativeBinding.probeEcho
+module.exports.probeEngineLoop = nativeBinding.probeEngineLoop
 module.exports.probeNoop = nativeBinding.probeNoop
 module.exports.probeSetEcho = nativeBinding.probeSetEcho
 module.exports.probeTakeString = nativeBinding.probeTakeString

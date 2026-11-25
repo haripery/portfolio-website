@@ -1,0 +1,1 @@
+{"error":"invalid bid request: unknown variant `watch`, expected one of `mobile`, `desktop`, `tv` at line 1 column 51"}

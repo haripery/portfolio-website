@@ -6,8 +6,9 @@
 #   -> warm-up run (WARMUP, discarded but saved as warmup.json)
 #   -> measured run (DURATION) while sampling CPU/RSS of the server process tree and of oha
 #   -> stop the server.
-# Configs are interleaved per concurrency level so slow drift of the VM affects both sides,
-# and the whole suite is repeated REPS times (rep1, rep2, ...) to expose run-to-run variance.
+# Configs are interleaved per concurrency level (order reversed on even repetitions) so slow
+# drift of the VM affects both sides, and the whole suite is repeated REPS times (rep1, rep2, ...)
+# to expose run-to-run variance.
 #
 # Env overrides: SERVER_CPUS CLIENT_CPUS CLIENT_THREADS WARMUP DURATION LEVELS STUB_LEVELS
 #                PHASES ("round1 round2 stubs") REPS RESULTS
@@ -109,25 +110,27 @@ run_cell() { # group cfg conc   (uses global REP)
 }
 
 log "=== run-http.sh: SERVER_CPUS=$SERVER_CPUS CLIENT_CPUS=$CLIENT_CPUS CLIENT_THREADS=$CLIENT_THREADS WARMUP=$WARMUP DURATION=$DURATION LEVELS='$LEVELS' STUB_LEVELS='$STUB_LEVELS' PHASES='$PHASES' REPS=$REPS"
+
+# run_level <conc> <group:cfg>... : runs the cells of one concurrency level, in the given
+# order on odd repetitions and in reverse order on even ones (so neither side always goes first).
+run_level() {
+  local conc=$1; shift
+  local cells=("$@")
+  if (( REP % 2 == 0 )); then
+    local rev=(); for ((i=${#cells[@]}-1; i>=0; i--)); do rev+=("${cells[$i]}"); done; cells=("${rev[@]}")
+  fi
+  for gc in "${cells[@]}"; do run_cell "${gc%%:*}" "${gc#*:}" "$conc"; done
+}
+
 for REP in $(seq 1 "$REPS"); do
 for phase in $PHASES; do
   case $phase in
     round1) # Node single process vs Rust default tokio runtime (+ supplementary: Rust with 1 worker)
-      for c in $LEVELS; do
-        run_cell round1 node-single "$c"
-        run_cell round1 rust "$c"
-        run_cell supplementary rust-1worker "$c"
-      done ;;
+      for c in $LEVELS; do run_level "$c" round1:node-single round1:rust supplementary:rust-1worker; done ;;
     round2) # Node cluster (one worker per available CPU) vs Rust default tokio runtime
-      for c in $LEVELS; do
-        run_cell round2 node-cluster "$c"
-        run_cell round2 rust "$c"
-      done ;;
+      for c in $LEVELS; do run_level "$c" round2:node-cluster round2:rust; done ;;
     stubs) # diagnostic: same HTTP handling, no engine call
-      for c in $STUB_LEVELS; do
-        run_cell supplementary node-stub "$c"
-        run_cell supplementary rust-stub "$c"
-      done ;;
+      for c in $STUB_LEVELS; do run_level "$c" supplementary:node-stub supplementary:rust-stub; done ;;
     *) log "unknown phase $phase"; exit 1 ;;
   esac
 done

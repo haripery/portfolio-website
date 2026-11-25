@@ -1,0 +1,9 @@
+node v22.23.5  v8 12.4.254.21-node.57  napi 10  pid 16990
+payload 210 bytes, response 1179 bytes
+warm-up 3000 ms, 100 samples of ~50 ms each; ns per call:
+benchmark                 calls/sample        min      p05   median     mean      p95      max    stdev
+bid(payload)              14604            2628.6   2658.2   3339.7   3182.7   3808.7   5840.0    564.2
+probeEcho(payload)        179611            239.7    240.3    242.5    244.3    253.2    271.4      5.3
+probeTakeString(payload)  346560            146.5    149.9    161.5    160.7    165.9    193.5      6.1
+probeNoop()               1535762            30.2     31.1     32.9     33.8     38.2     48.0      2.7
+js: () => 1               16643453            3.1      3.1      3.2      3.2      3.8      4.1      0.2

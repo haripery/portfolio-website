@@ -59,3 +59,18 @@ pub fn probe_echo(request_json: String) -> Result<&'static str> {
         .map(String::as_str)
         .ok_or_else(|| Error::new(Status::GenericFailure, "call probeSetEcho() first"))
 }
+
+/// Runs the full engine pipeline (`bid_json`, the same work as one bid() call minus the
+/// boundary) `iterations` times in a Rust loop and returns the mean ns per iteration.
+/// Measures the engine inside the Node process, so it can be compared with bid() sample by
+/// sample in the same process, on the same CPU, at the same time.
+#[napi]
+pub fn probe_engine_loop(request_json: String, iterations: u32) -> f64 {
+    let engine = engine_core::engine();
+    let n = iterations.max(1);
+    let start = std::time::Instant::now();
+    for _ in 0..n {
+        std::hint::black_box(engine.bid_json(std::hint::black_box(&request_json)).ok());
+    }
+    start.elapsed().as_nanos() as f64 / n as f64
+}
